@@ -1,0 +1,653 @@
+<style type="text/css">
+    #userListTable {
+        border: 0px;
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 97%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable {
+        height: 200px;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable {
+        height: 200px;
+    }
+
+    #allocateRoleModal .modal-body {
+        height: 440px;
+        width: 800px;
+        max-height: 500px;
+        background: rgba(255, 255, 255, .8);
+        overflow-y: auto;
+    }
+
+    #allocateRoleModal {
+        max-height: 580px;
+        height: 580px;
+        width: 830px;
+        margin-left: -390px;
+        top: 360px;
+    }
+
+    #editUserModal {
+        /*max-height: 500px;
+        height:366px;
+        width:480px;
+        margin-left:-265px;
+        top: 300px;*/
+    }
+
+    #addUserModal {
+        /*max-height: 500px;
+        height:366px;
+        width:480px;
+        margin-left:-265px;
+        top: 300px;*/
+    }
+
+    .tdAlignRight {
+        text-align: right;
+    }
+
+    .tdAlignLeft {
+        text-align: left;
+    }
+
+    input[type="password"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
+    }
+
+    input[type="text"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
+    }
+
+    .addItemBtn {
+        margin-left: 20px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+
+    .sure {
+        width: 70px;
+        height: 34px;
+        margin-right: 10px;
+        background-color: #4dbd73;
+        border: 0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+
+    .sure:hover, .addBtn:hover {
+        border-color: #46ab68;
+        background-color: #46ab68
+    }
+
+    .sure:disabled {
+        background-color: #bec3c7;
+    }
+
+    .cancel {
+        width: 70px;
+        height: 34px;
+        background-color: #bec3c7;
+        border: 0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+
+    .cancel:hover {
+        background-color: #b0b5b9;
+    }
+
+    .modal-footer {
+        /*width: 100%;
+        text-align:right;
+        padding: 14px 0;
+        margin-top: 20px;
+        background-color: #f5f5f5 !important;*/
+    }
+
+    .mu {
+        padding-right: 25px
+    }
+
+    .mu .liSelected {
+        background-color: #1f8094  !important;
+        cursor: hand;
+        color: white;
+        border-radius: 3px
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+    .editBtn {
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/edit.png");
+    }
+
+    .editBtn:hover {
+        background: url("images/edit_hover.png");
+    }
+
+    .allocateBtn {
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/quanxian.png");
+    }
+
+    .allocateBtn:hover {
+        background: url("images/quanxian_hover.png");
+    }
+
+    .showBtn {
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/show.png");
+    }
+
+    .showBtn:hover {
+        background: url("images/show_hover.png");
+    }
+
+    .deleteBtn {
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/delete.png");
+    }
+
+    .deleteBtn:hover {
+        background: url("images/delete_hover.png");
+    }
+
+    .closeTable {
+        background: url("images/close.png");
+        float: right;
+        width: 50px;
+        height: 50px;
+        margin-top: 0px;
+        margin-right: -16px;
+        opacity: 1;
+        border: 0;
+    }
+
+    #showRoleModal {
+        max-height: 500px;
+        height: 500px;
+        width: 575px;
+        margin-left: -265px;
+        top: 400px;
+
+    }
+
+    #showRoleModal .modal-body {
+        overflow-y: auto;
+    }
+
+    .closeTable:hover {
+        background: url("/images/close_hover.png");
+    }
+
+    .modal-header {
+        color: #ffffff;
+        font-size: 16px;
+        font-family: 微软雅黑;
+        background-color: #1c2b36;
+        height: 50px;
+        line-height: 50px;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+
+    .errorSpan {
+        color: red;
+        padding-left: 31px;
+        font-family: 微软雅黑;
+        line-height: 5px;
+    }
+
+</style>
+<div ng-controller="userController">
+    <div>
+        <!--<div class="leftDiv" style="float: left;">-->
+
+
+
+            <!--<ul id="systemUl" class="mu">
+                <span ng-if="systemList != null">
+                <li ng-repeat="system in systemList" ng-click="changeUrl(system.url)">
+                       <span ng-if="system.name.length<=8">
+                          {{system.name }}
+                     </span>
+
+                    <span ng-if="system.name.length>8">
+                  {{system.name | limitTo:8}}...
+                    </span>
+                </li>
+                </span>
+                 <span ng-if="systemList == null">
+                <li>暂无数据!</li>
+                 </span>
+            </ul>-->
+        <!--</div>-->
+
+
+            <button class="addItemBtn" ng-click="showAddUserModal()">
+                <span class="glyphicon glyphicon-plus"></span> 新增用户
+            </button>
+
+            <input placeholder="请填写用户名称" class="form-control" ng-model="searchStr" ng-change="search()" style="float: right;width: 150px;">
+
+            <br><br>
+            <table id="userListTable" align="center">
+                <thead>
+                <tr>
+                    <td width="10%">序号</td>
+                    <td width="20%">用户名</td>
+                    <td width="10%">创建时间</td>
+                    <td width="15%">操作</td>
+                </tr>
+                </thead>
+                <tr ng-repeat="user in users" class="contentTr">
+                    <td>{{$index+1}}</td>
+                    <td>{{user.userName}}</td>
+                    <td>{{user.createTime | limitTo:19}}</td>
+                    <td>
+                        <button class="editBtn" title="修改用户" ng-click="showEditUser($index)"/>
+                        &nbsp;
+                        <button class="deleteBtn" title="删除用户" ng-click="showDeleteUser($index)"/>
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
+                <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
+                    <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
+                </div>
+                <div style="width:40%;height:30px;float:left;">
+                    <ul class="pager" style="margin-top: 10px;">
+                        <li class="previous disabled" id="previousPageLink">
+                            <a href="javascript:void(0)" unable="false" id="previousPage"
+                               ng-click="previousPage()">&larr; 上一页</a>
+                        </li>
+                        <li class="next" id="nextPageLink">
+                            <a href="javascript:void(0)" unable="false" id="nextPage"
+                               ng-click="nextPage()">下一页 &rarr;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 分配角色模态框 -->
+            <div class="modal fade" id="allocateRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 0px 15px;">
+                            <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                            分配角色
+                        </div>
+                        <div class="modal-body">
+                            <span style="margin: 0 2% 0 1%;font-family: 微软雅黑">当前系统:</span><select id="systemNameSelect"
+                                                                                                  class="ng-pristine ng-valid"
+                                                                                                  disabled>
+                            <option id="firstOption" selected="selected"></option>
+                        </select>
+                            <table id="roleInfoTable" width="90%">
+                                <thead>
+                                <tr>
+                                    <td width="10%"><input type="checkbox" ng-click="selectAll($event)"
+                                                           ng-checked="allCheck"></td>
+                                    <td width="10%">序号</td>
+                                    <td width="15%">所属系统</td>
+                                    <td width="15%">角色名称</td>
+                                    <td width="20%">创建账号</td>
+                                    <td width="15%">创建时间</td>
+                                    <td width="15%">备注</td>
+                                </tr>
+                                </thead>
+                                <tr ng-repeat="role in roles" class="contentTr">
+                                    <td><input type="checkbox" name="roleCheckbox" id="{{role.id}}"
+                                               ng-checked="isSelected(role.id)"
+                                               ng-click="updateSelection($event,role.id)"></td>
+                                    <td>{{$index+1}}</td>
+                                    <td>{{role.systemName}}</td>
+                                    <td>{{role.name}}</td>
+                                    <td>{{role.creatorName}}</td>
+                                    <td>{{role.createTime | limitTo:10}}</td>
+                                    <td>{{role.remark}}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                            <button type="button" class="sure" ng-click="doAllocate()" data-dismiss="modal">确 认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel"> 新增用户</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="userAddForm" novalidate>
+                                <table id="userAddTable" width="100%" name="userAddTable">
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">用户名：<span
+                                                style="color: red;margin-left: 5px">*</span></td>
+                                        <td width="70%" class="tdAlignLeft">
+                                            <input type="text" name="userName" class="form-control"
+                                                   ng-model="userInfo.userName" ng-maxlength="20" required/>
+                                            <span class="errorSpan" ng-show="userAddForm.userName.$error.maxlength">用户名长度不超过20！</span>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">密码：<span
+                                                style="color: red;margin-left: 5px">*</span></td>
+                                        <td width="70%" class="tdAlignLeft"><input type="password" name="password"
+                                                                                   class="form-control"
+                                                                                   ng-model="userInfo.password"
+                                                                                   ng-maxlength="20" required/>
+                                            <span class="errorSpan" ng-show="userAddForm.password.$error.maxlength">密码长度不超过20！</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">确认密码：<span
+                                                style="color: red;margin-left: 5px">*</span></td>
+                                        <td width="70%" class="tdAlignLeft"><input type="password" name="rePassword"
+                                                                                   class="form-control"
+                                                                                   ng-model="userInfo.rePassword"
+                                                                                   required/></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">单位：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" name="unitName"
+                                                                                   class="form-control"
+                                                                                   ng-model="userInfo.unitName"
+                                                                                   ng-maxlength="20"/>
+                                            <span class="errorSpan" ng-show="userAddForm.unitName.$error.maxlength">单位长度不超过20！</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                            <button type="button" class="sure"
+                                    ng-disabled="userAddForm.userName.$invalid||userAddForm.password.$invalid||userAddForm.rePassword.$invalid||userAddForm.unitName.$invalid"
+                                    ng-click="addUser()">确认
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新增用户模态框-->
+            <!--<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 0px 15px;">
+                            <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                            新增用户
+                        </div>
+                        <div class="modal-body" style="height:224px;width:450px;">
+                            <form name="userAddForm" novalidate>
+                                <table id="userAddTable" width="100%" name="userAddTable">
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">用户名：</td>
+                                        <td width="70%" class="tdAlignLeft">
+                                            <input type="text" name="userName" ng-model="userInfo.userName" ng-maxlength="20" required/><span style="color: red;margin-left: 5px">*</span>
+                                            <span class="errorSpan" ng-show="userAddForm.userName.$error.maxlength">用户名长度不超过20！</span>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">密码：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="password" name="password"  ng-model="userInfo.password" ng-maxlength="20" required/><span style="color: red;margin-left: 5px">*</span>
+                                            <span class="errorSpan" ng-show="userAddForm.password.$error.maxlength">密码长度不超过20！</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">确认密码：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="password" name="rePassword"  ng-model="userInfo.rePassword" required/><span style="color: red;margin-left: 5px">*</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">单位：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" name="unitName" ng-model="userInfo.unitName" ng-maxlength="20" />
+                                            <span class="errorSpan" ng-show="userAddForm.unitName.$error.maxlength">单位长度不超过20！</span></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel" data-dismiss="modal">取 消</button>
+                            <button type="button" class="sure" ng-disabled="userAddForm.userName.$invalid||userAddForm.password.$invalid||userAddForm.rePassword.$invalid||userAddForm.unitName.$invalid" ng-click="addUser()" >确 认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <!-- 权限查看模态框 -->
+            <div class="modal fade" id="showRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 0px 15px;">
+                            <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                            查看权限
+                        </div>
+                        <div class="modal-body" style="height:358px;width:540px;">
+                            <table id="authListTable" align="center" style="width: 100%">
+                                <thead>
+                                <tr>
+                                    <td width="10%">序号</td>
+                                    <td width="20%">系统名称</td>
+                                    <td width="15%">权限名称</td>
+                                    <td width="15%">权限标识</td>
+                                    <td width="20%">外部关联ID</td>
+                                    <td width="20%">外部关联名称</td>
+                                </tr>
+                                </thead>
+                                <tr ng-repeat="authority in authorityList" class="contentTr">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{authority.systemName}}</td>
+                                    <td>{{authority.name}}</td>
+                                    <td>{{authority.sign}}</td>
+                                    <td>{{authority.targetId}}</td>
+                                    <td>{{authority.targetName}}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="modal-footer" style="">
+                            <button type="button" class="cancel" data-dismiss="modal">关 闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"> 修改用户</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="userEditForm" novalidate>
+                                <table id="userEditTable" width="100%">
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">用户名：<span
+                                                style="color: red;margin-left: 5px">*</span></td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" name="userName"
+                                                                                   class="form-control"
+                                                                                   ng-model="userInfo.userName"
+                                                                                   ng-maxlength="20" required/>
+                                            <span class="errorSpan" ng-show="userEditForm.userName.$error.maxlength">用户名长度不超过20！</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">密码：<span
+                                                style="color: red;margin-left: 5px">*</span></td>
+                                        <td width="70%" class="tdAlignLeft"><input type="password" name="password"
+                                                                                   class="form-control"
+                                                                                   ng-model="userInfo.password"
+                                                                                   ng-maxlength="20" required/>
+                                            <span class="errorSpan" ng-show="userEditForm.password.$error.maxlength">密码长度不超过20！</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">单位：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" name="unitName"
+                                                                                   class="form-control"
+                                                                                   ng-model="userInfo.unitName"
+                                                                                   ng-maxlength="20"/>
+                                            <span class="errorSpan" ng-show="userEditForm.unitName.$error.maxlength">单位长度不超过20！</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" class="tdAlignRight">角色：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" ng-disabled="true"
+                                                                                   class="form-control"
+                                                                                   ng-model="userInfo.roleName"
+                                                                                   ng-maxlength="20"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel" data-dismiss="modal">取 消</button>
+                            <button type="button" class="sure"
+                                    ng-disabled="userEditForm.userName.$invalid||userEditForm.password.$invalid||userEditForm.unitName.$invalid"
+                                    ng-click="editUser()">修改
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 编辑用户模态框 -->
+            <!--<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 0px 15px;">
+                            <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                            修改用户
+                        </div>
+                        <div class="modal-body" style="height:224px;width:450px;">
+                            <form name="userEditForm" novalidate>
+                                <table id="userEditTable" width="100%">
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">用户名：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" name="userName" ng-model="userInfo.userName" ng-maxlength="20" required/><span style="color: red;margin-left: 5px">*</span><br>
+                                            <span class="errorSpan" ng-show="userEditForm.userName.$error.maxlength">用户名长度不超过20！</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">密码：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="password" name="password" ng-model="userInfo.password" ng-maxlength="20" required/><span style="color: red;margin-left: 5px">*</span>
+                                            <span class="errorSpan" ng-show="userEditForm.password.$error.maxlength">密码长度不超过20！</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" class="tdAlignRight">单位：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" name="unitName" ng-model="userInfo.unitName" ng-maxlength="20"  /><span style="color: red;margin-left: 5px">*</span>
+                                            <span class="errorSpan" ng-show="userEditForm.unitName.$error.maxlength">单位长度不超过20！</span></td>
+                                    </tr>
+                                    <tr style="height:70px;WORD-WRAP: break-word">
+                                        <td width="20%" class="tdAlignRight">角色：</td>
+                                        <td width="70%" class="tdAlignLeft"><input type="text" ng-disabled="true" ng-model="userInfo.roleName" ng-maxlength="20"/>
+                                            </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel" data-dismiss="modal">取 消</button>
+                            <button type="button" class="sure" data-dismiss="modal" ng-disabled="userEditForm.userName.$invalid||userEditForm.password.$invalid||userEditForm.unitName.$invalid" ng-click="editUser()">修 改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+
+    </div>
+</div>

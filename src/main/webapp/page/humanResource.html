@@ -1,0 +1,49 @@
+<style type="text/css">
+    input[type="password"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
+    }
+
+    input[type="text"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
+    }
+    treecontrol ul{
+        font-size: 15px;
+    }
+    .c-iExpanded{
+        background: url("../images/icons/person_li.png");
+    }
+    .tab-content{
+        padding: 20px 0 0 0;
+    }
+</style>
+<div ng-controller="humanController">
+    <div>
+        <div class="leftDiv" style="float: left;">
+            <treecontrol class="tree-boot"
+                         tree-model="treeData"
+                         options="treeOptions"
+                         on-selection="nodeSelect(node)"
+                         selected-node="node1"
+                         expanded-nodes="expandedNodes">
+                {{node.name}}
+            </treecontrol>
+
+        </div>
+
+        <div class="rightDiv">
+            <form id="outerForm" name="outerForm" class="tab-form-demo">
+                <uib-tabset active="activeForm">
+                    <uib-tab ng-repeat="content in contents" heading="{{content.name}}" id="{{content.id}}" active={{content.active}}>
+                        <div ng-include="content.url">
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </form>
+
+        </div>
+    </div>
+</div>

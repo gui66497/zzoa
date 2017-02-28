@@ -1,0 +1,19 @@
+.leftDiv, .rightDiv {
+    background-color: #ffffff;
+    width: 80%;
+    height: 100%;
+    float: left;
+    box-sizing: border-box;
+}
+
+.leftDiv {
+    margin-top: 80px;
+    width: 20%;
+    padding-top: 1%;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+}
+
+.rightDiv {
+    padding: 80px 30px 20px 30px;
+}

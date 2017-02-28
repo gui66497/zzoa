@@ -1,0 +1,72 @@
+.submit-buttom{
+     /*background-image: -webkit-linear-gradient(top, #51a351 0%, #51a351 100%);*/
+    /*background-repeat: repeat-x;*/
+    /*border-color: #51a351;*/
+    background-color: #62c462;
+    color: #FFFFFF;
+    width: 70px;
+    height: 36px;
+    font-family: "微软雅黑";
+    border-radius: 5px;
+    margin-top: -5px;
+}
+
+.cancel-buttom{
+    /*background-image: -webkit-linear-gradient(top, #51a351 0%, #51a351 100%);*/
+    /*background-repeat: repeat-x;*/
+    /*border-color: #51a351;*/
+    color: #FFFFFF;
+    width: 70px;
+    height: 36px;
+    font-family: "微软雅黑";
+    border-radius: 5px;
+    margin-top: -5px;
+    background-color: #a9a9a9;
+    margin-right: 15px;
+}
+.com-header{
+    width: 500px;
+    height: 45px;
+    color: #FFFFFF;
+    background-color: #040404;
+    margin-top: -20px;
+    font-family: "微软雅黑";
+
+}
+.com-title{
+    float: left;
+    padding-top: 1px;
+    font-weight: bold;
+}
+.com-close{
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    color: #FFFFFF;
+    float: right;
+    margin-right: -5px;
+    margin-top: 12px;
+    font-size: 25px;
+}
+
+
+.editBtn{
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url("./img/edit.png");
+}
+.editBtn:hover{
+    background: url("./img/edit_hover.png");
+}
+.deleteBtn{
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url("./img/delete.png");
+}
+.deleteBtn:hover{
+    background: url("./img/delete_hover.png");
+}

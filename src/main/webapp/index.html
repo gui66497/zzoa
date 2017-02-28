@@ -1,0 +1,231 @@
+<html ng-app="indexModule">
+<head>
+    <title>系统首页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="js/libs/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="js/libs/angular.js"></script>
+    <script type="text/javascript" src="js/libs/angular-route.js"></script>
+    <script type="text/javascript" src="js/libs/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/libs/angular-sanitize.js"></script>
+    <script type="text/javascript" src="js/libs/datepicker-ui-zh.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-ui.js"></script>
+    <script src="exts/bootstrap/js/bootstrap.min.js"></script>
+    <!--<script src="exts/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="exts/bootstrap/js/bootstrap-modalmanager.js"></script>-->
+    <script type="text/javascript" src="exts/ui-bootstrap/ui-bootstrap-tpls-2.5.0.1.js"></script>
+    <script type="text/javascript" src="exts/bootStrap-addTabs/bootstrap.addtabs.min.js"></script>
+    <script src="js/libs/jquery.tree.js" type="text/javascript"></script>
+    <script type="text/javascript" src="exts/ng-table/ng-table.js"></script>
+    <script type="text/javascript" src="exts/angular-tree-control/angular-tree-control.js"></script>
+
+    <!-- Services -->
+    <script type="text/javascript" src="js/services/loginService.js"></script>
+
+    <!-- Directives -->
+    <script type="text/javascript" src="js/directives/hello.directive.js"></script>
+
+    <!-- Utils -->
+    <script type="text/javascript" src="js/utils/modal.utils.js"></script>
+    <script type="text/javascript" src="js/utils/common.utils.js"></script>
+
+
+    <!-- CSS -->
+    <link href="css/index.css" rel="stylesheet" media="screen" />
+    <link href="exts/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" media="screen" />
+    <link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
+    <link href="exts/bootStrap-addTabs/bootstrap.addtabs.min.js" rel="stylesheet" media="screen" />
+    <!--<link href="exts/bootstrap/css/bootstrap-modal.css" rel="stylesheet" media="screen" />-->
+    <link href="css/tree.css" rel="stylesheet" type="text/css" />
+    <link href="css/page.css" rel="stylesheet" type="text/css" />
+    <link href="exts/ng-table/ng-table.css" rel="stylesheet" type="text/css" />
+    <link href="exts/angular-tree-control/css/tree-control.css" rel="stylesheet" type="text/css" />
+    <link href="css/overall.css" rel="stylesheet" type="text/css" />
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="js/controllers/route.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/index.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/system.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/authority.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/user.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/role.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/excel.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/tab.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/human.controller.js"></script>
+
+</head>
+<body >
+<div ng-controller="menuController" id="menuDiv" class="navbar navbar-default navbar-fixed-top" style="font-size:14px;font-family: Arial, 微软雅黑, 宋体;border:0px solid blue;padding: 0px;">
+    <div class="navbar-inner">
+        <div class="container-fluid" style="height:48px;margin-top:15px;">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" style="margin-top:-2px;" href="#"><img src="images/logo.png" href="#"> </a>
+            </div>
+
+            <div ng-controller="loginController">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav" id="navUl">
+                        <li><a href="#/excel" style="margin-top: -15px"><img style="height: 36px;" src="images/personnel.png"/><span style="margin-left: 2px;">人事管理</span></a></li>
+                        <li><a href="#/user" style="margin-top: -15px"><img style="height: 36px;" src="images/attendance.png"/><span style="margin-left: 2px;">考勤管理</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="contentDiv" ng-view style="padding-left:1%;border:0px solid #c0c0c0; width:99%;height:80%;">
+    内容区域
+</div>
+
+<div id="modalLoadDiv"></div>
+
+ <!--server error 弹出框-->
+<div class="modal fade" id="serverErrorModal"
+     style="display: none; text-align: left; margin-top: 150px;z-index: 10000000;">
+    <div class="modal-dialog" style="width: 360px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body" style="height: 60px;" align="center">
+                <h4 class="modal-title" style="color:red;">系统出错！</h4>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="cancel" style="width:70px;height:30px;color: #000;"
+                        data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ok模态框（Modal） -->
+<div class="modal fade" id="okModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top:100px;">
+    <div class="modal-dialog" style="width: 360px">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 0px 15px;height:50px;">
+                <h4 class="modal-title" style="float:left;" id="okModalLabel">
+                    模态框（Modal）标题
+                </h4>
+                <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+            </div>
+            <div class="modal-body" id="okModalMessage"  style="height:45px;">
+                在这里添加一些文本
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="cancel" style="width:60px;height:30px;"data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 确认操作模态框（Modal） -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top: 100px;">
+    <div class="modal-dialog" style="width: 360px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float:left;">
+                    提示信息
+                </h4>
+                <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+            </div>
+            <div class="modal-body" id="confirmModalMessage" style="height:75px;">
+                在这里添加一些文本
+            </div>
+            <div class="modal-footer" id="confirmModalFooter">
+                <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                <button type="button" class="sure" id="btnExecute">确 认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 确认操作模态框（Modal） -->
+<!--<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 0px 15px;height:50px;">
+                <h4 class="modal-title" style="float:left;">
+                    提示信息
+                </h4>
+                <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+            </div>
+            <div class="modal-body" id="confirmModalMessage" style="height:45px;">
+                在这里添加一些文本
+            </div>
+            <div class="modal-footer" id="confirmModalFooter">
+                <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn sure" id="btnExecute" >确定</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
+
+<!-- 系统登录模态框 -->
+<div ng-controller="loginController" ng-keyup="mykeyup($event)" class="modal fade" id="loginModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+    <div class="modal-dialog" style="margin-top:20px;">
+        <div class="modal-content">
+            <div ><img src="./images/login.png" style="margin-left: 110px;"/> </div>
+            <form name="loginForm">
+            <div class="modal-body" >
+
+                <table id="loginTable" width="100%">
+                    <tr style="height:70px;">
+                        <!--<td width="40%" align="right">用户名：</td>-->
+                        <td ><input type="text" maxlength="20" id="loginUserName" required ng-model="user.userName" placeholder="用户名" style="width:220px;border: none;border-bottom: 1px #dddddd solid;height:40px; background: url(images/user.png) no-repeat 10px 10px; padding-left: 35px;margin-left: -5px;"/></td>
+                    </tr>
+                    <tr style="height:60px;">
+                        <!--<td width="40%" align="right">密 码：</td>-->
+                        <td ><input type="password" maxlength="20" required ng-model="user.password"  placeholder="密码" style="width:220px;border: none;border-bottom: 1px #dddddd solid;height:40px; background: url(images/password.png) no-repeat 10px 10px; padding-left: 35px;margin-left: -5px;"/></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="alert alert-danger alert-dismissable" id="loginErrorMsg" style="display:none;height:12px;position:absolute;top:220px;left:20px;line-height:12px;font-size:12px;">用户名或密码不正确！</div>
+
+            <div class="">
+
+
+                <button type="button"  class="btn-success" style="border-radius:4px; width:220px;height:40px;position:absolute;top:260px;left:34px;" ng-click="login()"  ng-disabled="loginForm.$invalid"><span style="font-family: 微软雅黑;font-weight: bold">登&nbsp;&nbsp;&nbsp;&nbsp;录</span></button>
+            </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+<!-- 系统还原模态框 -->
+<div ng-controller="backupController" class="modal fade" id="reduceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 0px 15px;height:50px;">
+                <h4 class="modal-title" style="float:left;">
+                    提示信息
+                </h4>
+                <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true" ng-click="resetBackupFileName()"/>
+            </div>
+            <div class="modal-body" id="reduceModalMessage" style="height:195px;">
+                <select ng-model="backup.backupFileName" ng-options="x for x in backupFiles" style="margin-top:10px;">
+                    <option value="">请选择要还原的备份文件:</option>
+                </select>
+                <br><br>
+                <span  style="color:red;margin-top:50px;"ng-show="backupStatus">正在进行系统还原...</span>
+            </div>
+            <div class="modal-footer" id="reduceModalFooter">
+                <button type="button" class="cancel" style="width:60px;height:30px;" data-dismiss="modal" ng-click="resetBackupFileName()">关闭</button>
+                <button type="button" style="width:60px;height:30px;" ng-click="reduce()" ng-disabled="backup.backupFileName==''" ng-class="{true:'cancel',false:'sure'}[backup.backupFileName=='']">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

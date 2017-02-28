@@ -1,0 +1,58 @@
+
+#loginModal .modal-body {
+    max-height: 350px;
+    background: rgba(255,255,255,.8);
+}
+#loginModal {
+    max-height: 350px;
+    height:330px;
+    width:290px;
+    margin-left:-165px;
+    top: 300px;
+}
+
+#reduceModal .modal-body {
+    max-height: 350px;
+    background: rgba(255,255,255,.8);
+}
+#reduceModal {
+    max-height: 350px;
+    height:330px;
+    width:300px;
+    margin-left:-150px;
+    top: 380px;
+}
+
+#loginTable tr{
+    border:1px solid #FFF;
+}
+#loginTable td {
+    border:1px solid #FFF;
+}
+.modal-header{
+    color: #ffffff;
+    font-size: 16px;
+    font-family: 微软雅黑;
+    background-color: #1c2b36;
+    height: 50px;
+    line-height: 50px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.cancel{
+    width:70px;
+    height:34px;
+    margin-right: 10px;
+    background-color: #bec3c7;
+    border:0;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 微软雅黑;
+}
+.cancel:hover{
+    background-color: #b0b5b9;
+}
+td,th,span,button,label,div,select,textarea,input{
+    font-family: 微软雅黑;
+}

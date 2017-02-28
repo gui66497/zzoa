@@ -1,0 +1,523 @@
+<style type="text/css">
+    #roleListTable {
+        border:0px;
+        cellspacing:0;
+        cellpadding:0;
+        width:97%;
+        align:center;
+    }
+    td {
+        border:0px solid #c0c0c0;
+        border-collapse:collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+    tr {
+        border-bottom:1px solid #c0c0c0;
+        border-left:0px;
+        border-right:0px;
+        border-top:0px;
+        border-collapse:collapse;
+        height:40px;
+    }
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    #roleInfoTable tr{
+        border:0px solid #FFF;
+    }
+    #roleInfoTable td {
+        border:0px solid #FFF;
+    }
+    #roleEditTable tr{
+        border:1px solid #FFF;
+    }
+    #roleEditTable td {
+        border:1px solid #FFF;
+    }
+    #roleEditTable input {
+        height:30px;
+    }
+    #roleCreateTable tr{
+        border:1px solid #FFF;
+    }
+    #roleCreateTable td {
+        border:1px solid #FFF;
+    }
+    #roleCreateTable input {
+        height:30px;
+    }
+    .modal-body {
+        max-height: 500px;
+        background: rgba(255,255,255,.8);
+    }
+    #showRoleModal {
+        max-height: 500px;
+        height:500px;
+        width:575px;
+        margin-left:-265px;
+        top: 400px;
+    }
+
+    #createRoleModal,#editRoleModal {
+        max-height: 600px;
+        height:600px;
+        width:575px;
+        margin-left:-265px;
+        top: 400px;
+    }
+    input[type="text"],select {
+        width:240px;
+        height: 30px;
+        margin-left:30px;
+    }
+    textarea {
+        width:240px;
+        margin-left:30px;
+    }
+    .spanClass {
+        width: 70px;
+        text-align: right;
+    }
+    .addBtn{
+        margin-left: 20px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .sure{
+        width:70px;
+        height: 34px;
+        margin-right: 10px;
+        background-color: #4dbd73;
+        border: 0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+    .sure:hover,.addBtn:hover{
+        border-color:#46ab68;
+        background-color: #46ab68
+    }
+    .sure:disabled{
+        background-color: #bec3c7;
+    }
+    .cancel{
+        width:70px;
+        height:34px;
+        margin-right: 10px;
+        background-color: #bec3c7;
+        border:0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+    .cancel:hover{
+        background-color: #b0b5b9;
+    }
+    .leftDiv,.rightDiv {
+        background-color: #ffffff;
+        width: 80%;
+        height: 100%;
+        float:left;
+        box-sizing: border-box;
+    }
+    .leftDiv {
+        width: 18%;
+        background-color: #f1f4f8;
+        padding-top: 1%;
+        overflow-y: auto;
+    }
+    .rightDiv{
+        margin-top: -20px;
+        padding: 20px 30px 20px 30px;
+    }
+    .mu {padding-right: 25px}
+    .mu .liSelected {background-color: #28d6d7 !important;cursor: hand;color: white;border-radius: 3px}
+    .mu li {font-family: 微软雅黑;font-size: 16px;list-style: none;line-height: 39px;cursor: hand;border: 1px solid #EDF1F7;text-align: center}
+    .mu li:hover{  background-color: #DEE2E7;border-radius: 3px  }
+    .showBtn{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/show.png");
+    }
+    .showBtn:hover{
+        background: url("images/show_hover.png");
+    }
+    .editBtn{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/edit.png");
+    }
+    .editBtn:hover{
+        background: url("images/edit_hover.png");
+    }
+    .deleteBtn{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/delete.png");
+    }
+    .deleteBtn:hover{
+        background: url("images/delete_hover.png");
+    }
+    .getNode{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/right.png");
+    }
+    .getNode:hover{
+        background: url("images/right_hover.png");
+    }
+    .modal-header{
+        color: #ffffff;
+        font-size: 16px;
+        font-family: 微软雅黑;
+        background-color: #1c2b36;
+        height: 50px;
+        line-height: 50px;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+    .closeTable{
+        background: url("images/close.png");
+        float: right;
+        width: 50px;
+        height: 50px;
+        margin-top: 0px;
+        margin-right: -16px;
+        opacity:1;
+        border: 0;
+    }
+    .closeTable:hover{
+        background: url("images/close_hover.png");
+    }
+    .modal-footer{
+        width: 100%;
+        text-align:right;
+        padding: 14px 0;
+        background-color: #f5f5f5 !important;
+        margin-top: 20px;
+    }
+    input[name="permissionRadio"]{
+        float: left;
+    }
+    .deleteSpan{
+        background: url("images/close1.png");
+        float: right;
+        width: 12px;
+        height: 12px;
+        margin-top: 5px;
+        opacity:1;
+        border: 0;
+    }
+    .deleteSpan:hover{
+        background: url("./images/close1_hover.png");
+    }
+</style>
+<div ng-controller="roleListController">
+    <div>
+        <input ng-hide="true" value="{{req.systemId}}">
+        <div class="leftDiv" style="float: left;">
+            <ul id="systemUl" class="mu">
+                 <span ng-if="systemList != null">
+                <li ng-repeat="system in systemList" ng-click="changeRoleListBySystemId(system.id)">
+
+                          <span ng-if="system.name.length<=8">
+                          {{system.name }}
+                     </span>
+
+                    <span ng-if="system.name.length>8">
+                    {{system.name | limitTo:8}}...
+                    </span>
+                </li>
+            </span>
+           <span ng-if="systemList == null">
+              <li>暂无数据!</li>
+          </span>
+            </ul>
+        </div>
+        <div class="rightDiv">
+            <button class="addBtn" ng-show="addFlag" ng-click="showCreateRoleModal()" >
+                <span class="icon-plus icon-white"></span> 新增角色
+            </button><br><br>
+            <table id="roleListTable" align="center">
+                <thead>
+                <tr>
+                    <td width="5%">序号</td>
+                    <td width="15%">所属系统</td>
+                    <td width="10%">角色名称</td>
+                    <td width="10%">角色标识</td>
+                    <td width="10%">创建账号</td>
+                    <td width="15%">创建时间</td>
+                    <td width="15%">备注</td>
+                    <td width="10%">查看权限</td>
+                    <td width="10%">操作</td>
+                </tr>
+                </thead>
+                <tr ng-repeat="role in roles" class="contentTr">
+                    <td>{{$index+1}}</td>
+                    <td>{{role.systemName}}</td>
+                    <td>{{role.name}}</td>
+                    <td>{{role.sign}}</td>
+                    <td>{{role.creatorName}}</td>
+                    <td>{{role.createTime | limitTo:10}}</td>
+                    <td>{{role.remark}}</td>
+                    <td><button class="showBtn" ng-show="showFlag" ng-click="getAuthorityListByRoleId(role.id)" /></td>
+                    <td>
+                        <!--<input type="button" value="查看" ng-click="showRoleInfo($index)" />&nbsp;-->
+                        <button class="editBtn" ng-show="updateFlag" title="编辑" ng-click="showEditModal($index)" />&nbsp;
+                        <button class="deleteBtn" ng-show="deleteFlag" title="删除"  ng-click="showDelConfirmModal($index)" />
+
+                    </td>
+                </tr>
+            </table>
+            <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
+                <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
+                    <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
+                </div>
+                <div style="width:40%;height:30px;float:left;">
+                    <ul class="pager" style="margin-top: 10px;">
+                        <li class="previous disabled" id="previousPageLink">
+                            <a href="javascript:void(0)" unable="false" id="previousPage" ng-click="previousPage()">&larr; 上一页</a>
+                        </li>
+                        <li class="next" id="nextPageLink">
+                            <a href="javascript:void(0)" unable="false" id="nextPage" ng-click="nextPage()">下一页 &rarr;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 权限查看模态框 -->
+    <div class="modal fade" id="showRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 0px 15px;">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                    查看权限
+                </div>
+                <div class="modal-body" style="height:358px;width:500px;overflow-y: auto">
+                    <table id="authListTable" align="center" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <td width="10%">序号</td>
+                            <td width="20%">权限名称</td>
+                            <td width="20%">权限标识</td>
+                            <td width="30%">外部关联ID</td>
+                            <td width="20%">外部关联名称</td>
+                        </tr>
+                        </thead>
+                        <tr ng-repeat="authority in authorityList" class="contentTr">
+                            <td>{{$index+1}}</td>
+                            <td>{{authority.name}}</td>
+                            <td>{{authority.sign}}</td>
+                            <td>{{authority.targetId}}</td>
+                            <td>{{authority.targetName}}</td>
+                        </tr>
+                    </table>
+                    <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
+                        <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
+                            <span margin-left="20px">共 {{authroityTotalCount}} 条记录！</span>
+                        </div>
+                        <div style="width:40%;height:30px;float:left;">
+                            <ul class="pager" style="margin-top: 10px;">
+                                <li class="previous disabled" id="previousPageLink1">
+                                    <a href="javascript:void(0)" unable="false" id="previousPage1" ng-click="authorityPreviousPage()">&larr; 上一页</a>
+                                </li>
+                                <li class="next" id="nextPageLink1">
+                                    <a href="javascript:void(0)" unable="false" id="nextPage1" ng-click="authorityNextPage()">下一页 &rarr;</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="">
+                    <button type="button" class="cancel" data-dismiss="modal">关 闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 角色编辑模态框 -->
+    <div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 0px 15px;">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                    编辑角色
+                </div>
+                <div class="modal-body" style="height:458px;width:545px;font-size: 14px;font-family: 微软雅黑">
+                    <form name="roleEditForm" novalidate>
+                        <div>
+                            <span class="spanClass">所属系统:</span>
+                            <select ng-model="roleReq.systemId" name="systemSelect" disabled="true" ng-options="x.id as x.name for x in systemList" ng-change="changeInfoBySystemId(roleReq.systemId)" required>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="spanClass">数据源:</span>
+                            <select ng-model="dataSource" ng-options="dataSource.source as dataSource.tableName for dataSource in singleDataSourceArra" ng-change="getOutDataListBySystemId(roleReq.systemId)" >
+                            </select>
+                        </div>
+                        <div>
+                            <span class="spanClass">角色名称:</span>
+                            <input type="text" name="roleName" maxlength="20" ng-model="roleReq.name" required>
+                            <span style="color: red">*</span>
+                        </div>
+                        <div>
+                            <span class="spanClass">角色标识:</span>
+                            <input type="text" name="roleSign" maxlength="20" ng-model="roleReq.sign" required>
+                            <span style="color: red">*</span>
+                        </div>
+                        <div>
+                            <span class="spanClass">备注:</span>
+                            <textarea cols="5" maxlength="100" ng-model="roleReq.remark"></textarea>
+                        </div>
+                        <div>
+                            <div style="float: left;">
+                                可分配权限列表:<br>
+                                <div style="width: 150px;margin-top: 5px; height: 200px;border: 1px solid silver;overflow-y: auto;padding: 5px 5px 5px 5px ;">
+                                    <div ng-repeat="permission in permissionList" style="height: 25px;">
+                                        <input type="radio" name="permissionRadio" ng-model="radioValue" ng-value="permission" ng-click="changeOutDataList(permission)" ng-model="radioValue"><label style="margin-left: 20px">{{permission.name}}</label><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: left;margin-left: 25px;">
+                                外部关联信息表:<br>
+                                <div style="width: 150px;margin-top: 5px; height: 200px;border: 1px solid silver;overflow-y: auto;padding: 5px 5px 5px 5px;">
+                                    <!--<div ng-repeat="outData in outDataList">
+                                        <input type="checkbox" name="outDataCheckbox" ng-value="outData" ng-checked="isSelected(outData)" ng-click="updateSelection($event,outData)">{{outData.name}}
+                                    </div>-->
+                                    <!--<div id="tree">
+
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div style="float: left;margin: 115px 0 0 5px;width: 20px; height:150px;">
+                                <img src="./images/right_hover.png" />
+                            </div>
+                            <div style="float: left;margin-left:5px;">
+                                已分配权限列表:<br>
+                                <div style="width: 150px;margin-top: 5px; height: 200px;border: 1px solid silver;overflow-y: auto;padding: 5px 5px 5px 5px ;">
+                                    <label ng-repeat="selectedPermission in selectedPermissions">
+                                        <span ng-if="selectedPermission.targetName==''">{{selectedPermission.name}}</span>
+                                        <span ng-if="selectedPermission.targetName!=''">{{selectedPermission.name}}-{{selectedPermission.targetName}}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取 消</button>
+                    <button type="button" class="sure" ng-disabled="roleEditForm.systemSelect.$invalid || roleEditForm.roleName.$invalid || roleEditForm.roleSign.$invalid" data-dismiss="modal" ng-click="editRoleInfo()">确 认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 角色新增模态框 -->
+    <div class="modal fade" id="createRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 0px 15px;">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                    <span ng-if="title==0">创建角色</span>
+                    <span ng-if="title==1">编辑角色</span>
+                </div>
+                <div class="modal-body" style="height:458px;width:545px;font-size: 14px;font-family: 微软雅黑">
+                    <form name="roleAddForm" novalidate>
+                        <div>
+                            <span class="spanClass">所属系统:</span>
+                            <select ng-model="roleReq.systemId" name="systemSelect" ng-options="x.id as x.name for x in systemList" ng-change="changeInfoBySystemId(roleReq.systemId)" required>
+                            </select>
+                            <span style="color: red">*</span>
+                        </div>
+                        <div>
+                            <span class="spanClass">数据源:</span>
+                            <select ng-model="dataSource" ng-options="dataSource.source as dataSource.tableName for dataSource in singleDataSourceArra" ng-change="getOutDataListBySystemId(roleReq.systemId)" >
+                            </select>
+                        </div>
+                        <div>
+                            <span class="spanClass">角色名称:</span>
+                            <input type="text" name="roleName" maxlength="20" ng-model="roleReq.name" required>
+                            <span style="color: red">*</span>
+                        </div>
+                        <div>
+                            <span class="spanClass">角色标识:</span>
+                            <input type="text" name="roleSign" maxlength="20" ng-model="roleReq.sign" required>
+                            <span style="color: red">*</span>
+                        </div>
+                        <div>
+                            <span class="spanClass">备注:</span>
+                            <textarea cols="5" maxlength="100" ng-model="roleReq.remark"></textarea>
+                        </div>
+                        <div>
+                            <div style="float: left;">
+                                <div style="width: 6px;height: 14px;background-color: #4DB7CE;float: left;margin-right: 4px;"></div><div style="height: 14px;line-height: 14px;">可分配权限列表:</div>
+                                <div style="width: 150px;margin-top: 6px; height: 220px;border: 1px solid silver;overflow-y: auto;padding: 5px 5px 5px 5px;">
+                                    <div ng-repeat="permission in permissionList" style="height: 25px;">
+                                        <input type="radio" name="permissionRadio" ng-model="radioValue" ng-value="permission" ng-click="changeOutDataList(permission)" ng-model="radioValue"><label style="margin-left:15px ;">{{permission.name}}</label><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: left;margin-left: 25px;">
+                                <div style="width: 6px;height: 14px;background-color: #4DB7CE;float: left;margin-right: 4px;"></div><div style="height: 14px;line-height: 14px;">外部关联信息表:</div>
+                                <div style="width: 150px;margin-top: 6px; height: 220px;border: 1px solid silver;overflow-y: auto;padding: 5px 5px 5px 5px;">
+                                    <!--<div ng-repeat="outData in outDataList">
+                                        <input type="checkbox" name="outDataCheckbox" ng-value="outData" ng-checked="isSelected(outData)" ng-click="updateSelection($event,outData)">{{outData.name}}
+                                    </div>-->
+                                    <div id="tree">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: left;margin: 115px 0 0 5px;width: 20px; height:150px;">
+                                <button class="getNode" ng-click="getNodes()"></button>
+                            </div>
+                            <div style="float: left;margin-left: 5px;">
+                                <div style="width: 6px;height: 14px;background-color: #3ECD7B;float: left;margin-right: 4px;"></div><div style="height: 14px;line-height: 14px;">已分配权限列表:</div>
+                                <div style="width: 150px;margin-top: 6px; height: 220px;border: 1px solid silver;overflow-y: auto;padding: 5px 5px 5px 5px;">
+                                    <!--<label ng-repeat="selectedPermission in selectedPermissions">
+                                        <span ng-if="selectedPermission.targetName==''">{{selectedPermission.name}}<button class="deleteSpan" ng-click="deleteSelected(selectedPermission)"></button></span>
+                                        <span ng-if="selectedPermission.targetName!=''">{{selectedPermission.name}}-({{1}})</span>
+
+                                    </label>-->
+
+                                    <label ng-repeat="selectedPermissionShow in selectedPermissionShows">
+                                        <span ng-if="selectedPermissionShow.count==0">{{selectedPermissionShow.name}}<button class="deleteSpan" ng-click="deleteSelected(selectedPermissionShow)"></button></span>
+                                        <span ng-if="selectedPermissionShow.count!=0">{{selectedPermissionShow.name}}-({{selectedPermissionShow.count}})</span>
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取 消</button>
+                    <span ng-if="title==0">
+                        <button type="button" class="sure" ng-disabled="roleAddForm.systemSelect.$invalid || roleAddForm.roleName.$invalid || roleAddForm.roleSign.$invalid" data-dismiss="modal" ng-click="createRoleInfo()">确 认</button>
+                    </span>
+                    <span ng-if="title==1">
+                        <button type="button" class="sure" ng-disabled="roleAddForm.systemSelect.$invalid || roleAddForm.roleName.$invalid || roleAddForm.roleSign.$invalid" data-dismiss="modal" ng-click="editRoleInfo()">确 认</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

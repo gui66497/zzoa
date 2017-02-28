@@ -1,0 +1,601 @@
+<style type="text/css">
+    #authorityListTable {
+        border: 0px;
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 97%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /*#authorityListTable tr {*/
+        /*border: 0px solid #FFF;*/
+    /*}*/
+
+    /*#authorityListTable td {*/
+        /*border: 0px solid #FFF;*/
+    /*}*/
+
+    #authorityEditTable tr {
+        border: 1px solid #FFF;
+    }
+
+    #authorityEditTable td {
+        border: 1px solid #FFF;
+    }
+
+    #authorityEditTable input {
+        height: 30px;
+    }
+
+    #createAuthorityTable tr {
+        border: 1px solid #FFF;
+    }
+
+    #createAuthorityTable td {
+        border: 1px solid #FFF;
+    }
+
+    #createAuthorityTable input {
+        height: 30px;
+    }
+
+    #showSystemModal .modal-body {
+        max-height: 500px;
+        background: rgba(255, 255, 255, .8);
+    }
+
+    #showSystemModal {
+        max-height: 500px;
+        height: 500px;
+        width: 530px;
+        margin-left: -265px;
+        top: 300px;
+    }
+
+    #editAuthorityModal .modal-body {
+        max-height: 500px;
+        background: rgba(255, 255, 255, .8);
+    }
+
+    #editAuthorityModal {
+        max-height: 500px;
+        height: 500px;
+        width: 530px;
+        margin-left: -265px;
+        top: 300px;
+    }
+
+    #createAuthorityModal .modal-body {
+        max-height: 500px;
+        background: rgba(255, 255, 255, .8);
+    }
+
+    #createAuthorityModal {
+        max-height: 500px;
+        height: 500px;
+        width: 530px;
+        margin-left: -265px;
+        top: 300px;
+    }
+
+    .tdAlignRight {
+        text-align: right;
+
+    }
+
+    .tdAlignLeft {
+        text-align: left;
+
+    }
+
+    input[type="text"] {
+        width: 240px;
+        margin-left: 30px;
+    }
+
+    textarea {
+        width: 240px;
+        margin-left: 30px;
+    }
+
+    /*.leftMenus {*/
+    /*margin-left: 5px;*/
+    /*width: 12%;*/
+    /*float: left;*/
+    /*border: 1px #f2f2f2 solid;*/
+    /*font-size: 16px;*/
+    /*font-family: "微软雅黑";*/
+    /*font-weight: bold;*/
+    /*height: 500px;;*/
+    /*}*/
+
+    /*.leftMenus ul {*/
+    /*list-style: none;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*}*/
+
+    /*.leftMenus ul li {*/
+    /*margin: 0;*/
+    /*/!*border-top: 1px #31b0d5 solid;*!/*/
+    /*margin-top: 10px;*/
+    /*padding-top: 10px;*/
+    /*text-align: center;*/
+    /*}*/
+    .mu {
+        padding-right: 25px
+    }
+
+    .mu .liSelected {
+        background-color: #28d6d7 !important;
+        cursor: hand;
+        color: white;
+        border-radius: 3px
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        border: 1px solid #EDF1F7;
+        text-align: center;
+    }
+
+    .mu li:hover{  background-color: #DEE2E7;border-radius: 3px }
+
+    .addBtn{
+        margin-left: 20px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .editBtn{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/edit.png");
+    }
+    .editBtn:hover{
+        background: url("images/edit_hover.png");
+    }
+
+
+    .deleteBtn {
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/delete.png");
+    }
+
+    .deleteBtn:hover {
+        background: url("images/delete_hover.png");
+    }
+
+    .cancel {
+        width: 70px;
+        height: 34px;
+        margin-right: 10px;
+        background-color: #bec3c7;
+        border: 0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+
+    .cancel:hover {
+        background-color: #b0b5b9;
+    }
+
+    .sure {
+        width: 70px;
+        height: 34px;
+        margin-right: 10px;
+        background-color: #4dbd73;
+        border: 0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+
+    .sure:hover, .addBtn:hover {
+        border-color: #46ab68;
+        background-color: #46ab68
+    }
+
+    .modal-header {
+        color: #ffffff;
+        font-size: 16px;
+        font-family: 微软雅黑;
+        background-color: #1c2b36;
+        height: 50px;
+        line-height: 50px;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+
+    .closeTable {
+        background: url("images/close.png");
+        float: right;
+        width: 50px;
+        height: 50px;
+        margin-top: 0px;
+        margin-right: -16px;
+        opacity: 1;
+        border: 0;
+    }
+
+    .closeTable:hover {
+        background: url("images/close_hover.png");
+    }
+
+    .modal-footer {
+        width: 100%;
+        text-align: right;
+        padding: 14px 0;
+        background-color: #f5f5f5 !important;
+        margin-top: 20px;
+    }
+
+    .leftDiv,.rightDiv {
+        background-color: #ffffff;
+        width: 80%;
+        height: 100%;
+        float:left;
+        box-sizing: border-box;
+    }
+    .leftDiv {
+        width: 18%;
+        background-color: #f1f4f8;
+        padding-top: 1%;
+        overflow-y: auto;
+    }
+    .rightDiv{
+        margin-top: -20px;
+        padding: 20px 30px 20px 30px;
+    }
+
+
+</style>
+<div ng-controller="authorityListController">
+    <input ng-hide="true" value="{{req.systemId}}">
+
+    <!--<div ng-controller="systemListController">-->
+    <!--<div class="leftMenus">-->
+    <!--<ul >-->
+    <!--<li ng-repeat="system in systems">-->
+    <!--<a ng-click="getSysInfoList(system.id)" style="cursor: hand">{{system.name}}</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="leftDiv" style="float: left">
+        <ul id="systemUl" class="mu">
+            <span ng-if="systems != null">
+                <li ng-repeat="system in systems" ng-click="getSysInfoLists(system.id)">
+                     <span ng-if="system.name.length<=8">
+                          {{system.name }}
+                     </span>
+
+                    <span ng-if="system.name.length>8">
+                    {{system.name | limitTo:8}}...
+                    </span>
+                </li>
+            </span>
+          <span ng-if="systems == null">
+              <li>暂无数据!</li>
+          </span>
+            </ul>
+    </div>
+    <div class="rightDiv" >
+        <div style="float: left">
+            <!--<span class="icon-plus icon-white"></span>-->
+            <button class="addBtn" ng-click="showCreateAuthorityModal()" ng-show="addFlag">
+                <span class="icon-plus icon-white"></span> 新增权限
+            </button>
+            <!--<input type="button" value="" ng-click="" class="addBtn" style="width: 120px;"/>-->
+        </div>
+
+        <div style="float: right">
+            <input id="searchName" placeholder="请填写权限名称" ng-model="search" type="text" style="
+        height: 35px;margin-right: 60px;">
+        </div>
+        <table id="authorityListTable" align="center">
+            <thead>
+            <tr>
+                <td width="10%">序号</td>
+                <td width="15%">所属系统</td>
+                <td width="15%">权限名称</td>
+                <td width="15%">权限标识</td>
+                <!--<td width="15%">创建账号</td>-->
+                <td width="15%">创建时间</td>
+                <td width="10%">备注</td>
+                <td width="20%">操作</td>
+
+            </tr>
+            </thead>
+            <tr ng-repeat="permissionInfo in authoritys | filter:search" class="contentTr">
+                <td>{{$index+1}}</td>
+                <td>{{permissionInfo.systemName}}</td>
+                <td>{{permissionInfo.name}}</td>
+                <td>{{permissionInfo.sign}}</td>
+                <td>{{permissionInfo.createTime | limitTo:10}}</td>
+                <td>{{permissionInfo.remark}}</td>
+                <td>
+                    <!--<input type="button" value="查看" ng-click="showSystemInfo($index)"/>&nbsp;-->
+
+                    <!--<img src="./img/edit.png" ng-click="showEditAuthorityModal($index)" style="cursor: hand;"/>-->
+                    <!--<img src="./img/bin.png" ng-click="showDelConfirmModal($index)" style="cursor: hand;"/>-->
+                    <button class="editBtn" ng-show="updateFlag" title="编辑" ng-click="showEditAuthorityModal($index)"/>
+                    &nbsp;
+                    <button class="deleteBtn" ng-show="deleteFlag" title="删除" ng-click="showDelConfirmModal($index)"/>
+                    <!--<input type="button" value="删除" ng-click="showDelConfirmModal($index)"/>-->
+                </td>
+            </tr>
+        </table>
+        <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
+            <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
+                <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
+            </div>
+            <div style="width:40%;height:30px;float:left;">
+                <ul class="pager" style="margin-top: 10px;">
+                    <li class="previous disabled" id="previousPageLink">
+                        <a href="javascript:void(0)" unable="false" id="previousPage" ng-click="previousPage()">&larr;
+                            上一页</a>
+                    </li>
+                    <li class="next" id="nextPageLink">
+                        <a href="javascript:void(0)" unable="false" id="nextPage" ng-click="nextPage()">下一页 &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--&lt;!&ndash; 系统查看模态框 &ndash;&gt;-->
+        <!--<div class="modal fade" id="showSystemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">-->
+        <!--<div class="modal-dialog" style="margin-top:20px;">-->
+        <!--<div class="modal-content">-->
+        <!--<div class="modal-header" style="padding: 0px 15px;">-->
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">-->
+        <!--&times;-->
+        <!--</button>-->
+        <!--<h4 class="modal-title">-->
+        <!--系统信息-->
+        <!--</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body" style="height:358px;width:500px;">-->
+        <!--<table id="systemInfoTable" width="80%">-->
+        <!--<tr>-->
+        <!--<td width="30%" class="tdAlignRight">系统名称：</td>-->
+        <!--<td width="70%" class="tdAlignleft">{{systemInfo.name}}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td width="30%" class="tdAlignRight">系统标识：</td>-->
+        <!--<td width="70%" class="tdAlignleft">{{systemInfo.sign}}</td>-->
+        <!--</tr>-->
+        <!--<tr style="height:70px;WORD-WRAP: break-word">-->
+        <!--<td width="30%" class="tdAlignRight">数据库连接：</td>-->
+        <!--<td style="word-break: break-all;width:70%;" class="tdAlignleft">{{systemInfo.connection}}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td width="30%" class="tdAlignRight">表名称：</td>-->
+        <!--<td style="word-break: break-all;width:70%;" class="tdAlignleft">{{systemInfo.tableName}}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td width="30%" class="tdAlignRight">字段名称：</td>-->
+        <!--<td style="word-break: break-all;width:70%;" class="tdAlignleft">{{systemInfo.columns}}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td width="30%" class="tdAlignRight">创建者：</td>-->
+        <!--<td width="70%" class="tdAlignleft">{{systemInfo.creator}}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td width="30%" class="tdAlignRight">创建时间：</td>-->
+        <!--<td width="70%" class="tdAlignleft">{{systemInfo.createTime}}</td>-->
+        <!--</tr>-->
+        <!--</table>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn_cancel" style="width:60px;height:30px;"data-dismiss="modal">关闭</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!-- 系统编辑模态框 -->
+        <div class="modal fade" id="editAuthorityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true" style="display: none">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding: 0px 15px;">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                        编辑权限
+                    </div>
+                    <form name="formValidate" novalidate>
+                        <div class="modal-body" style="height:358px;width:500px;">
+
+                            <table id="authorityEditTable" width="100%">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">所属系统：
+                                    </td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <select name="authSystemName" required ng-model="permissionInfo.systemId"
+                                                ng-options="system.id as system.name for system in systems"
+                                                style="margin-left:30px;width: 240px; "></select>&nbsp;<span
+                                            ng-show="formValidate.authSystemName.$invalid"><span
+                                            ng-show="formValidate.authSystemName.$error.required"
+                                            style="color: red">*</span></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">权限名称：
+                                    </td>
+                                    <td width="70%" class="tdAlignLeft"><input type="text"
+                                                                               ng-model="permissionInfo.name"
+                                                                               name="nameValidate" required maxlength="20"/>&nbsp;<span
+                                            ng-show="formValidate.nameValidate.$invalid"><span
+                                            ng-show="formValidate.nameValidate.$error.required"
+                                            style="color: red">*</span></span></td>
+                                </tr>
+                                <tr style="height:70px;WORD-WRAP: break-word">
+                                    <td width="20%" class="tdAlignRight">权限标识：</td>
+
+                                    <td style="word-break: break-all;width:80%;" class="tdAlignLeft"><input type="text"
+                                                                                                            maxlength="20"                          ng-model="permissionInfo.sign"/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">是否外部关联：
+                                    </td>
+                                    <td width="70%" class="tdAlignLeft"><input type="radio"
+                                                                               ng-model="permissionInfo.relation_flag"
+                                                                               value="1" style="margin-left: 30px;"
+                                            />是
+                                        <input type="radio"
+                                               ng-model="permissionInfo.relation_flag" value="0"
+                                               style="margin-left: 10px;"
+                                                /><span>否</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" class="tdAlignRight">备注：</td>
+                                    <td style="word-break: break-all;width:80%;" class="tdAlignLeft">
+                                        <textarea class="form-control" style="resize:none;"
+                                                  maxlength="100"    ng-model="permissionInfo.remark" maxlength="140" cols="270" rows="5"
+                                                  required></textarea>
+                                    </td>
+                                </tr>
+                                <!--<tr>-->
+                                <!--<td width="20%" class="tdAlignRight">字段名称：</td>-->
+                                <!--<td style="word-break: break-all;width:80%;" class="tdAlignLeft"><input type="text" ng-model="systemInfo.columns" placeholder="连接字段的名称（多个字段用，分割）"/></td>-->
+                                <!--</tr>-->
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel"
+                                    data-dismiss="modal">取 消
+                            </button>
+                            <button type="button"
+                                     ng-class="{true:'cancel',false:'sure'}[formNovalidate.permissinName.$invalid || formNovalidate.permissionSysName.$invalid]"   ng-disabled="formNovalidate.permissinName.$invalid || formNovalidate.permissionSysName.$invalid"
+                                    ng-click="editAuthorityInfo()">确 认
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 系统新增模态框 -->
+        <div class="modal fade" id="createAuthorityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true" d>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding: 0px 15px;">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                        新增权限
+                    </div>
+                    <form name="formNovalidate" novalidate>
+                        <div class="modal-body" style="height:358px;width:500px;">
+
+                            <table id="createAuthorityTable" width="100%">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">所属系统：
+                                    </td>
+                                    <td width="70%" class="tdAlignLeft"><select required name="permissionSysName"
+                                                                                ng-model="permissionInfo.systemId"
+                                                                                ng-options="system.id as system.name for system in systemList"
+                                                                                style="margin-left:30px;width: 240px; " ></select>&nbsp;<span
+                                            ng-show="formNovalidate.permissionSysName.$invalid"><span
+                                            ng-show="formNovalidate.permissionSysName.$error.required"
+                                            style="color: red">*</span></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">权限名称：
+                                    </td>
+                                    <td width="70%" class="tdAlignLeft"><input type="text" maxlength="20"
+                                                                               ng-model="permissionInfo.name"
+                                                                               name="permissinName" required/>&nbsp;<span
+                                            ng-show="formNovalidate.permissinName.$invalid"><span
+                                            ng-show="formNovalidate.permissinName.$error.required"
+                                            style="color: red">*</span></span>
+                                    </td>
+                                </tr>
+
+                                <tr style="WORD-WRAP: break-word">
+                                    <td width="20%" class="tdAlignRight">权限标识：</td>
+
+                                    <td style="word-break: break-all;width:80%;" class="tdAlignLeft"><input type="text" maxlength="20"
+                                                                                                            ng-model="permissionInfo.sign"/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">是否外部关联：
+                                    </td>
+                                    <td width="70%" class="tdAlignLeft"><input type="radio" ng-checked="true"
+                                                                               ng-model="permissionInfo.relation_flag"
+                                                                               value="1" style="margin-left: 30px;"
+                                            />是
+                                        <input type="radio"
+                                               ng-model="permissionInfo.relation_flag" value="0"
+                                               style="margin-left: 10px;"
+                                                /><span>否</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" class="tdAlignRight">备注：</td>
+                                    <td style="word-break: break-all;width:80%;" class="tdAlignLeft">
+                                        <textarea class="form-control" style="resize:none;"
+                                                  maxlength="100"    ng-model="permissionInfo.remark" maxlength="140" cols="270" rows="5"
+                                                  required></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel"
+                                    data-dismiss="modal">取
+                                消
+                            </button>
+                            <button type="button"
+                                    ng-disabled="formNovalidate.permissinName.$invalid || formNovalidate.permissionSysName.$invalid"
+                                   ng-class="{true:'cancel',false:'sure'}[formNovalidate.permissinName.$invalid || formNovalidate.permissionSysName.$invalid]"
+                                    ng-click="createAuthorityInfo()">确 认
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

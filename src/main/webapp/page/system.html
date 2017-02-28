@@ -1,0 +1,406 @@
+<style type="text/css">
+    #systemListTable {
+        border:0px;
+        cellspacing:0;
+        cellpadding:0;
+        width:97%;
+        align:center;
+    }
+    td {
+        border:0px solid #c0c0c0;
+        border-collapse:collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+    tr {
+        border-bottom:1px solid #c0c0c0;
+        border-left:0px;
+        border-right:0px;
+        border-top:0px;
+        border-collapse:collapse;
+        height:40px;
+    }
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    #systemInfoTable tr{
+        border:0px solid #FFF;
+    }
+    #systemInfoTable td {
+        border:0px solid #FFF;
+    }
+    #systemEditTable tr{
+        border:1px solid #FFF;
+    }
+    #systemEditTable td {
+        border:1px solid #FFF;
+    }
+    #systemEditTable input {
+        height:30px;
+    }
+    #systemCreateTable tr{
+        border:1px solid #FFF;
+    }
+    #systemCreateTable td {
+        border:1px solid #FFF;
+    }
+    #systemCreateTable input {
+        height:30px;
+    }
+    #showSystemModal .modal-body {
+        max-height: 500px;
+        background: rgba(255,255,255,.8);
+    }
+    #showSystemModal {
+        max-height: 500px;
+        height:500px;
+        width:530px;
+        margin-left:-265px;
+        top: 400px;
+    }
+    #editSystemModal .modal-body {
+        max-height: 500px;
+        background: rgba(255,255,255,.8);
+    }
+    #editSystemModal {
+        max-height: 500px;
+        height:500px;
+        width:530px;
+        margin-left:-265px;
+        top: 400px;
+    }
+    #createSystemModal .modal-body {
+        max-height: 500px;
+        background: rgba(255,255,255,.8);
+    }
+    #createSystemModal {
+        max-height: 500px;
+        height:500px;
+        width:530px;
+        margin-left:-265px;
+        top:400px;
+    }
+    .tdAlignRight {
+        text-align: right;
+    }
+    .tdAlignLeft {
+        text-align: left;
+    }
+    input[type="text"] {
+        width:240px;
+        margin-left:30px;
+    }
+    textarea {
+        width:240px;
+        margin-left:30px;
+    }
+    .addBtn{
+        margin-left: 20px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .editBtn{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/edit.png");
+    }
+    .editBtn:hover{
+        background: url("images/edit_hover.png");
+    }
+    .deleteBtn{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/delete.png");
+    }
+    .deleteBtn:hover{
+        background: url("images/delete_hover.png");
+    }
+    .cancel{
+        width:70px;
+        height:34px;
+        margin-right: 10px;
+        background-color: #bec3c7;
+        border:0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+    .cancel:hover{
+        background-color: #b0b5b9;
+    }
+    .sure{
+        width:70px;
+        height: 34px;
+        margin-right: 10px;
+        background-color: #4dbd73;
+        border: 0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+    .sure:hover,.addBtn:hover{
+        border-color:#46ab68;
+        background-color: #46ab68
+    }
+    .modal-header{
+        color: #ffffff;
+        font-size: 16px;
+        font-family: 微软雅黑;
+        background-color: #1c2b36;
+        height: 50px;
+        line-height: 50px;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+    .closeTable{
+        background: url("images/close.png");
+        float: right;
+        width: 50px;
+        height: 50px;
+        margin-top: 0px;
+        margin-right: -16px;
+        opacity:1;
+        border: 0;
+    }
+    .showBtn{
+        width: 20px;
+        height: 20px;
+        border: 0;
+        background: url("images/show.png");
+    }
+    .showBtn:hover{
+        background: url("images/show_hover.png");
+    }
+    .closeTable:hover{
+        background: url("images/close_hover.png");
+    }
+    .modal-footer{
+        width: 100%;
+        text-align:right;
+        padding: 14px 0;
+        background-color: #f5f5f5 !important;
+        margin-top: 20px;
+    }
+</style>
+<div ng-controller="systemListController" >
+    <button class="addBtn" ng-click="showCreateModal()" ng-show="addFlag">
+        <span class="icon-plus icon-white"></span> 新增系统
+    </button>
+
+    <!--<input type="button" value="新增系统" ng-click="showCreateModal()" style="margin-left: 20px;"/><br><br>-->
+    <table id="systemListTable" align="center"  style="margin-top:20px;">
+        <thead>
+        <tr>
+            <td width="10%">序号</td>
+            <td width="30%">系统名称</td>
+            <td width="20%">系统标识</td>
+            <td width="20%">创建时间</td>
+            <td width="20%">操作</td>
+        </tr>
+        </thead>
+        <tr ng-repeat="system in systems" class="contentTr"  >
+            <td>{{$index+1}}</td>
+            <td>{{system.name}}</td>
+            <td>{{system.sign}}</td>
+            <td>{{system.createTime | limitTo:10}}</td>
+            <td>
+                <button class="showBtn"  ng-show="system.showFlag" ng-click="showSystemInfo($index)" />&nbsp;
+                <button class="editBtn" ng-show="system.updateFlag" title="编辑" ng-click="showEditModal($index)" />&nbsp;
+                <button class="deleteBtn" ng-show="system.delFlag" title="删除"  ng-click="showDelConfirmModal($index)" />
+            </td>
+        </tr>
+    </table>
+    <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
+        <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
+            <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
+        </div>
+        <div style="width:40%;height:30px;float:left;">
+            <ul class="pager" style="margin-top: 10px;">
+                <li class="previous disabled" id="previousPageLink">
+                    <a href="javascript:void(0)" unable="false" id="previousPage" ng-click="previousPage()">&larr; 上一页</a>
+                </li>
+                <li class="next" id="nextPageLink">
+                    <a href="javascript:void(0)" unable="false" id="nextPage" ng-click="nextPage()">下一页 &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 系统查看模态框 -->
+    <div class="modal fade" id="showSystemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 0px 15px;">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                    系统信息
+                </div>
+                <div style="height:358px;width:100%;overflow-y:auto;padding-top:10px;">
+                    <table id="systemInfoTable" width="99%" height="300px">
+                        <tr>
+                            <td width="20%" class="tdAlignRight">系统名称：&nbsp;</td>
+                            <td width="80%" class="tdAlignleft">{{systemInfo.name}}</td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="tdAlignRight">系统标识：&nbsp;</td>
+                            <td width="80%" class="tdAlignleft">{{systemInfo.sign}}</td>
+                        </tr>
+<!--                        <tr>
+                            <td width="30%" class="tdAlignRight">创建者：</td>
+                            <td width="70%" class="tdAlignleft">{{systemInfo.creator}}</td>
+                        </tr>-->
+                        <tr>
+                            <td width="20%" class="tdAlignRight">创建时间：&nbsp;</td>
+                            <td width="80%" class="tdAlignleft">{{systemInfo.createTime}}</td>
+                        </tr>
+                        <td colspan="2">
+                            <div ng-repeat="dataSource in dataSources" style="width:100%;height:120px;border-top:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0;margin-top:-1px;margin-left:0px;">
+                                <div style="width:100%;height:50px;text-align: left;margin-top:10px;">
+                                    <div style="width:20%;float:left;text-align: right;">数据库连接：&nbsp;</div>
+                                    <div style="width:80%;float:left;">
+                                        {{dataSource.connection}}
+                                    </div>
+                                </div>
+                                <div style="width:100%;height:30px;text-align: left;">
+                                    <div style="width:20%;float:left;text-align: right;">表名称：&nbsp;</div>
+                                    <div style="width:80%;float:left;">{{dataSource.tableName}}</div>
+                                </div>
+                                <div style="width:100%;height:30px;text-align: left;">
+                                    <div style="width:20%;float:left;text-align: right;">字段名称：&nbsp;</div>
+                                    <div style="width:80%;float:left;">{{dataSource.columns}}</div>
+                                </div>
+                            </div>
+                        </td>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" style="width:60px;height:30px;"data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 系统编辑模态框 -->
+    <div class="modal fade" id="editSystemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 0px 15px;">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                    编辑系统
+                </div>
+                <div style="height:358px;width:100%;overflow-y:auto;padding-top:10px;">
+                    <form name="editSystemForm">
+                        <table id="systemEditTable" width="99%" height="300px;">
+                        <tr>
+                            <td width="20%" class="tdAlignRight">系统名称：</td>
+                            <td width="80%" class="tdAlignLeft"><input type="text" ng-model="systemInfo.name" ng-required="true" maxlength="20"/><span style="color: red;margin-left: 5px">*</span></td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="tdAlignRight">系统标识：</td>
+                            <td width="80%" class="tdAlignLeft"><input type="text" ng-model="systemInfo.sign" ng-required="true" maxlength="20"/><span style="color: red;margin-left: 5px">*</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div ng-repeat="dataSource in dataSources" style="width:100%;height:180px;border-top:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0;margin-top:-1px;margin-left:0px;">
+                                    <div style="width:100%;height:80px;text-align: left;margin-top:10px;">
+                                        <div style="width:20%;float:left;text-align: right;">数据库连接：</div>
+                                        <div style="width:80%;float:left;">
+                                            <textarea class="form-control"  style="resize:none;" ng-model="dataSource.connection" ng-required="true" placeholder="内容关联数据库的连接字符串,例如：jdbc:mysql://192.168.1.91:3306/tyqxgl?characterEncoding=utf8,gx,123456" maxlength="100" cols="270" rows="3" required>
+                                            </textarea>
+                                            <button type="button" style="width:40px;height:25px;margin-left:10px;margin-right:5px;" ng-class="{true:'cancel',false:'sure'}[dataSources.length==5]" ng-disabled="dataSources.length==5" ng-click="addDataSource()">
+                                                <span class="icon-plus icon-white"></span>
+                                            </button>
+                                            <button type="button" style="width:40px;height:25px;" ng-class="{true:'cancel',false:'sure'}[dataSources.length==1]" ng-disabled="dataSources.length==1" ng-click="deleteDataSource($index)">
+                                                <span class="icon-minus icon-white"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div style="width:100%;height:50px;text-align: left;">
+                                        <div style="width:20%;float:left;text-align: right;">表名称：</div>
+                                        <div style="width:80%;float:left;"><input type="text" ng-model="dataSource.tableName" ng-required="true" maxlength="20"/></div>
+                                    </div>
+                                    <div style="width:100%;height:50px;text-align: left;">
+                                        <div style="width:20%;float:left;text-align: right;">字段名称：</div>
+                                        <div style="width:80%;float:left;"><input type="text" ng-model="dataSource.columns" ng-required="true" placeholder="表字段的名称（多个字段用，分割）" maxlength="50"/></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" style="width:60px;height:30px;"data-dismiss="modal">取 消</button>
+                    <button type="button" style="width:60px;height:30px;"data-dismiss="modal" ng-click="editSystemInfo()" ng-class="{true:'cancel',false:'sure'}[editSystemForm.$invalid]">确 认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 系统新增模态框 -->
+    <div class="modal fade" id="createSystemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 0px 15px;">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                    新增系统
+                </div>
+                <div style="height:358px;width:100%;overflow-y:auto;padding-top:10px;">
+                    <form name="createSystemForm">
+                        <table id="systemCreateTable" width="99%" height="300px;">
+                        <tr>
+                            <td width="20%" class="tdAlignRight">系统名称：</td>
+                            <td width="80%" class="tdAlignLeft"><input type="text" ng-model="systemInfo.name" ng-required="true" maxlength="20"/><span style="color: red;margin-left: 5px">*</span></td>
+                        </tr>
+                        <tr>
+                            <td width="20%" class="tdAlignRight">系统标识：</td>
+                            <td width="80%" class="tdAlignLeft"><input type="text" ng-model="systemInfo.sign" ng-required="true" maxlength="20"/><span style="color: red;margin-left: 5px">*</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div ng-repeat="dataSource in dataSources" style="width:100%;height:180px;border-top:1px solid #c0c0c0;border-bottom:1px solid #c0c0c0;margin-top:-1px;margin-left:0px;">
+                                    <div style="width:100%;height:80px;text-align: left;margin-top:10px;">
+                                        <div style="width:20%;float:left;text-align: right;">数据库连接：</div>
+                                        <div style="width:80%;float:left;">
+                                            <textarea class="form-control"  style="resize:none;" ng-model="dataSource.connection" ng-required="true" placeholder="内容关联数据库的连接字符串,例如：jdbc:mysql://192.168.1.91:3306/tyqxgl?characterEncoding=utf8,gx,123456" maxlength="100" cols="270" rows="3" required>
+                                            </textarea><span style="color: red;margin-left: 5px">*</span>
+                                            <button type="button" style="width:40px;height:25px;margin-left:10px;margin-right:5px;" ng-class="{true:'cancel',false:'sure'}[dataSources.length==5]" ng-disabled="dataSources.length==5" ng-click="addDataSource()">
+                                                <span class="icon-plus icon-white"></span>
+                                            </button>
+                                            <button type="button" style="width:40px;height:25px;" ng-class="{true:'cancel',false:'sure'}[dataSources.length==1]" ng-disabled="dataSources.length==1" ng-click="deleteDataSource($index)">
+                                                <span class="icon-minus icon-white"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div style="width:100%;height:50px;text-align: left;">
+                                        <div style="width:20%;float:left;text-align: right;">表名称：</div>
+                                        <div style="width:80%;float:left;"><input type="text" ng-model="dataSource.tableName" ng-required="true" maxlength="20"/><span style="color: red;margin-left: 5px">*</span></div>
+                                    </div>
+                                    <div style="width:100%;height:50px;text-align: left;">
+                                        <div style="width:20%;float:left;text-align: right;">字段名称：</div>
+                                        <div style="width:80%;float:left;"><input type="text" ng-model="dataSource.columns" ng-required="true"  maxlength="50" placeholder="表字段的名称（多个字段用，分割）"/><span style="color: red;margin-left: 5px">*</span></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" style="width:60px;height:30px;"data-dismiss="modal">取 消</button>
+                    <button type="button" style="width:60px;height:30px;" ng-click="createSystemInfo()" ng-disabled="createSystemForm.$invalid" ng-class="{true:'cancel',false:'sure'}[createSystemForm.$invalid]">确 认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
