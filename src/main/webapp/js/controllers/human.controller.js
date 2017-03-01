@@ -3,6 +3,8 @@
 //人事controller
 indexModule.controller('humanController', function ($scope, $http, $timeout) {
 
+    $scope.contents = [];
+
     //左侧树的option
     $scope.treeOptions = {
         nodeChildren: "children",
@@ -27,7 +29,7 @@ indexModule.controller('humanController', function ($scope, $http, $timeout) {
             { "name" : "人事管理", "id" : "1", "isTop":true, "children" : [
                 { "name" : "人事档案", "id" : "2", "isTop":false, "url": "page/user.html", "children" : [] },
                 { "name" : "合同管理", "id" : "3", "isTop":false, "url": "page/excelTest.html", "children" : [] },
-                { "name" : "转正管理", "id" : "4", "isTop":false, "children" : [] }
+                { "name" : "转正管理", "id" : "4", "isTop":false, "url": "page/tableTest.html", "children" : [] }
             ]},
             { "name" : "培训管理", "id" : "5", "isTop":true, "children" : [
                 { "name" : "大数据培训", "id" : "6", "isTop":false, "children" : [] }
@@ -37,7 +39,9 @@ indexModule.controller('humanController', function ($scope, $http, $timeout) {
     //初始化时左侧默认展开
     $scope.expandedNodes = [$scope.treeData[0]];
 
-    $scope.contents = [$scope.treeData[0].children[0]];
+    //$scope.contents = [$scope.treeData[0].children[0]];
+
+    $scope.activeIndex = $scope.treeData[0].children[0].id;
 
     /**
      * 选中左侧分类
@@ -48,9 +52,19 @@ indexModule.controller('humanController', function ($scope, $http, $timeout) {
             $scope.contents.push(node);
             bindCloseTabSpan();
         }
-
-        console.log("当前contens内容" ,$scope.contents);
+        //激活新加入的tab页,这里必须设置延迟，否则无效，不知为何
+        $timeout(function () {
+            $scope.activeIndex = node.id;
+        }, 50);
+        //console.log("当前contens内容" ,$scope.contents);
     };
+
+    //默认选中第一个分类
+    if ($scope.treeData != null) {
+        if ($scope.treeData[0].children != null) {
+            $scope.nodeSelect($scope.treeData[0].children[0]);
+        }
+    }
 
     //关闭某个tab
     function closeTab(nodeName) {
@@ -77,10 +91,8 @@ indexModule.controller('humanController', function ($scope, $http, $timeout) {
     function bindCloseTabSpan() {
         $timeout(function () {
             $("span[name='closeTabSpan']").each(function () {
-                console.log($(this));
                 $(this).on('click', function () {
                     $(this).closest("li").hide();
-                    console.log("id值为： " ,$(this).attr("id"));
                     closeTab($(this).attr("id"));
                 });
             });

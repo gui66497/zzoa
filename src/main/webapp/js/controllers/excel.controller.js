@@ -1,7 +1,7 @@
 'use strict';
 
 //excel controller
-indexModule.controller('excelController', function ($scope, $http, NgTableParams) {
+indexModule.controller('excelController', function ($scope, $http) {
     /**
      * 下载
      */
@@ -46,13 +46,4 @@ indexModule.controller('excelController', function ($scope, $http, NgTableParams
         });
     };
 
-    var self = this;
-    var data = [{name: "Moroni", age: 1}, {name: "gu", age: 2},
-        {name: "Moroni", age: 3}, {name: "gu", age: 4},
-        {name: "Moroni", age: 5}, {name: "gu", age: 6},
-        {name: "Moroni", age: 7}, {name: "gu", age: 8},
-        {name: "Moroni", age: 9}, {name: "gu", age: 10}];
-    self.tableParams = new NgTableParams({}, {dataset: data});
-
-    self.tableParams = new NgTableParams({'count': 5}, {dataset: data});
 });

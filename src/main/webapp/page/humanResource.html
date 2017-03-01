@@ -36,8 +36,8 @@
 
         <div class="rightDiv">
             <form id="outerForm" name="outerForm" class="tab-form-demo">
-                <uib-tabset active="activeForm">
-                    <uib-tab ng-repeat="content in contents" heading="{{content.name}}" id="{{content.id}}" active={{content.active}}>
+                <uib-tabset active="activeIndex">
+                    <uib-tab ng-repeat="content in contents" index="content.id" heading="{{content.name}}" id="{{content.id}}">
                         <div ng-include="content.url">
                         </div>
                     </uib-tab>

@@ -10,14 +10,12 @@
         border: 0;
     }
     .downloadBtn{
-        margin-left: 20px;
         width: 100px;
         height: 34px;
         background-color: #4dbd73;
         font-family: 微软雅黑;
         font-size: 14px;
         color: #fff;
-        border: 0px;
         border-radius: 4px;
     }
     .uploadBtn{
@@ -34,26 +32,22 @@
     .myFile{
 
     }
-    /*ul li{ float:left;}*/
 </style>
 <div ng-controller="excelController as excel">
-
-    <input type="file" name="file" class="myFile" ng-model="myFile" >
-    <button class="uploadBtn" ng-click="testUpload()">
-        <span class="glyphicon glyphicon-upload"></span> 测试上传
-    </button><br><br>
-    <button class="downloadBtn" ng-click="testDownload()">
-        <span class="glyphicon glyphicon-download"></span> 测试下载
-    </button><br><br>
-
-    <div style="width: 80%">
-        <table ng-table="excel.tableParams" class="table" show-filter="true">
-            <tr ng-repeat="user in $data">
-                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-                    {{user.name}}</td>
-                <td title="'Age'" filter="{ age: 'number'}" sortable="'age'">
-                    {{user.age}}</td>
-            </tr>
-        </table>
+    <form class="form-inline">
+        <div class="form-group">
+            <input type="file" name="file" class="myFile" ng-model="myFile" >
+        </div>
+        <div class="form-group">
+            <button class="uploadBtn" ng-click="testUpload()">
+                <span class="glyphicon glyphicon-upload"></span> 测试上传
+            </button>
+        </div>
+    </form>
+    <div class="form-group">
+        <button class="downloadBtn" ng-click="testDownload()">
+            <span class="glyphicon glyphicon-download"></span> 测试下载
+        </button><br><br>
     </div>
+
 </div>

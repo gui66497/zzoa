@@ -18,7 +18,6 @@ indexModule.controller('userController', function ($scope, $http, $timeout) {
 
     $http.post("rest/user/page", $scope.req).success(function (data) {
         if (data != null && data != undefined) {
-            console.log(data.data);
             $scope.users = data.data;
             $scope.otherData = data.otherData;
             $scope.totalRecordCount = $scope.otherData[0];
