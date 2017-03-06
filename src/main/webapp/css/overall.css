@@ -13,6 +13,37 @@
     overflow-y: auto;
     background-color: #f5f5f5;
 }
+.nomalBtn{
+    width: 100px;
+    height: 34px;
+    background-color: #4dbd73;
+    font-family: 微软雅黑;
+    border: 0;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.sure {
+    width: 70px;
+    height: 34px;
+    margin-right: 10px;
+    background-color: #4dbd73;
+    border: 0;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 微软雅黑;
+}
+
+.sure:hover, .addBtn:hover {
+    border-color: #46ab68;
+    background-color: #46ab68
+}
+
+.sure:disabled {
+    background-color: #bec3c7;
+}
 
 .rightDiv {
     padding: 80px 30px 20px 30px;

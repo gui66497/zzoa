@@ -1,0 +1,203 @@
+<style type="text/css">
+    .control-label {
+        margin-top: 10px;
+        font-size: 14px;
+
+    }
+    .input-group.date{
+        width: 418px;
+        margin-left: 15px;
+    }
+</style>
+<div ng-controller="formController">
+    <div class="form-inline">
+        <div class="form-group">
+            <button class="nomalBtn" ng-click="openLeave()">
+                <span class="glyphicon glyphicon-upload"></span> 请假单
+            </button>
+            <button class="nomalBtn" ng-click="openLeave2()">
+                <span class="glyphicon glyphicon-upload"></span> 请假单2
+            </button>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="addLeaveRequest" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel"> 新建请假单</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="userAddForm" novalidate>
+                        <table id="userAddTable" width="100%" name="userAddTable">
+                            <tr>
+                                <td width="30%" class="tdAlignRight">用户名：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <input type="text" name="userName" class="form-control"
+                                           ng-model="userInfo.userName" ng-maxlength="20" required/>
+                                    <span class="errorSpan"
+                                          ng-show="userAddForm.userName.$error.maxlength">用户名长度不超过20！</span>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight">密码：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft"><input type="password" name="password"
+                                                                           class="form-control"
+                                                                           ng-model="userInfo.password"
+                                                                           ng-maxlength="20" required/>
+                                    <span class="errorSpan"
+                                          ng-show="userAddForm.password.$error.maxlength">密码长度不超过20！</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight">确认密码：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft"><input type="password" name="rePassword"
+                                                                           class="form-control"
+                                                                           ng-model="userInfo.rePassword"
+                                                                           required/></td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight">单位：</td>
+                                <td width="70%" class="tdAlignLeft"><input type="text" name="unitName"
+                                                                           class="form-control"
+                                                                           ng-model="userInfo.unitName"
+                                                                           ng-maxlength="20"/>
+                                    <span class="errorSpan"
+                                          ng-show="userAddForm.unitName.$error.maxlength">单位长度不超过20！</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                    <button type="button" class="sure"
+                            ng-disabled="userAddForm.userName.$invalid||userAddForm.password.$invalid||userAddForm.rePassword.$invalid||userAddForm.unitName.$invalid"
+                            ng-click="addUser()">确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addLeaveRequest2" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel2"> 新建请假单2</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="name" placeholder="请输入姓名" class="form-control">
+                                <!--<p class="help-block">姓名长度不超过20</p>-->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Search input-->
+                            <label class="col-sm-3 control-label">所在部门：</label>
+                            <div class="col-sm-9">
+                                <input type="text" placeholder="请输入所在部门" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Text input-->
+                            <label class="col-sm-3 control-label" for="job">职位：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="job" placeholder="请输入职位" class="form-control"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Select Basic -->
+                            <label class="col-sm-3 control-label">请假类别：</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" style="width: 240px;">
+                                    <option>事假</option>
+                                    <option>病假</option>
+                                    <option>婚假</option>
+                                    <option>产假</option>
+                                    <option>丧假</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-sm-3 control-label">请假事由：</label>
+                            <div class="col-sm-9">
+                                <div class="textarea">
+                                    <textarea id="reseon" class="form-control"
+                                              style="width: 250px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开始时间：</label>
+                            <div class="col-sm-9">
+                                <div class="dropdown form-group">
+                                    <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control" data-ng-model="dateRangeStart">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-ng-model="dateRangeStart"
+                                                        data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', renderOn: 'end-date-changed' }"
+                                                        data-on-set-time="startDateOnSetTime()"
+                                                        data-before-render="startDateBeforeRender($dates)"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">结束时间：</label>
+                            <div class="col-sm-9">
+                                <div class="dropdown form-group">
+                                    <a class="dropdown-toggle" id="dropdownEnd" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control" data-ng-model="dateRangeEnd">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-ng-model="dateRangeEnd"
+                                                        data-datetimepicker-config="{ dropdownSelector: '#dropdownEnd', renderOn: 'start-date-changed' }"
+                                                        data-on-set-time="endDateOnSetTime()"
+                                                        data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                    <button type="button" class="sure"
+                            ng-disabled="userAddForm.userName.$invalid||userAddForm.password.$invalid||userAddForm.rePassword.$invalid||userAddForm.unitName.$invalid"
+                            ng-click="addUser()">确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

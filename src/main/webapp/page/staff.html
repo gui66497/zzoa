@@ -1,0 +1,133 @@
+<style type="text/css">
+    .control-label {
+        margin-top: 10px;
+        font-size: 14px;
+
+    }
+    .input-group.date{
+        width: 418px;
+        margin-left: 15px;
+    }
+</style>
+<div ng-controller="staffController as staff">
+
+    <div style="width: 80%">
+        <div class="form-inline" style="height: 45px;">
+            <button class="nomalBtn" ng-click="showAddStaffModal()">
+                <span class="glyphicon glyphicon-plus"></span> 新增员工
+            </button>
+            <button class="nomalBtn" ng-click="showAddUserModal()">
+                <span class="glyphicon glyphicon-cloud-upload"></span> 导入信息
+            </button>
+            <button class="nomalBtn" ng-click="hideOrShow()">
+                <span class="glyphicon glyphicon-cloud-upload"></span> 隐藏/显示
+            </button>
+        </div>
+
+        <table ng-table="staff.tableParams" class="table table-bordered table-striped table-condensed" show-filter="true" ng-table-columns-binding="staff.cols">
+            <tr ng-repeat="row in $data ">
+                <td data-title="'姓名'" filter="{name: 'text'}">{{row.name}}</td>
+                <td data-title="'部门'" filter="{department: 'text'}">{{row.department}}</td>
+                <td data-title="'职位'" filter="{position: 'text'}">{{row.position}}</td>
+                <td data-title="'入职日期'" filter="{entryDate: 'text'}">{{row.entryDate | limitTo:19}}</td>
+                <td data-title="'是否转正'" filter="{isFormal: 'number'}">{{row.isFormal == 0 ? '否' : '是'}}</td>
+            </tr>
+        </table>
+
+        <!--<table ng-table="staff.tableParams" class="table" show-filter="true">
+            <tr ng-repeat="user in $data">
+                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+                    {{user.name}}</td>
+                <td title="'Age'" filter="{ age: 'number'}" sortable="'age'">
+                    {{user.age}}</td>
+            </tr>
+        </table>-->
+
+
+    </div>
+
+    <!--新增员工模态框-->
+    <div class="modal fade" id="addStaffModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel2"> 新增员工信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name="staffAddForm">
+                        <div class="form-group" ng-class="{ 'has-error' : staffAddForm.name.$invalid && !staffAddForm.name.$pristine }">
+                            <label for="name" class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="name" name="name" placeholder="请输入姓名" class="form-control" ng-model="formData.name" required>
+                                <p ng-show="staffAddForm.name.$invalid && !staffAddForm.name.$pristine" class="help-block">请输入姓名</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Search input-->
+                            <label for="department" class="col-sm-3 control-label">部门：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="department" name="department" placeholder="请输入所在部门" class="form-control" ng-model="formData.department">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Text input-->
+                            <label class="col-sm-3 control-label" for="position">职位：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="position" name="position" placeholder="请输入职位" class="form-control" ng-model="formData.position"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{ 'has-error' : staffAddForm.entryDate.$invalid && !staffAddForm.entryDate.$pristine }">
+                            <!-- Text input-->
+                            <label class="col-sm-3 control-label" for="entryDate">入职日期：</label>
+                            <div class="col-sm-9">
+                                <!--<input type="text" id="entryDate" name="entryDate" placeholder="请输入职位" class="form-control" ng-model="formData.entryDate"
+                                       style="cursor: auto;">-->
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group">
+                                            <input type="text" id="entryDate" name="entryDate" class="form-control" data-ng-model="formData.entryDate" disabled="disabled" style="cursor: pointer" required>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                        <p ng-show="staffAddForm.entryDate.$invalid && !staffAddForm.entryDate.$pristine" class="help-block">请填写入职时间</p>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker   data-ng-model="formData.entryDate"
+                                                          data-datetimepicker-config="{ dropdownSelector: '#dropdown' }"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label" for="isFormal">是否转正：</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="isFormal" name="isFormal" style="width: 240px;" ng-model="formData.isFormal">
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                    <button type="button" class="sure"
+                            ng-disabled="staffAddForm.name.$invalid||staffAddForm.department.$invalid||staffAddForm.position.$invalid||staffAddForm.entryDate.$invalid||staffAddForm.isFormal.$invalid"
+                            ng-click="addStaff()">确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,7 +1,7 @@
 'use strict';
 
 //主页面模块
-var indexModule = angular.module("indexModule", ['routeModule', 'loginServiceModule', 'ngCookies', 'ui.bootstrap', 'ngTable', 'treeControl']);
+var indexModule = angular.module("indexModule", ['routeModule', 'loginServiceModule', 'ngCookies', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ngTable', 'treeControl', 'ui.bootstrap.datetimepicker']);
 
 indexModule.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.common['userId'] = getCookie('loginUserId');

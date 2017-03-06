@@ -137,7 +137,7 @@ public class UserRest {
 	}
 
 	/**
-	 * 新增用户信息
+	 * 新增员工信息
 	 * @param request
 	 * @param headers
 	 * @author 房桂堂
@@ -147,7 +147,7 @@ public class UserRest {
 	@Path("add")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public BaseResponse<SystemInfo> addUser(User request, @Context HttpHeaders headers) {
+	public BaseResponse<SystemInfo> addStaff(User request, @Context HttpHeaders headers) {
 		// 获取当前操作用户ID，如果为空，则提示当前用户未登录
 		URI = "user/add";
 		LOGGER.debug("开始调用接口：" + URI);

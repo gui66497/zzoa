@@ -27,12 +27,13 @@ indexModule.controller('humanController', function ($scope, $http, $timeout) {
     $scope.treeData =
         [
             { "name" : "人事管理", "id" : "1", "isTop":true, "children" : [
-                { "name" : "人事档案", "id" : "2", "isTop":false, "url": "page/user.html", "children" : [] },
-                { "name" : "合同管理", "id" : "3", "isTop":false, "url": "page/excelTest.html", "children" : [] },
-                { "name" : "转正管理", "id" : "4", "isTop":false, "url": "page/tableTest.html", "children" : [] }
+                { "name" : "员工档案", "id" : "2", "isTop":false, "url": "page/staff.html", "children" : [] },
+                { "name" : "用户信息", "id" : "3", "isTop":false, "url": "page/user.html", "children" : [] },
+                { "name" : "合同管理", "id" : "4", "isTop":false, "url": "page/excelTest.html", "children" : [] },
+                { "name" : "转正管理", "id" : "5", "isTop":false, "url": "page/tableTest.html", "children" : [] }
             ]},
-            { "name" : "培训管理", "id" : "5", "isTop":true, "children" : [
-                { "name" : "大数据培训", "id" : "6", "isTop":false, "children" : [] }
+            { "name" : "培训管理", "id" : "6", "isTop":true, "children" : [
+                { "name" : "大数据培训", "id" : "7", "isTop":false, "url": "page/formTest.html", "children" : [] }
             ] }
         ];
 

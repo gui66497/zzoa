@@ -7691,7 +7691,7 @@ angular.module("uib/template/tabs/tab.html", []).run(["$templateCache", function
   $templateCache.put("uib/template/tabs/tab.html",
     "<li ng-class=\"[{active: active, disabled: disabled}, classes]\" class=\"uib-tab nav-item\">\n" +
     "<a href ng-click=\"select($event)\" class=\"nav-link\" uib-tab-heading-transclude>{{heading}}" +
-    "<button type=\"button\" class=\"close\" name=\"closeTabBtn\" aria-label=\"Close\" style=\"line-height: 15px;padding-left: 5px;\"><span aria-hidden=\"true\" name=\"closeTabSpan\" id=\"{{heading}}\" style=\"color:red\">×</span></button>\n" +
+    "&nbsp;&nbsp;<button type=\"button\" class=\"close\" name=\"closeTabBtn\" aria-label=\"Close\" style=\"line-height: 15px;\"><span aria-hidden=\"true\" name=\"closeTabSpan\" id=\"{{heading}}\" style=\"color:red\">×</span></button>\n" +
     "</a>\n" +
     "</li>\n" +
     "");

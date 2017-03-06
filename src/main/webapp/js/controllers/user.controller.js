@@ -27,7 +27,7 @@ indexModule.controller('userController', function ($scope, $http, $timeout) {
             if ($scope.times == 0) {
                 $("#systemUl").find("li:eq(0)").addClass("liSelected");
             }
-            $scope.times +=1;
+            $scope.times += 1;
         }
         $scope.setPageButtonStatus();
     }).error(function (data) {

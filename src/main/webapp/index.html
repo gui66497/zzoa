@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html ng-app="indexModule">
 <head>
     <title>系统首页</title>
@@ -7,19 +8,50 @@
     <script type="text/javascript" src="js/libs/angular-route.js"></script>
     <script type="text/javascript" src="js/libs/angular-cookies.js"></script>
     <script type="text/javascript" src="js/libs/angular-sanitize.js"></script>
-    <script type="text/javascript" src="js/libs/datepicker-ui-zh.js"></script>
-    <script type="text/javascript" src="js/libs/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/libs/angular-animate.js"></script>
+    <!--<script type="text/javascript" src="js/libs/datepicker-ui-zh.js"></script>-->
+    <!--<script type="text/javascript" src="js/libs/jquery-ui.js"></script>-->
     <script src="exts/bootstrap/js/bootstrap.min.js"></script>
     <!--<script src="exts/bootstrap/js/bootstrap-modal.js"></script>
     <script src="exts/bootstrap/js/bootstrap-modalmanager.js"></script>-->
     <script type="text/javascript" src="exts/ui-bootstrap/ui-bootstrap-tpls-2.5.0.1.js"></script>
-    <script type="text/javascript" src="exts/bootStrap-addTabs/bootstrap.addtabs.min.js"></script>
-    <script src="js/libs/jquery.tree.js" type="text/javascript"></script>
+    <!--<script src="js/libs/jquery.tree.js" type="text/javascript"></script>-->
     <script type="text/javascript" src="exts/ng-table/ng-table.js"></script>
     <script type="text/javascript" src="exts/angular-tree-control/angular-tree-control.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/moment.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/datetimepicker.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/datetimepicker.templates.js"></script>
+
+
+    <!-- CSS -->
+    <link href="css/index.css" rel="stylesheet" media="screen" />
+    <link href="exts/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <!--<link href="css/bootstrap-theme.css" rel="stylesheet" media="screen" />-->
+    <!--<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />-->
+    <!--<link href="exts/bootstrap/css/bootstrap-modal.css" rel="stylesheet" media="screen" />-->
+    <!--<link href="css/tree.css" rel="stylesheet" type="text/css" />-->
+    <link href="css/page.css" rel="stylesheet" type="text/css" />
+    <link href="exts/ng-table/ng-table.css" rel="stylesheet" type="text/css" />
+    <link href="exts/angular-tree-control/css/tree-control.css" rel="stylesheet" type="text/css" />
+    <link href="css/overall.css" rel="stylesheet" type="text/css" />
+    <link href="exts/angular-bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css" />
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="js/controllers/route.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/index.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/system.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/user.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/role.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/excel.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/tab.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/human.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/table.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/form.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/staff.controller.js"></script>
 
     <!-- Services -->
     <script type="text/javascript" src="js/services/loginService.js"></script>
+    <script type="text/javascript" src="js/services/staffService.js"></script>
 
     <!-- Directives -->
     <script type="text/javascript" src="js/directives/hello.directive.js"></script>
@@ -27,32 +59,7 @@
     <!-- Utils -->
     <script type="text/javascript" src="js/utils/modal.utils.js"></script>
     <script type="text/javascript" src="js/utils/common.utils.js"></script>
-
-
-    <!-- CSS -->
-    <link href="css/index.css" rel="stylesheet" media="screen" />
-    <link href="exts/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-    <link href="css/bootstrap-theme.css" rel="stylesheet" media="screen" />
-    <link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
-    <link href="exts/bootStrap-addTabs/bootstrap.addtabs.min.js" rel="stylesheet" media="screen" />
-    <!--<link href="exts/bootstrap/css/bootstrap-modal.css" rel="stylesheet" media="screen" />-->
-    <link href="css/tree.css" rel="stylesheet" type="text/css" />
-    <link href="css/page.css" rel="stylesheet" type="text/css" />
-    <link href="exts/ng-table/ng-table.css" rel="stylesheet" type="text/css" />
-    <link href="exts/angular-tree-control/css/tree-control.css" rel="stylesheet" type="text/css" />
-    <link href="css/overall.css" rel="stylesheet" type="text/css" />
-
-    <!-- Controllers -->
-    <script type="text/javascript" src="js/controllers/route.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/index.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/system.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/authority.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/user.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/role.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/excel.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/tab.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/human.controller.js"></script>
-    <script type="text/javascript" src="js/controllers/table.controller.js"></script>
+    <script type="text/javascript" src="js/utils/date.utils.js"></script>
 
 </head>
 <body >
