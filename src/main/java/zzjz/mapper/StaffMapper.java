@@ -1,6 +1,8 @@
 package zzjz.mapper;
 
 import zzjz.bean.Staff;
+import zzjz.bean.StaffRequest;
+
 import java.util.List;
 
 public interface StaffMapper {
@@ -56,5 +58,5 @@ public interface StaffMapper {
      * 分页获取员工列表信息
      * @return 员工列表
      */
-    List<Staff> getStaffList();
+    List<Staff> getStaffList(StaffRequest staff);
 }

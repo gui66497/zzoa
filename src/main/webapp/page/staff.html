@@ -8,10 +8,27 @@
         width: 418px;
         margin-left: 15px;
     }
+    .col-sm-3.control-label{
+        line-height: 2px;
+    }
+    .tableTd{
+        min-width: 80px;
+    }
+    .smallBtn{
+        width: 45px;
+        height: 30px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        border: 0;
+        font-size: 14px;
+        color: #fff;
+        border-radius: 4px;
+    }
+
 </style>
 <div ng-controller="staffController as staff">
 
-    <div style="width: 80%">
+    <div style="width: 1000px;overflow-x: auto;">
         <div class="form-inline" style="height: 45px;">
             <button class="nomalBtn" ng-click="showAddStaffModal()">
                 <span class="glyphicon glyphicon-plus"></span> 新增员工
@@ -20,17 +37,48 @@
                 <span class="glyphicon glyphicon-cloud-upload"></span> 导入信息
             </button>
             <button class="nomalBtn" ng-click="hideOrShow()">
-                <span class="glyphicon glyphicon-cloud-upload"></span> 隐藏/显示
+                <span class="glyphicon glyphicon-th-large"></span> 列定制
             </button>
         </div>
+        <div style="margin-bottom: 20px" ng-show="isShow">
+            <label class="checkbox-inline" ng-repeat="col in myCols">
+                <input type="checkbox" ng-model="col.isShow"/> {{col.columnName}}
+            </label>
+        </div>
 
-        <table ng-table="staff.tableParams" class="table table-bordered table-striped table-condensed" show-filter="true" ng-table-columns-binding="staff.cols">
+        <table ng-table="staff.tableParams" class="table table-bordered table-striped table-condensed" show-filter="true" ng-table-columns-binding="staff.cols" style="">
             <tr ng-repeat="row in $data ">
-                <td data-title="'姓名'" filter="{name: 'text'}">{{row.name}}</td>
-                <td data-title="'部门'" filter="{department: 'text'}">{{row.department}}</td>
-                <td data-title="'职位'" filter="{position: 'text'}">{{row.position}}</td>
-                <td data-title="'入职日期'" filter="{entryDate: 'text'}">{{row.entryDate | limitTo:19}}</td>
-                <td data-title="'是否转正'" filter="{isFormal: 'number'}">{{row.isFormal == 0 ? '否' : '是'}}</td>
+                <td data-title="'序号'" ng-if="true" style="width: 39px;text-align: center" class="tableTd">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                <td data-title="'姓名'" filter="{name: 'text'}" ng-if="true" class="tableTd">{{row.name}}</td>
+                <td data-title="'部门'" filter="{department: 'text'}" ng-if="true" class="tableTd">{{row.department}}</td>
+                <td data-title="'职位'" filter="{position: 'text'}" ng-if="true" class="tableTd">{{row.position}}</td>
+                <td data-title="'入职日期'" filter="{entryDate: 'text'}" ng-if="true" class="tableTd">{{row.entryDate | limitTo:19}}</td>
+                <td data-title="'是否转正'" filter="{isFormal: 'select'}" filter-data="staff.formalArr" ng-if="true" class="tableTd">{{row.isFormal == 0 ? '否' : '是'}}</td>
+                <td data-title="'转正日期'" ng-if="true" class="tableTd">{{row.formalDate}}</td>
+                <td data-title="'司龄'" filter="{companyAge: 'number'}" ng-if="true" class="tableTd">{{row.companyAge}}</td>
+                <td data-title="'身份证号'" filter="{idNumber: 'text'}" ng-if="true" class="tableTd">{{row.idNumber}}</td>
+                <td data-title="'出生日期'" ng-if="true" class="tableTd">{{row.birth}}</td>
+                <td data-title="'年龄'" filter="{age: 'number'}" ng-if="true" class="tableTd">{{row.age}}</td>
+                <td data-title="'性别'" filter="{gender: 'select'}" ng-if="true" filter-data="staff.genderArr" class="tableTd">{{row.gender}}</td>
+                <td data-title="'入职前工龄'" filter="{position: 'text'}" ng-if="true" class="tableTd">{{row.preSeniority}}</td>
+                <td data-title="'工龄'" filter="{seniority: 'text'}" ng-if="true" class="tableTd">{{row.seniority}}</td>
+                <td data-title="'工资卡号'" filter="{payCard: 'text'}" ng-if="true" class="tableTd">{{row.payCard}}</td>
+                <td data-title="'政治面貌'" filter="{politicalStatus: 'select'}" ng-if="true" filter-data="staff.politicalArr" class="tableTd">{{row.politicalStatus}}</td>
+                <td data-title="'工号'" filter="{jobNumber: 'text'}" ng-if="true" class="tableTd">{{row.jobNumber}}</td>
+                <td data-title="'合同起始时间'" filter="{contractStart: 'text'}" ng-if="true" class="tableTd">{{row.contractStart}}</td>
+                <td data-title="'合同结束时间'" filter="{payCard: 'text'}" ng-if="true" class="tableTd">{{row.contractEnd}}</td>
+                <td data-title="'电话'" filter="{tel: 'text'}" ng-if="true" class="tableTd">{{row.tel}}</td>
+                <td data-title="'毕业院校'" filter="{graduateSchool: 'text'}" ng-if="true" class="tableTd">{{row.graduateSchool}}</td>
+                <td data-title="'专业'" filter="{major: 'text'}" ng-if="true" class="tableTd">{{row.major}}</td>
+                <td data-title="'学历'" filter="{education: 'text'}" ng-if="true" class="tableTd">{{row.education}}</td>
+                <td data-title="'毕业日期'" filter="{graduateDate: 'text'}" ng-if="true" class="tableTd">{{row.graduateDate}}</td>
+
+                <td data-title="'操作'" class="tableTd">
+                    <button class="editBtn" title="修改员工" ng-click="showEditStaff($index)"/>
+                    &nbsp;
+                    <button class="deleteBtn" title="删除员工" ng-click="showDeleteStaff($index)"/>
+                    &nbsp;
+                </td>
             </tr>
         </table>
 
@@ -55,7 +103,7 @@
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel2"> 新增员工信息</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="max-height: 450px;overflow-y: auto">
                     <form class="form-horizontal" name="staffAddForm">
                         <div class="form-group" ng-class="{ 'has-error' : staffAddForm.name.$invalid && !staffAddForm.name.$pristine }">
                             <label for="name" class="col-sm-3 control-label">姓名：</label>
@@ -99,7 +147,8 @@
                                     </a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                         <datetimepicker   data-ng-model="formData.entryDate"
-                                                          data-datetimepicker-config="{ dropdownSelector: '#dropdown' }"></datetimepicker>
+                                                          data-datetimepicker-config="{ dropdownSelector: '#dropdown',  minView:'day' }"
+                                                          data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
                                     </ul>
                                 </div>
                             </div>
@@ -113,7 +162,222 @@
                                     <option value="0">否</option>
                                 </select>
                             </div>
+                        </div>
 
+                        <div class="form-group" ng-class="{ 'has-error' : staffAddForm.birth.$invalid && !staffAddForm.birth.$pristine }">
+                            <!-- Text input-->
+                            <label class="col-sm-3 control-label" for="formalDate">转正日期：</label>
+                            <div class="col-sm-9">
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown4" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group">
+                                            <input type="text" id="formalDate" name="formalDate" class="form-control" data-ng-model="formData.formalDate" disabled="disabled" style="cursor: pointer">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                        <p ng-show="staffAddForm.birth.$invalid && !staffAddForm.birth.$pristine" class="help-block">请填写转正日期</p>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker   data-ng-model="formData.formalDate"
+                                                          data-datetimepicker-config="{ dropdownSelector: '#dropdown4',minView:'day' }"
+                                                          data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="companyAge">司龄：</label>
+                            <div class="col-sm-9">
+                                <input type="number" step="0.1" id="companyAge" name="companyAge" placeholder="请输入司龄" class="form-control" ng-model="formData.companyAge"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="idNumber">身份证号：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="idNumber" name="idNumber" placeholder="请输入身份证号" class="form-control" ng-model="formData.idNumber"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{ 'has-error' : staffAddForm.birth.$invalid && !staffAddForm.birth.$pristine }">
+                            <!-- Text input-->
+                            <label class="col-sm-3 control-label" for="birth">出生日期：</label>
+                            <div class="col-sm-9">
+                                <!--<input type="text" id="entryDate" name="entryDate" placeholder="请输入职位" class="form-control" ng-model="formData.entryDate"
+                                       style="cursor: auto;">-->
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group">
+                                            <input type="text" id="birth" name="birth" class="form-control" data-ng-model="formData.birth" disabled="disabled" style="cursor: pointer" required>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                        <p ng-show="staffAddForm.birth.$invalid && !staffAddForm.birth.$pristine" class="help-block">请填写出生时间</p>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker   data-ng-model="formData.birth"
+                                                          data-datetimepicker-config="{ dropdownSelector: '#dropdown2', minView:'day' }"
+                                                          data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="age">年龄：</label>
+                            <div class="col-sm-9">
+                                <input type="number" id="age" name="age" placeholder="请输入年龄" class="form-control" ng-model="formData.age"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" >性别：</label>
+                            <div class="col-sm-9">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="genderRadio1" value="1" ng-model="formData.gender"> 男
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio0" value="0" ng-model="formData.gender"> 女
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="preSeniority">入职前工龄：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="preSeniority" name="preSeniority" placeholder="请输入入职前工龄" class="form-control" ng-model="formData.preSeniority"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="seniority">工龄：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="seniority" name="seniority" placeholder="请输入工龄" class="form-control" ng-model="formData.seniority"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="payCard">工资卡号：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="payCard" name="payCard" placeholder="请输入工资卡号" class="form-control" ng-model="formData.payCard"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label" for="politicalStatus">政治面貌：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="politicalStatus" name="politicalStatus" placeholder="请输入政治面貌" class="form-control" ng-model="formData.politicalStatus"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="jobNumber">工号：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="jobNumber" name="jobNumber" placeholder="请输入工号" class="form-control" ng-model="formData.jobNumber"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="contractStart">合同起始时间：</label>
+                            <div class="col-sm-9">
+                                <div class="dropdown form-group">
+                                    <a class="dropdown-toggle" id="contractStartLink" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group date">
+                                            <input type="text" id="contractStart" name="contractStart" class="form-control" data-ng-model="formData.contractStart">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-ng-model="formData.contractStart"
+                                                        data-datetimepicker-config="{ dropdownSelector: '#contractStart', renderOn: 'end-date-changed', minView:'day' }"
+                                                        data-on-set-time="startDateOnSetTime()"
+                                                        data-before-render="startDateBeforeRender($dates)"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="contractEnd">合同结束时间：</label>
+                            <div class="col-sm-9">
+                                <div class="dropdown form-group">
+                                    <a class="dropdown-toggle" id="contractEndLink" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group date">
+                                            <input type="text" id="contractEnd"  name="contractEnd" class="form-control" data-ng-model="formData.contractEnd">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-ng-model="formData.contractEnd"
+                                                        data-datetimepicker-config="{ dropdownSelector: '#contractEnd', renderOn: 'start-date-changed', minView:'day' }"
+                                                        data-on-set-time="endDateOnSetTime()"
+                                                        data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="tel">电话：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="tel" name="tel" placeholder="请输入电话" class="form-control" ng-model="formData.tel"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="graduateSchool">毕业院校：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="graduateSchool" name="graduateSchool" placeholder="请输入毕业院校" class="form-control" ng-model="formData.graduateSchool"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="major">专业：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="major" name="major" placeholder="请输入专业" class="form-control" ng-model="formData.major"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="education">学历：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="education" name="education" placeholder="请输入学历" class="form-control" ng-model="formData.education"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{ 'has-error' : staffAddForm.birth.$invalid && !staffAddForm.birth.$pristine }">
+                            <!-- Text input-->
+                            <label class="col-sm-3 control-label" for="graduateDate">毕业日期：</label>
+                            <div class="col-sm-9">
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown3" role="button" data-toggle="dropdown" data-target="#">
+                                        <div class="input-group">
+                                            <input type="text" id="graduateDate" name="graduateDate" class="form-control" data-ng-model="formData.graduateDate" disabled="disabled" style="cursor: pointer" required>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                        <p ng-show="staffAddForm.birth.$invalid && !staffAddForm.birth.$pristine" class="help-block">请填写毕业时间</p>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker   data-ng-model="formData.graduateDate"
+                                                          data-datetimepicker-config="{ dropdownSelector: '#dropdown3', minView:'day' }"
+                                                          data-on-set-time="onTimeSet()"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                     </form>
@@ -126,6 +390,8 @@
                             ng-click="addStaff()">确认
                     </button>
                 </div>
+
+
             </div>
         </div>
     </div>

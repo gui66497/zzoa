@@ -534,12 +534,130 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getStaffList" resultMap="BaseResultMap">
+  <select id="getStaffList" resultMap="BaseResultMap" parameterType="zzjz.bean.StaffRequest">
     select
-    <include refid="simplify_Column_List" />
+    <include refid="Base_Column_List" />
     from tb_staff
-    where 1=1
-    AND delete_flag = 0
+    <trim prefix="where" prefixOverrides="and|or" >
+      AND delete_flag = 0
+      <if test="staffId != null" >
+        AND staff_id like '%${staffId}%'
+      </if>
+      <if test="name != null" >
+        AND name like '%${name}%'
+      </if>
+      <if test="department != null" >
+        AND department like '%${department}%'
+      </if>
+      <if test="position != null" >
+        AND position like '%${position}%'
+      </if>
+      <if test="entryDate != null" >
+        AND entry_date like '%${entryDate}%'
+      </if>
+      <if test="isFormal != null" >
+        AND is_formal like '%${isFormal}%'
+      </if>
+      <if test="formalDate != null" >
+        AND formal_date like '%${formalDate}%'
+      </if>
+      <if test="companyAge != null" >
+        AND company_age like '%${companyAge}%'
+      </if>
+      <if test="idNumber != null" >
+        AND id_number like '%${idNumber}%'
+      </if>
+      <if test="birth != null" >
+        AND birth like '%${birth}%'
+      </if>
+      <if test="age != null" >
+        AND age like '%${age}%'
+      </if>
+      <if test="gender != null" >
+        AND gender like '%${gender}%'
+      </if>
+      <if test="preSeniority != null" >
+        AND pre_seniority like '%${preSeniority}%'
+      </if>
+      <if test="seniority != null" >
+        AND seniority like '%${seniority,jdbcType=REAL}%'
+      </if>
+      <if test="payCard != null" >
+        AND pay_card like '%${payCard}%'
+      </if>
+      <if test="politicalStatus != null" >
+        AND political_status like '%${politicalStatus}%'
+      </if>
+      <if test="jobNumber != null" >
+        AND job_number like '%${jobNumber}%'
+      </if>
+      <if test="contractStart != null" >
+        AND contract_start like '%${contractStart}%'
+      </if>
+      <if test="contractEnd != null" >
+        AND contract_end like '%${contractEnd}%'
+      </if>
+      <if test="tel != null" >
+        AND tel like '%${tel}%'
+      </if>
+      <if test="graduateSchool != null" >
+        AND graduate_school like '%${graduateSchool}%'
+      </if>
+      <if test="major != null" >
+        AND major like '%${major}%'
+      </if>
+      <if test="education != null" >
+        AND education like '%${education}%'
+      </if>
+      <if test="graduateDate != null" >
+        AND graduate_date like '%${graduateDate}%'
+      </if>
+      <if test="professionalLevel != null" >
+        AND professional_level like '%${professionalLevel}%'
+      </if>
+      <if test="professionalName != null" >
+        AND professional_name like '%${professionalName}%'
+      </if>
+      <if test="certificateValidity != null" >
+        AND certificate_validity like '%${certificateValidity}%'
+      </if>
+      <if test="nativePlace != null" >
+        AND native_place like '%${nativePlace}%'
+      </if>
+      <if test="homeAddress != null" >
+        AND home_address like '%${homeAddress}%'
+      </if>
+      <if test="censusRegister != null" >
+        AND census_register like '%${censusRegister}%'
+      </if>
+      <if test="fileKeep != null" >
+        AND file_keep like '%${fileKeep}%'
+      </if>
+      <if test="emergencyContactor != null" >
+        AND emergency_contactor like '%${emergencyContactor}%'
+      </if>
+      <if test="emergencyTel != null" >
+        AND emergency_tel like '%${emergencyTel}%'
+      </if>
+      <if test="company != null" >
+        AND company like '%${company}%'
+      </if>
+      <if test="onJob != null" >
+        AND on_job like '%${onJob}%'
+      </if>
+      <if test="leaveTime != null" >
+        AND leave_time like '%${leaveTime}%'
+      </if>
+      <if test="itAttributes != null" >
+        AND it_attributes like '%${itAttributes}%'
+      </if>
+      <if test="researchStaff != null" >
+        AND research_staff like '%${researchStaff}%'
+      </if>
+      <if test="inAssurance != null" >
+        AND in_assurance like '%${inAssurance}%'
+      </if>
+    </trim>
   </select>
 
 </mapper>

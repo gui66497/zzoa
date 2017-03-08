@@ -46,7 +46,7 @@
             <form id="outerForm" name="outerForm" class="tab-form-demo">
                 <uib-tabset active="activeIndex">
                     <uib-tab ng-repeat="content in contents" index="content.id" heading="{{content.name}}" id="{{content.id}}">
-                        <div ng-include="content.url">
+                        <div ng-include="content.url" autoscroll="true">
                         </div>
                     </uib-tab>
                 </uib-tabset>

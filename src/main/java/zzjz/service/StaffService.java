@@ -2,8 +2,11 @@ package zzjz.service;
 
 import com.github.pagehelper.Page;
 import org.springframework.stereotype.Service;
+import zzjz.bean.Column;
 import zzjz.bean.Staff;
 import zzjz.bean.StaffRequest;
+
+import java.util.List;
 
 /**
  * @ClassName: StaffService
@@ -27,5 +30,9 @@ public interface StaffService {
 	 * @return 结果
      */
 	boolean addStaff(Staff staff);
+
+	List<Column> getAllColumn();
+
+	boolean updateCol(Column column);
 
 }

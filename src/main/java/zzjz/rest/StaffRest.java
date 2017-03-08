@@ -1,6 +1,7 @@
 package zzjz.rest;
 
 import com.github.pagehelper.Page;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
@@ -10,10 +11,7 @@ import org.springframework.stereotype.Component;
 import zzjz.bean.*;
 import zzjz.service.StaffService;
 import zzjz.util.PageUtil;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -47,20 +45,76 @@ public class StaffRest {
 
 	/**
 	 * 分页获取员工信息
-	 * @param requst
+	 * @param request
 	 * @return
      */
 	@Path("/page")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public BaseResponse<Staff> getStaffPage(StaffRequest requst) {
+	public BaseResponse<Staff> getStaffPage(StaffRequest request) {
 		BaseResponse<Staff> response = new BaseResponse<>();
-		Page<Staff> staffList = staffService.getStaffListPage(requst);
-		List<Object> otherData = PageUtil.dealPaging(requst.getPaging(), (int) staffList.getTotal());
+		Page<Staff> staffList = staffService.getStaffListPage(request);
+		List<Object> otherData = PageUtil.dealPaging(request.getPaging(), (int) staffList.getTotal());
 		response.setData(staffList);
 		response.setOtherData(otherData);
 		response.setResultCode(ResultCode.RESULT_SUCCESS);
+		return response;
+	}
+
+	@Path("/unShow")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public BaseResponse<Column> getUnShowColumn() {
+		BaseResponse<Column> response = new BaseResponse<>();
+		List<Column> allColmn = staffService.getAllColumn();
+		List<Column> unShowColumn = Lists.newArrayList();
+		for (Column column : allColmn) {
+			if (column.getIsShow() == 0) {
+				unShowColumn.add(column);
+			}
+		}
+		response.setResultCode(ResultCode.RESULT_SUCCESS);
+		response.setData(unShowColumn);
+		return response;
+	}
+
+	/**
+	 * 获取所有列
+	 * @return 列信息
+	 */
+	@Path("/allCol")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public BaseResponse<Column> getAllColumn() {
+		BaseResponse<Column> response = new BaseResponse<>();
+		List<Column> allColmn = staffService.getAllColumn();
+		response.setResultCode(ResultCode.RESULT_SUCCESS);
+		response.setData(allColmn);
+		return response;
+	}
+
+	/**
+	 * 修改列
+	 * @param column 列
+	 * @return 结果
+	 */
+	@Path("/updateCol")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public BaseResponse<String> updateCol(Column column) {
+		BaseResponse<String> response = new BaseResponse<>();
+		boolean res = staffService.updateCol(column);
+		if (res) {
+			response.setMessage("修改列成功");
+			response.setResultCode(ResultCode.RESULT_SUCCESS);
+		} else {
+			response.setMessage("修改列失败");
+			response.setResultCode(ResultCode.RESULT_ERROR);
+		}
 		return response;
 	}
 

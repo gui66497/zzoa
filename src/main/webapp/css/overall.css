@@ -48,3 +48,33 @@
 .rightDiv {
     padding: 80px 30px 20px 30px;
 }
+.closeTable{
+    background: url("../images/close.png");
+    float: right;
+    width: 50px;
+    height: 50px;
+    margin-top: 0px;
+    margin-right: -16px;
+    opacity:1;
+    border: 0;
+}
+.editBtn {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url("../images/edit.png");
+}
+
+.editBtn:hover {
+    background: url("../images/edit_hover.png");
+}
+.deleteBtn {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url("../images/delete.png");
+}
+
+.deleteBtn:hover {
+    background: url("../images/delete_hover.png");
+}
