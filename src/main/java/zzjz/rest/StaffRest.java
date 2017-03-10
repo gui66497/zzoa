@@ -129,7 +129,7 @@ public class StaffRest {
 	@Path("add")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public BaseResponse<String> addUser(Staff staff, @Context HttpHeaders headers) throws ParseException {
+	public BaseResponse<String> addStaff(Staff staff, @Context HttpHeaders headers) throws ParseException {
 		// 获取当前操作用户ID，如果为空，则提示当前用户未登录
 		URI = "staff/add";
 		LOGGER.debug("开始调用接口：" + URI);
@@ -163,6 +163,36 @@ public class StaffRest {
 			return response;
 		}
 		response.setMessage(message);
+		return  response;
+	}
+
+	/**
+	 * 删除员工信息
+	 * @param staffId 员工信息id
+	 * @author 房桂堂
+	 * @return 结果
+	 */
+	@DELETE
+	@Path("{staffId}/del")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public BaseResponse<String> addUser(@PathParam("staffId") long staffId) {
+		BaseResponse<String> response = new BaseResponse<>();
+		if (staffId < 0) {
+			message = "删除参数不合法";
+			response.setResultCode(ResultCode.RESULT_ERROR);
+			response.setMessage(message);
+			LOGGER.debug(message);
+			return response;
+		}
+		boolean res = staffService.delByStaffId(staffId);
+		if (res) {
+			response.setMessage("删除员工信息成功");
+			response.setResultCode(ResultCode.RESULT_SUCCESS);
+		} else {
+			response.setMessage("删除员工信息失败");
+			response.setResultCode(ResultCode.RESULT_ERROR);
+		}
 		return  response;
 	}
 

@@ -53,4 +53,9 @@ public class StaffServiceImpl implements StaffService {
     public boolean updateCol(Column column) {
         return columnMapper.updateByName(column) > 0;
     }
+
+    @Override
+    public boolean delByStaffId(long staffId) {
+        return staffMapper.delByStaffId(staffId) > 0;
+    }
 }

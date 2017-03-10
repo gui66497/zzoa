@@ -660,4 +660,8 @@
     </trim>
   </select>
 
+  <update id="delByStaffId" parameterType="java.lang.Long">
+    UPDATE tb_staff SET delete_flag = 1 WHERE staff_id = #{staffId}
+  </update>
+
 </mapper>

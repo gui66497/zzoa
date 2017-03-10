@@ -35,4 +35,11 @@ public interface StaffService {
 
 	boolean updateCol(Column column);
 
+	/**
+	 * 根据staffId删除员工信息
+	 * @param staffId staffId
+	 * @return 结果
+	 */
+	boolean delByStaffId(long staffId);
+
 }

@@ -1,5 +1,6 @@
 package zzjz.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import zzjz.bean.Staff;
 import zzjz.bean.StaffRequest;
 
@@ -59,4 +60,6 @@ public interface StaffMapper {
      * @return 员工列表
      */
     List<Staff> getStaffList(StaffRequest staff);
+
+    int delByStaffId(@Param("staffId") long staffId);
 }

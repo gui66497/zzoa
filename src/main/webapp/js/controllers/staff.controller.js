@@ -8,6 +8,8 @@ indexModule.controller('staffController', function ($scope, $http, $q, NgTablePa
 
     var self = this;
 
+    $scope.tableData = {};
+
     function initialRequest() {
         $scope.req = {};
         $scope.req.paging = {};
@@ -82,6 +84,7 @@ indexModule.controller('staffController', function ($scope, $http, $q, NgTablePa
                 var response = resut.data;
                 var total = response.otherData[0];
                 params.total(total);
+                $scope.tableData = response.data;
                 return response.data;
             });
 
@@ -188,6 +191,23 @@ indexModule.controller('staffController', function ($scope, $http, $q, NgTablePa
             //$scope.setPageButtonStatus();
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
+        });
+    };
+
+    //弹出确认删除模态框
+    $scope.showDeleteStaff = function (index) {
+        console.log("当前tableData的值为：", $scope.tableData);
+        var staffId = $scope.tableData[index].staffId;
+        showConfirmModal("确认要删除吗？", function () {
+            $http.delete("rest/staff/" + staffId + "/del").success(function (response) {
+                if (response.resultCode == "RESULT_SUCCESS") {
+                    showOkModal('提示', "删除成功！");
+                    self.tableParams.reload();
+                    $("#confirmModal").modal('hide');
+                }
+            }).error(function (data) {
+                $("#serverErrorModal").modal({show: true});
+            });
         });
     };
 
