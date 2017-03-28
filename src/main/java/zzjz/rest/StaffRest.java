@@ -90,9 +90,9 @@ public class StaffRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public BaseResponse<Column> getAllColumn() {
 		BaseResponse<Column> response = new BaseResponse<>();
-		List<Column> allColmn = staffService.getAllColumn();
+		List<Column> allColumn = staffService.getAllColumn();
 		response.setResultCode(ResultCode.RESULT_SUCCESS);
-		response.setData(allColmn);
+		response.setData(allColumn);
 		return response;
 	}
 

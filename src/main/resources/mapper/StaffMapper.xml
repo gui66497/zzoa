@@ -20,7 +20,7 @@
     <result column="age" property="age" jdbcType="INTEGER" />
     <result column="gender" property="gender" jdbcType="INTEGER" />
     <result column="pre_seniority" property="preSeniority" jdbcType="REAL" />
-    <result column="seniority" property="seniority" jdbcType="REAL" />
+    <result column="seniority" property="seniority" jdbcType="VARCHAR" />
     <result column="pay_card" property="payCard" jdbcType="VARCHAR" />
     <result column="political_status" property="politicalStatus" jdbcType="VARCHAR" />
     <result column="job_number" property="jobNumber" jdbcType="VARCHAR" />
@@ -97,7 +97,7 @@
       #{department,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{entryDate,jdbcType=TIMESTAMP}, 
       #{isFormal,jdbcType=INTEGER}, #{formalDate,jdbcType=TIMESTAMP}, #{companyAge,jdbcType=REAL}, 
       #{idNumber,jdbcType=VARCHAR}, #{birth,jdbcType=TIMESTAMP}, #{age,jdbcType=INTEGER}, 
-      #{gender,jdbcType=INTEGER}, #{preSeniority,jdbcType=REAL}, #{seniority,jdbcType=REAL}, 
+      #{gender,jdbcType=INTEGER}, #{preSeniority,jdbcType=REAL}, #{seniority,jdbcType=VARCHAR},
       #{payCard,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=VARCHAR}, #{jobNumber,jdbcType=VARCHAR}, 
       #{contractStart,jdbcType=TIMESTAMP}, #{contractEnd,jdbcType=TIMESTAMP}, #{tel,jdbcType=VARCHAR}, 
       #{graduateSchool,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
@@ -280,7 +280,7 @@
         #{preSeniority,jdbcType=REAL},
       </if>
       <if test="seniority != null" >
-        #{seniority,jdbcType=REAL},
+        #{seniority,jdbcType=VARCHAR},
       </if>
       <if test="payCard != null" >
         #{payCard,jdbcType=VARCHAR},
@@ -406,7 +406,7 @@
         pre_seniority = #{preSeniority,jdbcType=REAL},
       </if>
       <if test="seniority != null" >
-        seniority = #{seniority,jdbcType=REAL},
+        seniority = #{seniority,jdbcType=VARCHAR},
       </if>
       <if test="payCard != null" >
         pay_card = #{payCard,jdbcType=VARCHAR},
@@ -505,7 +505,7 @@
       age = #{age,jdbcType=INTEGER},
       gender = #{gender,jdbcType=INTEGER},
       pre_seniority = #{preSeniority,jdbcType=REAL},
-      seniority = #{seniority,jdbcType=REAL},
+      seniority = #{seniority,jdbcType=VARCHAR},
       pay_card = #{payCard,jdbcType=VARCHAR},
       political_status = #{politicalStatus,jdbcType=VARCHAR},
       job_number = #{jobNumber,jdbcType=VARCHAR},
@@ -580,7 +580,7 @@
         AND pre_seniority like '%${preSeniority}%'
       </if>
       <if test="seniority != null" >
-        AND seniority like '%${seniority,jdbcType=REAL}%'
+        AND seniority like '%${seniority,jdbcType=VARCHAR}%'
       </if>
       <if test="payCard != null" >
         AND pay_card like '%${payCard}%'

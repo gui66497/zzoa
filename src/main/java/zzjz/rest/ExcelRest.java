@@ -5,12 +5,16 @@ import com.sun.jersey.multipart.FormDataParam;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import zzjz.bean.BaseResponse;
 import zzjz.bean.ResultCode;
+import zzjz.bean.Staff;
+import zzjz.bean.StaffExcel;
 import zzjz.util.DateUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,6 +59,14 @@ public class ExcelRest {
         String fileName = contentDispositionHeader.getFileName();
         System.out.println(contentDispositionHeader.getSize());
         System.out.println(contentDispositionHeader.getType());
+
+        ImportParams importParams = new ImportParams();
+        try {
+            List<StaffExcel> res = ExcelImportUtil.importExcel(fileInputStream, StaffExcel.class, importParams);
+            System.out.println(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         int pos = fileName.lastIndexOf(".");
         String newFileName = fileName.substring(0, pos) + "_" + DateUtil.getRandomFileName() + fileName.substring(pos);

@@ -28,6 +28,10 @@ indexModule.controller('staffController', function ($scope, $http, $q, NgTablePa
 
     self.educationArr = [{id: '本科', title: '本科'}, {id: '硕士', title: '硕士'}, {id: '博士', title: '博士'}];
 
+    self.onJobArr = [{id: 1, title: '在职'}, {id: 0, title: '离职'}];
+
+    self.assuranceArr = [{id: 1, title: '是'}, {id: 0, title: '否'}];
+
     /*self.cols = [
      { field: "name", title: "姓名", show: true },
      { field: "department", title: "部门", show: false },
@@ -209,6 +213,11 @@ indexModule.controller('staffController', function ($scope, $http, $q, NgTablePa
                 $("#serverErrorModal").modal({show: true});
             });
         });
+    };
+
+    //导入员工信息
+    $scope.importStaff = function () {
+
     };
 
     //将所选择的时间格式化
