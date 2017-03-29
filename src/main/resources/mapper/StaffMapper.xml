@@ -664,4 +664,36 @@
     UPDATE tb_staff SET delete_flag = 1 WHERE staff_id = #{staffId}
   </update>
 
+  <insert id="addStaffList" useGeneratedKeys="true" parameterType="java.util.List">
+    <selectKey resultType="long" keyProperty="id" order="AFTER">
+      SELECT
+      LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_staff (id, staff_id, name,
+      department, position, entry_date, is_formal,
+      formal_date, company_age,
+      id_number, birth, age,
+      gender, pre_seniority, seniority,
+      pay_card, political_status, job_number,
+      contract_start, contract_end, tel,
+      graduate_school, major, education,
+      graduate_date, professional_level, professional_name,
+      certificate_validity, native_place, home_address,
+      census_register, file_keep, emergency_contactor,
+      emergency_tel, company, on_job,
+      leave_time, it_attributes, research_staff,
+      in_assurance)
+    values
+    <foreach collection="res" item="item" index="index" separator=",">
+      (#{item.id}, #{item.staffId}, #{item.name}, #{item.department}, #{item.position}, #{item.entryDate},
+      #{item.isFormal}, #{item.formalDate}, #{item.companyAge}, #{item.idNumber}, #{item.birth}, #{item.age},
+      #{item.gender}, #{item.preSeniority}, #{item.seniority}, #{item.payCard}, #{item.politicalStatus}, #{item.jobNumber},
+      #{item.contractStart}, #{item.contractEnd}, #{item.tel}, #{item.graduateSchool}, #{item.major}, #{item.education},
+      #{item.graduateDate}, #{item.professionalLevel}, #{item.professionalName}, #{item.certificateValidity}, #{item.nativePlace}, #{item.homeAddress},
+      #{item.censusRegister}, #{item.fileKeep}, #{item.emergencyContactor}, #{item.emergencyTel}, #{item.company}, #{item.onJob},
+      #{item.leaveTime}, #{item.itAttributes}, #{item.researchStaff}, #{item.inAssurance})
+    </foreach>
+
+  </insert>
+
 </mapper>
