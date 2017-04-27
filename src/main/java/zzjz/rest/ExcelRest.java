@@ -2,7 +2,7 @@ package zzjz.rest;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -10,12 +10,13 @@ import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import zzjz.bean.BaseResponse;
 import zzjz.bean.ResultCode;
 import zzjz.bean.Staff;
 import zzjz.bean.StaffExcel;
-import zzjz.util.DateUtil;
+import zzjz.service.StaffService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -25,9 +26,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * ExcelRest
@@ -40,6 +41,9 @@ import java.util.Map;
 public class ExcelRest {
 
     private final static Logger logger = LoggerFactory.getLogger(ExcelRest.class);
+
+    @Autowired
+    StaffService staffService;
 
     /**
      * 上传测试
