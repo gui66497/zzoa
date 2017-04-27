@@ -34,7 +34,15 @@ indexModule.controller('humanController', function ($scope, $http, $timeout) {
             ]},
             { "name" : "培训管理", "id" : "6", "isTop":true, "children" : [
                 { "name" : "大数据培训", "id" : "7", "isTop":false, "url": "page/formTest.html", "children" : [] }
-            ] }
+            ]},
+            { "name" : "考勤管理", "id" : "30", "isTop":true, "children" : [
+                { "name" : "考勤导入", "id" : "31", "isTop":false, "url": "page/attendanceExcel.html", "children" : [] },
+                { "name" : "出差管理", "id" : "32", "isTop":false, "url": "page/trip.html", "children" : [] },
+                { "name" : "假期管理", "id" : "33", "isTop":false, "url": "page/vacation.html", "children" : [] },
+                { "name" : "日历管理", "id" : "34", "isTop":false, "url": "page/calendar.html", "children" : [] },
+                { "name" : "考勤管理", "id" : "35", "isTop":false, "url": "page/attendance.html", "children" : [] },
+                { "name" : "考勤统计", "id" : "36", "isTop":false, "url": "page/attenSummary.html", "children" : [] }
+            ]}
         ];
 
     //初始化时左侧默认展开

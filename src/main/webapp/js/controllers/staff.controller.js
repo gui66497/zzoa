@@ -217,8 +217,12 @@ indexModule.controller('staffController', function ($scope, $http, $q, NgTablePa
 
     //导入员工信息
     $scope.importStaff = function () {
-
+        $("#uploadStaff").modal({show: true, keyboard: false, backdrop: 'static'});
     };
+
+    $scope.upload = function(){
+
+    }
 
     //将所选择的时间格式化
     $scope.onTimeSet = function (newDate, oldDate) {

@@ -1,0 +1,120 @@
+<style type="text/css">
+    #attenSummaryListTable {
+        border: 0px;
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 97%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+    .editBtn:hover {
+        background: url("images/edit_hover.png");
+    }
+
+</style>
+<div ng-controller="attenSummaryController">
+    <div>
+        <table id="attenSummaryListTable" align="center">
+            <thead>
+            <tr>
+                <td width="4%">序号</td>
+                <td width="6%">部门</td>
+                <td width="4%">工号</td>
+                <td width="6%">员工姓名</td>
+                <td width="5%">应出勤</td>
+                <td width="5%">实出勤</td>
+                <td width="5%">迟到（次）</td>
+                <td width="5%">早退（次）</td>
+                <td width="5%">旷工（天）</td>
+                <td width="6%">本月加班（天）</td>
+                <td width="5%">调休（天）</td>
+                <td width="5%">年假（天）</td>
+                <td width="5%">事假（天）</td>
+                <td width="5%">婚假（天）</td>
+                <td width="5%">病假（天）</td>
+                <td width="5%">丧假（天）</td>
+                <td width="5%">产（前）假（天）</td>
+                <td width="5%">出差（天）</td>
+                <td width="4%">餐补</td>
+                <td width="6%">迟到扣款</td>
+                <td width="6%">备注</td>
+            </tr>
+            </thead>
+            <tr ng-repeat="summary in summarys" class="contentTr">
+                <td>{{$index+1}}</td>
+                <td>{{summary.depart}}</td>
+                <td>{{summary.userId}}</td>
+                <td>{{summary.userName}}</td>
+                <td>{{summary.workday}}</td>
+                <td>{{summary.actual}}</td>
+                <td>{{summary.late}}</td>
+                <td>{{summary.early}}</td>
+                <td>{{summary.absent}}</td>
+                <td>{{summary.overtime}}</td>
+                <td>{{summary.off}}</td>
+                <td>{{summary.annual}}</td>
+                <td>{{summary.compassionate}}</td>
+                <td>{{summary.marriage}}</td>
+                <td>{{summary.sick}}</td>
+                <td>{{summary.funeral}}</td>
+                <td>{{summary.maternity}}</td>
+                <td>{{summary.trip}}</td>
+                <td>{{summary.meal}}</td>
+                <td>{{summary.deduction}}</td>
+                <td>{{summary.note}}</td>
+            </tr>
+        </table>
+
+    </div>
+</div>

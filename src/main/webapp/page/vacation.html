@@ -1,0 +1,237 @@
+<style type="text/css">
+    #vacationListTable {
+        border: 0px;
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 97%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+</style>
+<div ng-controller="vacationController">
+    <div>
+        <button class="add" ng-click="add()">
+            <span class="glyphicon glyphicon-plus"></span> 新增请假信息
+        </button>
+
+        <button class="update" ng-click="update()">
+            <span class="glyphicon glyphicon-plus"></span> 修改请假信息
+        </button>
+
+            <table id="vacationListTable" align="center">
+                <thead>
+                <tr>
+                    <td width="10%">序号</td>
+                    <td width="20%">用户名</td>
+                    <td width="20%">请假类别</td>
+                    <td width="10%">创建时间</td>
+                </tr>
+                </thead>
+                <tr ng-repeat="vacation in vacations" class="contentTr">
+                    <td>{{vacation.id}}</td>
+                    <td>{{vacation.userName}}</td>
+                    <td>{{vacation.leaveTyp}}</td>
+                    <td>{{vacation.createTime | limitTo:19}}</td>
+                </tr>
+            </table>
+            <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
+                <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
+                    <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
+                </div>
+                <div style="width:40%;height:30px;float:left;">
+                    <ul class="pager" style="margin-top: 10px;">
+                        <li class="previous disabled" id="previousPageLink">
+                            <a href="javascript:void(0)" unable="false" id="previousPage"
+                               ng-click="previousPage()">&larr; 上一页</a>
+                        </li>
+                        <li class="next" id="nextPageLink">
+                            <a href="javascript:void(0)" unable="false" id="nextPage"
+                               ng-click="nextPage()">下一页 &rarr;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        <!-- 请假信息 -->
+        <div class="modal fade" id="AddAndUpdateModal" tabindex="-1" role="dialog" aria-labelledby="AddAndUpdateModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="AddAndUpdateModalLabel"> 请假信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="AddAndUpdateForm" novalidate>
+                            <table id="AddAndUpdateTable" width="100%" name="AddAndUpdateTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">ID：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="id" class="form-control"
+                                               ng-model="formData.id" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">类别：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <select id="leaveTyp" name="leaveTyp" class="form-control" ng-model="formData.leaveTyp" required="required">
+                                            <option value="00">调休</option>
+                                            <option value="01">年假</option>
+                                            <option value="02">事假</option>
+                                            <option value="03">产假</option>
+                                            <option value="04">婚假</option>
+                                            <option value="05">丧假</option>
+                                            <option value="06">病假</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">开始时间：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="leaveDate" class="form-control"
+                                               ng-model="formData.leaveDate" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">结束时间：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="backDate" class="form-control"
+                                               ng-model="formData.backDate" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="sure"
+                                ng-disabled="formData.leaveTyp.$invalid||formData.leaveDate.$invalid||formData.backDate.$invalid"
+                                ng-click="save()">保存
+                        </button>
+                        <button type="button" class="sure"
+                                ng-disabled="formData.leaveTyp.$invalid||formData.leaveDate.$invalid||formData.backDate.$invalid"
+                                ng-click="saveAndSubmit()">保存并提交
+                        </button>
+                        <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 审批请假信息 -->
+        <div class="modal fade" id="ApproveModal" tabindex="-1" role="dialog" aria-labelledby="ApproveModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="ApproveModalLabel"> 请假信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="ApproveForm" novalidate>
+                            <table id="ApproveTable" width="100%" name="ApproveTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">类别：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <select name="leaveTyp" class="form-control" ng-model="formData.leaveTyp" required="required">
+                                            <option value="00">调休</option>
+                                            <option value="01">年假</option>
+                                            <option value="02">事假</option>
+                                            <option value="03">产假</option>
+                                            <option value="04">婚假</option>
+                                            <option value="05">丧假</option>
+                                            <option value="06">病假</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">开始时间：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="leaveDate" class="form-control"
+                                               ng-model="formData.leaveDate" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight">结束时间：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="backDate" class="form-control"
+                                               ng-model="formData.backDate" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="sure"
+                                ng-disabled="formData.leaveTyp.$invalid||formData.leaveDate.$invalid||formData.backDate.$invalid"
+                                ng-click="approveSave()">保存
+                        </button>
+                        <button type="button" class="sure"
+                                ng-disabled="formData.leaveTyp.$invalid||formData.leaveDate.$invalid||formData.backDate.$invalid"
+                                ng-click="approve()">通过
+                        </button>
+                        <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

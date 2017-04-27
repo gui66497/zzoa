@@ -4,10 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zzjz.bean.Column;
-import zzjz.bean.PagingEntity;
-import zzjz.bean.Staff;
-import zzjz.bean.StaffRequest;
+import zzjz.bean.*;
 import zzjz.mapper.ColumnMapper;
 import zzjz.mapper.StaffMapper;
 import zzjz.service.StaffService;
@@ -57,5 +54,21 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public boolean delByStaffId(long staffId) {
         return staffMapper.delByStaffId(staffId) > 0;
+    }
+
+    @Override
+    public boolean addStaffList(List<StaffExcel> res) {
+
+        return staffMapper.addStaffList(res) > 0;
+    }
+
+    @Override
+    public List<Staff> getformalRemindList() {
+        return staffMapper.formalRemindList();
+    }
+
+    @Override
+    public List<Staff> getbirthRemindList() {
+        return staffMapper.birthRemindList();
     }
 }

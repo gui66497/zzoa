@@ -7,8 +7,7 @@ indexModule.controller('excelController', function ($scope, $http) {
      * 上传
      */
     $scope.testUpload = function () {
-
-        var files = document.getElementsByName('file')[0].files;
+        var files = document.getElementsByName('file')[1].files;
         if (files.length < 1) {
             showOkModal("提示信息", "请先选择文件！");
             return;

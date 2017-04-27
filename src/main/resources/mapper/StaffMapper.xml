@@ -664,4 +664,26 @@
     UPDATE tb_staff SET delete_flag = 1 WHERE staff_id = #{staffId}
   </update>
 
+  <insert id="addStaffList" useGeneratedKeys="true" parameterType="java.util.List">
+    <selectKey resultType="long" keyProperty="id" order="AFTER">
+      SELECT
+      LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_staff (id, staff_id, name,
+    department,is_formal, position, entry_date)
+    values
+    <foreach collection="res" item="item" index="index" separator=",">
+      (#{item.id}, #{item.staffId}, #{item.name}, #{item.department}, #{item.isFormal}, #{item.position}, #{item.entryDate} )
+    </foreach>
+  </insert>
+
+    <!-- 转正提醒，15天内转正 -->
+  <select id="formalRemindList" resultMap="BaseResultMap">
+    select * from tb_staff where DATE_SUB(CURDATE(),INTERVAL -15 DAY)>=formal_date AND formal_date>CURDATE()
+  </select>
+    <!-- 生日提醒，本月内生日 -->
+  <select id="birthRemindList" resultMap="BaseResultMap">
+     select * from tb_staff where subStr(birth,6,2) = SUBSTR(CURDATE(),6,2)
+  </select>
+
 </mapper>

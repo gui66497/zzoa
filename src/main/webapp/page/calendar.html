@@ -1,0 +1,93 @@
+<style type="text/css">
+    #calendarListTable {
+        border: 0px;
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 97%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+    .editBtn:hover {
+        background: url("images/edit_hover.png");
+    }
+
+</style>
+<div ng-controller="calendarController">
+    <div>
+        <table id="calendarListTable" align="center">
+            <thead>
+            <tr>
+                <td width="10%">序号</td>
+                <td width="20%">日期</td>
+                <td width="10%">是否周末</td>
+                <td width="10%">是否节假日</td>
+                <td width="15%">操作</td>
+            </tr>
+            </thead>
+            <tr ng-repeat="calendar in calendars" class="contentTr">
+                <td>{{$index+1}}</td>
+                <td>{{calendar.curDay}}</td>
+                <td>{{calendar.isWorkday == '1' ? '是' : '否'}}</td>
+                <td>{{calendar.isHoliday == '1' ? '是' : '否'}}</td>
+                <td>
+                    <button class="editBtn" title="设为节假日" ng-click="setHoliday($index)"/>
+                    &nbsp;
+                    <button class="editBtn" title="设为工作日" ng-click="setWorkday($index)"/>
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

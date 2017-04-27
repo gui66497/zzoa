@@ -1,0 +1,97 @@
+<style type="text/css">
+    #tripListTable {
+        border: 0px;
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 97%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+</style>
+<div ng-controller="tripController">
+    <div>
+            <table id="tripListTable" align="center">
+                <thead>
+                <tr>
+                    <td width="10%">序号</td>
+                    <td width="20%">用户名</td>
+                    <td width="10%">创建时间</td>
+                </tr>
+                </thead>
+                <tr ng-repeat="trip in trips" class="contentTr">
+                    <td>{{$index+1}}</td>
+                    <td>{{trip.userName}}</td>
+                    <td>{{trip.createTime | limitTo:19}}</td>
+                </tr>
+            </table>
+            <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
+                <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
+                    <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
+                </div>
+                <div style="width:40%;height:30px;float:left;">
+                    <ul class="pager" style="margin-top: 10px;">
+                        <li class="previous disabled" id="previousPageLink">
+                            <a href="javascript:void(0)" unable="false" id="previousPage"
+                               ng-click="previousPage()">&larr; 上一页</a>
+                        </li>
+                        <li class="next" id="nextPageLink">
+                            <a href="javascript:void(0)" unable="false" id="nextPage"
+                               ng-click="nextPage()">下一页 &rarr;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+    </div>
+</div>
