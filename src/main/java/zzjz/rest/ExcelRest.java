@@ -3,7 +3,6 @@ package zzjz.rest;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -11,13 +10,11 @@ import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import zzjz.bean.BaseResponse;
 import zzjz.bean.ResultCode;
 import zzjz.bean.Staff;
 import zzjz.bean.StaffExcel;
-import zzjz.service.StaffService;
 import zzjz.util.DateUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,9 +25,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ExcelRest
@@ -43,9 +40,6 @@ import java.util.*;
 public class ExcelRest {
 
     private final static Logger logger = LoggerFactory.getLogger(ExcelRest.class);
-
-    @Autowired
-    StaffService staffService;
 
     /**
      * 上传测试
@@ -76,14 +70,13 @@ public class ExcelRest {
         }
         assert res != null;
         for(StaffExcel staff : res) {
-
-            //时间锉
+            //时间戳
             staff.setStaffId(new Date().getTime());
             //计算出生日期
             String idNumber = staff.getIdNumber();
             if (StringUtils.isNotBlank(idNumber)) {
                 String birth = idNumber.substring(6,10) + "/" + idNumber.substring(10,12) + "/" +
-                                idNumber.substring(12,14);
+                        idNumber.substring(12,14);
                 staff.setBirth(birth);
             }
             //计算转正日期
@@ -102,16 +95,20 @@ public class ExcelRest {
                 }
             }
         }
-
         boolean result = staffService.addStaffList(res);
 
-        int pos = fileName.lastIndexOf(".");
+        /*int pos = fileName.lastIndexOf(".");
         String newFileName = fileName.substring(0, pos) + "_" + DateUtil.getRandomFileName() + fileName.substring(pos);
         String path = "D:/excel/" + newFileName;
         File distFile = new File(path);
-        FileUtils.copyInputStreamToFile(fileInputStream, distFile);
-        response.setResultCode(ResultCode.RESULT_SUCCESS);
-        response.setMessage("上传成功！");
+        FileUtils.copyInputStreamToFile(fileInputStream, distFile);*/
+        if (result) {
+            response.setResultCode(ResultCode.RESULT_SUCCESS);
+            response.setMessage("上传成功！");
+        } else {
+            response.setResultCode(ResultCode.RESULT_ERROR);
+            response.setMessage("上传失败！");
+        }
         return response;
     }
 
@@ -127,7 +124,7 @@ public class ExcelRest {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public byte[] downloadExcel(@Context HttpServletRequest request, @Context HttpServletResponse response) throws IOException {
         logger.info("开始调用/excel/down");
-        TemplateExportParams params = new TemplateExportParams("D:\\project\\zzoa\\src\\main\\resources\\docs\\专项支出用款申请书.xls");
+        TemplateExportParams params = new TemplateExportParams("D:\\zzjz_work\\zoa3\\src\\main\\resources\\docs\\专项支出用款申请书.xls");
         Map<String, Object> map = new HashMap<>();
         map.put("date", "2017.2.20");
         map.put("person", "小龙1");

@@ -6,7 +6,6 @@ import zzjz.bean.Column;
 import zzjz.bean.Staff;
 import zzjz.bean.StaffExcel;
 import zzjz.bean.StaffRequest;
-
 import java.util.List;
 
 /**
@@ -46,5 +45,6 @@ public interface StaffService {
 	boolean addStaffList(List<StaffExcel> res);
 
 	List<Staff> getformalRemindList();
+
 	List<Staff> getbirthRemindList();
 }
