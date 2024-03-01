@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.DicMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.Dic" >
+    <result column="dic_id" property="dicId" jdbcType="VARCHAR" />
+    <result column="dic_key" property="dicKey" jdbcType="VARCHAR" />
+    <result column="dic_name" property="dicName" jdbcType="VARCHAR" />
+    <result column="dic_value" property="dicValue" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dic_id, dic_key, dic_name, dic_value, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="zzjz.bean.Dic" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_dic
+    where dic_id = #{dicId,jdbcType=VARCHAR}
+      and dic_key = #{dicKey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="zzjz.bean.Dic" >
+    delete from tb_dic
+    where dic_id = #{dicId,jdbcType=VARCHAR}
+      and dic_key = #{dicKey,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="zzjz.bean.Dic" >
+    insert into tb_dic (dic_id, dic_key, dic_name, 
+      dic_value, status)
+    values (#{dicId,jdbcType=VARCHAR}, #{dicKey,jdbcType=VARCHAR}, #{dicName,jdbcType=VARCHAR}, 
+      #{dicValue,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="zzjz.bean.Dic" >
+    insert into tb_dic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dicId != null" >
+        dic_id,
+      </if>
+      <if test="dicKey != null" >
+        dic_key,
+      </if>
+      <if test="dicName != null" >
+        dic_name,
+      </if>
+      <if test="dicValue != null" >
+        dic_value,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dicId != null" >
+        #{dicId,jdbcType=VARCHAR},
+      </if>
+      <if test="dicKey != null" >
+        #{dicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dicName != null" >
+        #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicValue != null" >
+        #{dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.Dic" >
+    update tb_dic
+    <set >
+      <if test="dicName != null" >
+        dic_name = #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicValue != null" >
+        dic_value = #{dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dic_id = #{dicId,jdbcType=VARCHAR}
+      and dic_key = #{dicKey,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zzjz.bean.Dic" >
+    update tb_dic
+    set dic_name = #{dicName,jdbcType=VARCHAR},
+      dic_value = #{dicValue,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where dic_id = #{dicId,jdbcType=VARCHAR}
+      and dic_key = #{dicKey,jdbcType=VARCHAR}
+  </update>
+  <select id="getDicList" resultMap="BaseResultMap" parameterType="zzjz.bean.DicRequest" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dic
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="dicId != null" >
+        AND dic_id like '%${dicId}%'
+      </if>
+      <if test="dicName != null" >
+        AND dic_name like '%${dicName}%'
+      </if>
+      <if test="dicKey != null" >
+        AND dic_key like '%${dicKey}%'
+      </if>
+      <if test="dicValue != null" >
+        AND dic_value like '%${dicValue}%'
+      </if>
+      <if test="status != null" >
+        AND status like '%${status}%'
+      </if>
+    </trim>
+  </select>
+  <select id="getDicByDicId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_dic where dic_id= #{dicId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getDicTitleList" resultMap="BaseResultMap">
+      SELECT DISTINCT dic_id,dic_name FROM tb_dic where status='1'
+  </select>
+</mapper>

@@ -39,11 +39,14 @@ treecontrol li i.tree-branch-head {
 treecontrol li .tree-label {
     cursor: pointer;
     display: inline;
+    color: #dcf9ff;
 }
 
 treecontrol li .tree-unselectable {
     /*cursor: not-allowed;*/
     cursor: pointer;
+    color: #dcf9ff;
+    background-color: #007c96;/*添加背景颜色 房桂堂*/
 }
 
 treecontrol.tree-classic li.tree-expanded i.tree-branch-head {
@@ -141,20 +144,20 @@ treecontrol.tree-boot li > .tree-label {
 treecontrol.tree-boot i.tree-branch-head,
 treecontrol.tree-boot i.tree-leaf-head {
     float: left;
-    height: 16px;
+    height: 15px;
     margin: 5px;
 }
 
 treecontrol.tree-boot li.tree-expanded i.tree-branch-head {
     padding: 1px 10px;
     /*background: url("../images/folder.png") no-repeat;*/
-    background: url("../../../images/icons/person_li.png") no-repeat;
+    background: url("../../../images/icons/personnel_16x16.png") no-repeat;
 }
 
 treecontrol.tree-boot li.tree-collapsed i.tree-branch-head {
     padding: 1px 10px;
     /*background: url("../images/folder-closed.png") no-repeat;*/
-    background: url("../../../images/icons/person_li.png") no-repeat;
+    background: url("../../../images/icons/personnel_16x16.png") no-repeat;
 }
 
 treecontrol.tree-boot li.tree-leaf i.tree-leaf-head {
@@ -171,5 +174,5 @@ treecontrol.tree-boot .tree-label.tree-selected:hover {
 }
 
 treecontrol.tree-boot .tree-label:hover {
-    background-color: #eee;
+    background-color: #1f8094;
 }

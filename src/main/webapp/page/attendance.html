@@ -1,301 +1,205 @@
 <style type="text/css">
-    #attendanceListTable {
-        border: 0px;
-        cellspacing: 0;
-        cellpadding: 0;
-        width: 97%;
-        align: center;
+    /*input[type="password"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
     }
 
-    td {
-        border: 0px solid #c0c0c0;
-        border-collapse: collapse;
-        font-size: 14px;
+    input[type="text"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
+    }*/
+    treecontrol ul{
+        font-size: 15px;
+    }
+    .c-iExpanded{
+        background: url("../images/icons/person_li.png");
+    }
+    .tab-content{
+        height: 100%;
+        padding: 44px 0 0 0;
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+    .nav-tabs{
+        background: #d4e0ef;
+        border-bottom: none;
+        position: fixed;
+        width: calc(100% - 230px);
+        z-index:900;
+    }
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #555;
+        cursor: default;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+    .tab-content>.active{
+        height:calc(100% - 20px);
+    }
+    /*.leftDiv{
+        padding-top: 12px;
+        float: left;
+        width: 220px;
+        height: 100%;
+        background: #116b7e;
+        position: fixed;
+    }*/
+    .nav-tabs>li>a{
+        margin-top: 5px;
+        border-radius: 6px 6px 0 0;
+    }
+    .rightDiv{
+        width: 100%;
+        padding: 80px 0px 0 229px;
+        transition: 1s;
+    }
+    .tree-boot{
+        color:#dcf9ff;
+    }
+    #style>li.active,#style>li.active:focus,#style>li.active:hover{
+        background: white;
+    }
+    #style>li>a{
+        text-decoration: none;
+    }
+    button.close{
+        margin-top: 10px;
+        margin-right: 5px;
+    }
+    #首页{
+        display: none;
+    }
+    .tabs{
+        width:100px;
+        float:left;
         text-align: center;
-    }
-
-    tr {
-        border-bottom: 1px solid #c0c0c0;
-        border-left: 0px;
-        border-right: 0px;
-        border-top: 0px;
-        border-collapse: collapse;
-        height: 40px;
-    }
-
-    thead td {
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .mu li {
-        font-family: 微软雅黑;
-        font-size: 16px;
-        list-style: none;
+        height: 39px;
+        margin-top: 5px;
+        border-radius: 6px 6px 0 0;
         line-height: 39px;
-        cursor: hand;
-        text-align: center
+        margin-right: 5px;
     }
-
-    .mu li:hover {
-        background-color: #DEE2E7;
-        border-radius: 3px
+    .tabs:hover{
+        background:  rgb(238,238,238);
     }
-
-    .modal-header {
-        color: #ffffff;
-        font-size: 16px;
-        font-family: 微软雅黑;
-        background-color: #1c2b36;
-        height: 50px;
-        line-height: 50px;
-        border-top-right-radius: 4px;
-        border-top-left-radius: 4px;
+    .telescopic{
+        width: 9px;
+        height: 100%;
+        background: rgb(39, 125, 146);
+        float: left;
+        position: fixed;
+        top: 80px;
+        left: 220px;
+        transition: 1s;
+    }
+    .leftDiv{
+        left:0;
+        transition: 1s;
+    }
+    .retractLeft{
+        left:-220px;
+    }
+    .retractBtn{
+        left:0;
+    }
+    .retractRight{
+        padding: 80px 0px 0 9px;
+    }
+    .rightBtn{
+        width: 9px;
+        height: 41px;
+        background: url('./images/right.gif');
+        position: relative;
+        top:50%;
+        margin-top: -20px;
+    }
+    .rightBtn:hover{
+        cursor: pointer;
+    }
+    .firstFloor{
+        height: 16px;
+        padding: 1px 10px;
+        margin: 4px;
+        float: left;
+        position: relative;
+        top: -2px;
+    }
+    .floor100{
+        background: url('./images/kaoqin.png') no-repeat;
+    }
+    .floor120{
+        background: url('./images/tongji.png') no-repeat;
+    }
+    .floor140{
+        background: url('./images/zu.png') no-repeat;
+    }
+    .floor150{
+        background: url('./images/liucheng.png') no-repeat;
+    }
+    .floor160{
+        background: url('./images/zidian.png') no-repeat;
+    }
+    .floor170{
+        background: url('./images/ziyuan.png') no-repeat;
     }
 
 </style>
-<div ng-controller="attendanceController">
-    <div>
-        <button class="inputAtt" ng-click="showInputAttModal()">
-            <span class="glyphicon glyphicon-plus"></span> 录入事项
-        </button>
-        <button class="deleteAtt" ng-click="deleteAttInfo($index)">
-            <span class="glyphicon glyphicon-plus"></span>清除事项
-        </button>
-        <button class="inputSign" ng-click="showInputSignModal()">
-            <span class="glyphicon glyphicon-plus"></span> 添加签到
-        </button>
-        <button class="inputLeave" ng-click="showInputLeaveModal()">
-            <span class="glyphicon glyphicon-plus"></span> 添加签退
-        </button>
-        <br/><br/>
-            <table id="attendanceListTable" align="center">
-                <thead>
-                <tr>
-                    <td width="4%">序号</td>
-                    <td width="7%">用户名</td>
-                    <td width="8%">部门</td>
-                    <td width="6%">考勤日期</td>
-                    <td width="6%">签到时间</td>
-                    <td width="6%">签退时间</td>
-                    <td width="6%">加班时间</td>
-                    <td width="6%">迟到</td>
-                    <td width="6%">早退</td>
-                    <td width="6%">旷工</td>
-                    <td width="6%">整日考勤</td>
-                    <td width="6%">上午考勤</td>
-                    <td width="6%">下午考勤</td>
-                    <td width="6%">是否异常</td>
-                    <td width="15%">异常原因</td>
-                </tr>
-                </thead>
-                <tr ng-repeat="attendance in attendances" class="contentTr">
-                    <td>{{$index+1}}</td>
-                    <td>{{attendance.userName}}</td>
-                    <td>{{attendance.depart}}</td>
-                    <td>{{attendance.checkDate}}</td>
-                    <td>{{attendance.signTime}}</td>
-                    <td>{{attendance.leaveTime}}</td>
-                    <td>{{attendance.overTime}}</td>
-                    <td>{{attendance.late}}</td>
-                    <td>{{attendance.early}}</td>
-                    <td>{{attendance.absent}}</td>
-                    <td>{{attendance.allDay}}</td>
-                    <td>{{attendance.morDay}}</td>
-                    <td>{{attendance.aftDay}}</td>
-                    <td>{{attendance.isError==1 ? '异常' : '正常'}}</td>
-                    <td>{{attendance.errorDesc}}</td>
-                </tr>
-            </table>
-            <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
-                <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
-                    <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
-                </div>
-                <div style="width:40%;height:30px;float:left;">
-                    <ul class="pager" style="margin-top: 10px;">
-                        <li class="previous disabled" id="previousPageLink">
-                            <a href="javascript:void(0)" unable="false" id="previousPage"
-                               ng-click="previousPage()">&larr; 上一页</a>
-                        </li>
-                        <li class="next" id="nextPageLink">
-                            <a href="javascript:void(0)" unable="false" id="nextPage"
-                               ng-click="nextPage()">下一页 &rarr;</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<div ng-controller="humanController" style="height: 100%;">
+    <div style="height: 100%;">
+        <div class="leftDiv" ng-class="{'retractLeft':isRetractBtn}">
+            <treecontrol class="tree-boot"
+                         tree-model="treeData1"
+                         options="treeOptions"
+                         on-selection="nodeSelect(node)"
+                         selected-node="node1"
+                         expanded-nodes="expandedNodes"
+                         ng-show="page">
+                {{node.name}}
+            </treecontrol>
+            <treecontrol class="tree-boot"
+                         tree-model="treeDataCheck"
+                         options="treeOptions"
+                         on-selection="nodeSelect(node)"
+                         selected-node="node1"
+                         expanded-nodes="expandedNodesCheck">
+                <span ng-show="{{node.show}}" class="firstFloor floor{{node.id}}"></span>
+                {{node.name}}
+            </treecontrol>
 
-        <div class="modal fade" id="inputAttModal" tabindex="-1" role="dialog" aria-labelledby="inputAttModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="inputAttModalLabel"> 新增事项</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form name="inputAttForm" novalidate>
-                            <table id="inputAttTable" width="100%" name="inputAttTable">
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">用户：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="userId" class="form-control"
-                                               ng-model="formData.userId" ng-maxlength="20" required/>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">日期：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="checkDate" class="form-control"
-                                               ng-model="formData.checkDate" ng-maxlength="20" required/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">时段：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <select id="time" name="time" class="form-control" ng-model="formData.time" required="required">
-                                            <option value="0">整天</option>
-                                            <option value="1">上午</option>
-                                            <option value="2">下午</option>
-                                            <option value="3">晚上</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">操作：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <select id="opt" name="opt" class="form-control" ng-model="formData.opt" required="required">
-                                            <option value="00">调休</option>
-                                            <option value="01">年假</option>
-                                            <option value="02">事假</option>
-                                            <option value="03">产假</option>
-                                            <option value="04">婚假</option>
-                                            <option value="05">丧假</option>
-                                            <option value="06">病假</option>
-                                            <option value="10">加班</option>
-                                            <option value="20">出差</option>
-                                            <option value="21">外出</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="cancel" data-dismiss="modal">Close</button>
-                        <button type="button" class="sure"
-                                ng-disabled="formData.userId.$invalid||formData.checkDate.$invalid||formData.time.$invalid||formData.opt.$invalid"
-                                ng-click="inputChecked()">确认
-                        </button>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="telescopic" ng-click="telescopicBtn()" ng-class="{'retractBtn':isRetractBtn}">
+            <div class="rightBtn"></div>
         </div>
 
-        <div class="modal fade" id="inputSignModal" tabindex="-1" role="dialog" aria-labelledby="inputSignModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="inputSignModalLabel"> 添加签到时间</h4>
+        <div class="rightDiv" ng-class="{'retractRight':isRetractBtn}" style="height: 100%;">
+            <form id="outerForm" name="outerForm" class="tab-form-demo" style="height: 100%;">
+                <uib-tabset active="activeIndex" style="height: 100%;">
+                    <div style="float:left;background: #d4e0ef;width: 21px;height: 40px;">
+                        <img src="images/left_16x16.png" style="padding: 12px 2.5px;" ng-show="leftRight" ng-click="left()"/>
                     </div>
-                    <div class="modal-body">
-                        <form name="inputSignForm" novalidate>
-                            <table id="inputSignTable" width="100%" name="inputSignTable">
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">用户：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="userId" class="form-control"
-                                               ng-model="formData.userId" ng-maxlength="20" required/>
-                                    </td>
 
-                                </tr>
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">日期：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="checkDate" class="form-control"
-                                               ng-model="formData.checkDate" ng-maxlength="20" required/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">时间：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="checkDate" class="form-control"
-                                               ng-model="formData.signTime" ng-maxlength="20" required/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
+                    <div id="style2" style="float:left;width: calc(100% - 42px);height: 44px;overflow:hidden;">
+                        <div id="style" ng-style="moveStyle">
+                            <uib-tab ng-repeat="content in contents" index="content.id" heading="{{content.name}}" id="{{content.id}}" class="tabs">
+                                <div ng-include="content.url" autoscroll="true" style="height: 100%;">
+                                </div>
+                            </uib-tab>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="cancel" data-dismiss="modal">Close</button>
-                        <button type="button" class="sure"
-                                ng-disabled="formData.userId.$invalid||formData.checkDate.$invalid||formData.signTime.$invalid"
-                                ng-click="inputSignTime()">确认
-                        </button>
+
+                    <div style="float:right;background: #d4e0ef;width: 21px;height: 40px;">
+                        <img src="images/right_16x16.png" style="padding: 12px 2.5px;" ng-show="leftRight" ng-click="right()"/>
                     </div>
-                </div>
-            </div>
+                </uib-tabset>
+            </form>
+
         </div>
-
-        <div class="modal fade" id="inputLeaveModal" tabindex="-1" role="dialog" aria-labelledby="inputLeaveModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="inputLeaveModalLabel"> 添加签退时间</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form name="inputLeaveForm" novalidate>
-                            <table id="inputLeaveTable" width="100%" name="inputLeaveTable">
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">用户：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="userId" class="form-control"
-                                               ng-model="formData.userId" ng-maxlength="20" required/>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">日期：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="checkDate" class="form-control"
-                                               ng-model="formData.checkDate" ng-maxlength="20" required/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%" class="tdAlignRight">时间：<span
-                                            style="color: red;margin-left: 5px">*</span></td>
-                                    <td width="70%" class="tdAlignLeft">
-                                        <input type="text" name="checkDate" class="form-control"
-                                               ng-model="formData.leaveTime" ng-maxlength="20" required/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="cancel" data-dismiss="modal">Close</button>
-                        <button type="button" class="sure"
-                                ng-disabled="formData.userId.$invalid||formData.checkDate.$invalid||formData.leaveTime.$invalid"
-                                ng-click="inputLeaveTime()">确认
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

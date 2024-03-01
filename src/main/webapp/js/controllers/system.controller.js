@@ -3,7 +3,7 @@
 //系统管理模块
 var systemModule = angular.module("systemModule", []);
 
-var systemListController = function($scope, $http, LoginService) {
+var systemListController = ['$scope', '$http', 'LoginService',function($scope, $http, LoginService) {
     $scope.req = {};
     $scope.req.paging = {};
     $scope.req.paging.pageNo = 1;
@@ -296,12 +296,12 @@ var systemListController = function($scope, $http, LoginService) {
     //设置系统创建时间
     $scope.setSystemCreateTime = function (date) {
         $scope.systemInfo.createTime = date;
-        alert($scope.systemInfo.createTime);
+        showOkModal("消息", $scope.systemInfo.createTime);
     };
     if(LoginService.isAuthorized==true) {
         $scope.getSystemList();
     }
-};
+}];
 
 
 systemModule.$inject = ['$scope', '$http'];

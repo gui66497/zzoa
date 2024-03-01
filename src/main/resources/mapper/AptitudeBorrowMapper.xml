@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.AptitudeBorrowMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.AptitudeBorrow" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="certificate_type" property="certificateType" jdbcType="VARCHAR" />
+    <result column="certificate_name" property="certificateName" jdbcType="VARCHAR" />
+    <result column="certificate_id" property="certificateId" jdbcType="VARCHAR" />
+    <result column="borrow_date" property="borrowDate" jdbcType="VARCHAR" />
+    <result column="borrow_user_id" property="borrowUserId" jdbcType="VARCHAR" />
+    <result column="borrow_user_name" property="borrowUserName" jdbcType="VARCHAR" />
+    <result column="borrow_reason" property="borrowReason" jdbcType="VARCHAR" />
+    <result column="back_date" property="backDate" jdbcType="VARCHAR" />
+    <result column="back_user_id" property="backUserId" jdbcType="VARCHAR" />
+    <result column="back_user_name" property="backUserName" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, certificate_type, certificate_name, certificate_id, borrow_date, borrow_user_id, 
+    borrow_user_name, borrow_reason, back_date, back_user_id, back_user_name, note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_aptitude_borrow
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_aptitude_borrow
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="zzjz.bean.AptitudeBorrow" >
+    insert into tb_aptitude_borrow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="certificateType != null" >
+        certificate_type,
+      </if>
+      <if test="certificateName != null" >
+        certificate_name,
+      </if>
+      <if test="certificateId != null" >
+        certificate_id,
+      </if>
+      <if test="borrowDate != null" >
+        borrow_date,
+      </if>
+      <if test="borrowUserId != null" >
+        borrow_user_id,
+      </if>
+      <if test="borrowUserName != null" >
+        borrow_user_name,
+      </if>
+      <if test="borrowReason != null" >
+        borrow_reason,
+      </if>
+      <if test="backDate != null" >
+        back_date,
+      </if>
+      <if test="backUserId != null" >
+        back_user_id,
+      </if>
+      <if test="backUserName != null" >
+        back_user_name,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="certificateType != null" >
+        #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateName != null" >
+        #{certificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateId != null" >
+        #{certificateId,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowDate != null" >
+        #{borrowDate,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowUserId != null" >
+        #{borrowUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowUserName != null" >
+        #{borrowUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowReason != null" >
+        #{borrowReason,jdbcType=VARCHAR},
+      </if>
+      <if test="backDate != null" >
+        #{backDate,jdbcType=VARCHAR},
+      </if>
+      <if test="backUserId != null" >
+        #{backUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="backUserName != null" >
+        #{backUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.AptitudeBorrow" >
+    update tb_aptitude_borrow
+    <set >
+      <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateName != null" >
+        certificate_name = #{certificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateId != null" >
+        certificate_id = #{certificateId,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowDate != null" >
+        borrow_date = #{borrowDate,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowUserId != null" >
+        borrow_user_id = #{borrowUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowUserName != null" >
+        borrow_user_name = #{borrowUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowReason != null" >
+        borrow_reason = #{borrowReason,jdbcType=VARCHAR},
+      </if>
+      <if test="backDate != null" >
+        back_date = #{backDate,jdbcType=VARCHAR},
+      </if>
+      <if test="backUserId != null" >
+        back_user_id = #{backUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="backUserName != null" >
+        back_user_name = #{backUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getAptitudeBorrowPageList" parameterType="zzjz.bean.AptitudeBorrowRequest" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_APTITUDE_BORROW
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        AND ID = '${id}'
+      </if>
+      <if test="certificateType != null" >
+        AND CERTIFICATE_TYPE = '${certificateType}'
+      </if>
+      <if test="certificateName != null" >
+        AND CERTIFICATE_NAME = '${certificateName}'
+      </if>
+      <if test="certificateId != null" >
+        AND CERTIFICATE_ID = '${certificateId}'
+      </if>
+      <if test="borrowDate != null" >
+        AND BORROW_DATE = '${borrowDate}'
+      </if>
+      <if test="borrowUserId != null" >
+        AND BORROW_USER_ID = '${borrowUserId}'
+      </if>
+      <if test="borrowUserName != null" >
+        AND BORROW_USER_NAME = '${borrowUserName}'
+      </if>
+      <if test="borrowReason != null" >
+        AND BORROW_REASON = '${borrowReason}'
+      </if>
+      <if test="backDate != null" >
+        AND BACK_DATE = '${backDate}'
+      </if>
+      <if test="backUserId != null" >
+        AND BACK_USER_ID = '${backUserId}'
+      </if>
+      <if test="backUserName != null" >
+        AND BACK_USER_NAME = '${backUserName}'
+      </if>
+      <if test="note != null" >
+        AND NOTE = '${note}'
+      </if>
+    </trim>
+    order by borrow_date DESC
+  </select>
+
+  <select id="getAptitudeBorrowList" parameterType="zzjz.bean.AptitudeBorrow" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_APTITUDE_BORROW
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        AND ID = '${id}'
+      </if>
+      <if test="certificateType != null" >
+        AND CERTIFICATE_TYPE = '${certificateType}'
+      </if>
+      <if test="certificateName != null" >
+        AND CERTIFICATE_NAME = '${certificateName}'
+      </if>
+      <if test="certificateId != null" >
+        AND CERTIFICATE_ID = '${certificateId}'
+      </if>
+      <if test="borrowDate != null" >
+        AND BORROW_DATE = '${borrowDate}'
+      </if>
+      <if test="borrowUserId != null" >
+        AND BORROW_USER_ID = '${borrowUserId}'
+      </if>
+      <if test="borrowUserName != null" >
+        AND BORROW_USER_NAME = '${borrowUserName}'
+      </if>
+      <if test="borrowReason != null" >
+        AND BORROW_REASON = '${borrowReason}'
+      </if>
+      <if test="backDate != null" >
+        AND BACK_DATE = '${backDate}'
+      </if>
+      <if test="backUserId != null" >
+        AND BACK_USER_ID = '${backUserId}'
+      </if>
+      <if test="backUserName != null" >
+        AND BACK_USER_NAME = '${backUserName}'
+      </if>
+      <if test="note != null" >
+        AND NOTE = '${note}'
+      </if>
+    </trim>
+    order by borrow_date DESC
+  </select>
+</mapper>

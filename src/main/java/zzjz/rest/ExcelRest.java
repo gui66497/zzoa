@@ -1,22 +1,24 @@
 package zzjz.rest;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.jeecgframework.poi.excel.ExcelExportUtil;
-import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import zzjz.bean.BaseResponse;
 import zzjz.bean.ResultCode;
-import zzjz.bean.Staff;
 import zzjz.bean.StaffExcel;
+import zzjz.service.DepartService;
 import zzjz.service.StaffService;
+import zzjz.service.ZkemService;
+import zzjz.util.PinyinUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -25,13 +27,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * ExcelRest
+ * ExcelRest.
  *
  * @author fgt
  * @version 2017/2/20 17:04
@@ -40,14 +50,23 @@ import java.util.*;
 @Path("/excel")
 public class ExcelRest {
 
-    private final static Logger logger = LoggerFactory.getLogger(ExcelRest.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ExcelRest.class);
+
+    private String downPath = "D:/excel/";
 
     @Autowired
     StaffService staffService;
 
+    @Autowired
+    DepartService departService;
+
+    @Autowired
+    ZkemService zkemService;
+
     /**
-     * 上传测试
-     * @param fileInputStream 输入文件流
+     * 上传测试.
+     *
+     * @param fileInputStream          输入文件流
      * @param contentDispositionHeader 文件属性信息
      * @return 结果
      * @throws IOException IOException
@@ -58,31 +77,25 @@ public class ExcelRest {
     @Produces(MediaType.APPLICATION_JSON)
     public BaseResponse<String> upload(@FormDataParam("file") InputStream fileInputStream,
                                        @FormDataParam("file") FormDataContentDisposition contentDispositionHeader) throws IOException {
-        logger.info("开始调用/excel/upload");
+        LOGGER.info("开始调用/excel/upload");
         BaseResponse<String> response = new BaseResponse<>();
-        String fileName = contentDispositionHeader.getFileName();
-        System.out.println(contentDispositionHeader.getSize());
-        System.out.println(contentDispositionHeader.getType());
+        /*System.out.println(contentDispositionHeader.getSize());
+        System.out.println(contentDispositionHeader.getType());*/
 
         ImportParams importParams = new ImportParams();
         List<StaffExcel> res = null;
         try {
             res = ExcelImportUtil.importExcel(fileInputStream, StaffExcel.class, importParams);
-            System.out.println(res);
+            /*System.out.println(res);*/
         } catch (Exception e) {
             e.printStackTrace();
         }
         assert res != null;
-        for(StaffExcel staff : res) {
+        for (StaffExcel staff : res) {
             //时间戳
             staff.setStaffId(new Date().getTime());
-            //计算出生日期
-            String idNumber = staff.getIdNumber();
-            if (StringUtils.isNotBlank(idNumber)) {
-                String birth = idNumber.substring(6,10) + "/" + idNumber.substring(10,12) + "/" +
-                        idNumber.substring(12,14);
-                staff.setBirth(birth);
-            }
+            //根据身份证信息补全
+            staff = staffService.completeStaffByIdNum(staff);
             //计算转正日期
             String entryDateStr = staff.getEntryDate();
             if (StringUtils.isNotBlank(entryDateStr)) {
@@ -98,14 +111,27 @@ public class ExcelRest {
                     e.printStackTrace();
                 }
             }
+            String name = staff.getName();
+            //将名字的全拼作为用户名
+            String userName = PinyinUtil.getInstance().getStringPinyin(name);
+            staff.setUserName(userName);
+            //默认密码12345
+            staff.setPassword("12345");
+            //设置staffId
+            //String staffIdStr = StaffIdUtil.resMap.get(staff.getName());
+            String staffIdStr = zkemService.getUserIdByName(staff.getName());
+            if (StringUtils.isNotBlank(staffIdStr)) {
+                staff.setStaffId(Long.parseLong(staffIdStr));
+            }
+            //设置部门
+            String departName = staff.getDepartName();
+            if (StringUtils.isNotBlank(departName)) {
+                String departId = departService.getDepartIdByName(departName);
+                staff.setDepartId(departId);
+            }
+
         }
         boolean result = staffService.addStaffList(res);
-
-        /*int pos = fileName.lastIndexOf(".");
-        String newFileName = fileName.substring(0, pos) + "_" + DateUtil.getRandomFileName() + fileName.substring(pos);
-        String path = "D:/excel/" + newFileName;
-        File distFile = new File(path);
-        FileUtils.copyInputStreamToFile(fileInputStream, distFile);*/
         if (result) {
             response.setResultCode(ResultCode.RESULT_SUCCESS);
             response.setMessage("上传成功！");
@@ -113,40 +139,40 @@ public class ExcelRest {
             response.setResultCode(ResultCode.RESULT_ERROR);
             response.setMessage("上传失败！");
         }
+        LOGGER.info("调用完成/excel/upload");
         return response;
     }
 
     /**
-     * 下载测试
-     * @param request
-     * @param response
-     * @return
-     * @throws IOException
+     * 下载测试.
+     *
+     * @param request  请求
+     * @param response 结果
+     * @return 结果
+     * @throws IOException IOException
      */
     @POST
     @Path("down")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public byte[] downloadExcel(@Context HttpServletRequest request, @Context HttpServletResponse response) throws IOException {
-        logger.info("开始调用/excel/down");
-        TemplateExportParams params = new TemplateExportParams("D:\\zzjz_work\\zoa3\\src\\main\\resources\\docs\\专项支出用款申请书.xls");
+        LOGGER.info("开始调用/excel/down");
+        TemplateExportParams params = new TemplateExportParams("D:\\project\\zzoa\\src\\main\\resources\\docs\\专项支出用款申请书.xls");
         Map<String, Object> map = new HashMap<>();
         map.put("date", "2017.2.20");
         map.put("person", "小龙1");
         map.put("phone", "12345");
         map.put("company", "直真");
         Workbook book = ExcelExportUtil.exportExcel(params, map);
-        File file = new File("D:/excel/");
+        File file = new File(downPath);
         if (!file.exists()) {
-            file.mkdirs();
+            boolean rs = file.mkdirs();
+            LOGGER.info("创建文件:" + file + (rs == true ? "成功" : "失败"));
         }
-        //FileOutputStream fos = new FileOutputStream("D:/excel/ttt2.xls");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         book.write(bos);
 
-        //response.setHeader("Content-Disposition","attachment;filename=ttt2.xls");//为文件命名
-        //response.addHeader("content-type","application/vnd.ms-excel");
-        response.addHeader("filename","ttt3.xls");//文件命名
+        response.addHeader("filename", "ttt3.xls"); //文件命名
+        LOGGER.info("调用完成/excel/down");
         return bos.toByteArray();
-        //fos.close();
     }
 }

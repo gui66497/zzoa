@@ -17,6 +17,7 @@
 
         <setting name="defaultExecutorType" value="SIMPLE"/>
 
+        <!--map下划线转驼峰式-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
 
         <!--允许JDBC支持自动生成主键,需要驱动的兼容-->
@@ -28,11 +29,13 @@
             <property name="dialect" value="Mysql" />
         </plugin>
     </plugins>-->
-
     <plugins>
         <!-- com.github.pagehelper为PageHelper类所在包名 -->
         <plugin interceptor="com.github.pagehelper.PageInterceptor">
             <!-- 使用下面的方式配置参数，后面会有所有的参数介绍 -->
+        </plugin>
+        <!--map下划线转驼峰式-->
+        <plugin interceptor="zzjz.util.CameHumpInterceptor">
         </plugin>
     </plugins>
 </configuration>

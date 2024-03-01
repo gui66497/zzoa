@@ -1,0 +1,167 @@
+<style type="text/css">
+    #attenSummaryListTable {
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 100%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        /*border-bottom: 1px solid #c0c0c0;*/
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+    #attenSummaryListTable>thead{
+        border-top: 1px solid rgb(221,221,221);
+    }
+    #startMergeMonth,#endMergeMonth{
+        width: 150px;
+        padding: 3.5px 0 3.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        margin-right: 10px;
+    }
+    .mergeBtn {
+        margin-right: 10px;
+        padding: 4px 10px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .check{
+        display: inline-block;
+        content: '';
+        margin-right: 15px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 14px;
+    }
+    .optimize{
+        padding: 5.5px 12px;
+        border: none;
+        outline: none;
+        color: white;
+        border-radius: 4px;
+    }
+    .this{
+        background: rgb(1, 163, 163);
+        opacity:0.8;
+    }
+    .last{
+        background: #0469c0;
+        opacity:0.8;
+    }
+    .on{
+        opacity:1;
+    }
+</style>
+<div ng-controller="mergeController as controller" style="height: 100%;">
+    <div style="margin-top: 15px;height: 100%;">
+        <select name="departSelect" class="form-control" ng-model="depart" required="required" style="float:left;width: 150px;height: 28px;padding:3px 10px;margin-right: 10px;">
+            <option value="null">所有部门</option>
+            <option ng-repeat="x in departs" value="{{x.departName}}">{{x.departName}}</option>
+        </select>
+        <span style="font-size: 16px;">开始日期：</span><input type="date" id="startMergeMonth" value=""/>
+        <span style="font-size: 16px;">结束日期：</span><input type="date" id="endMergeMonth" value=""/>
+        <button class="mergeBtn" ng-click="mergeShow()" type="button">
+            <span class="glyphicon glyphicon-search"></span> 查询
+        </button>
+        <button class="mergeBtn" ng-click="export()" type="button">
+            <span class="glyphicon glyphicon-cloud-download"></span> 导出
+        </button>
+
+        <button ng-click="thisWeek()" class="optimize this" type="button">本周</button>
+        <button ng-click="thisMonth()" class="optimize this" type="button">本月</button>
+        <button ng-click="lastWeek()" class="optimize last" type="button">上周</button>
+        <button ng-click="lastMonth()" class="optimize last" type="button">上月</button>
+
+        <div style="font-size: 16px;">合计选项：
+            <span class="check"><input type="checkbox" ng-model="leaveinlieu" ng-click="off(leaveinlieu)">调休</span>
+            <span class="check"><input type="checkbox" ng-model="annual" ng-click="off(annual)">年假</span>
+            <span class="check" ><input type="checkbox" ng-model="treasure" ng-click="off(treasure)">事假</span>
+            <span class="check"><input type="checkbox" ng-model="maternity" ng-click="off(maternity)">产假</span>
+            <span class="check"><input type="checkbox" ng-model="marriage" ng-click="off(marriage)">婚假</span>
+            <span class="check"><input type="checkbox" ng-model="miami" ng-click="off(miami)">丧假</span>
+            <span class="check"><input type="checkbox" ng-model="sick" ng-click="off(sick)">病假</span>
+            <span class="check"><input type="checkbox" ng-model="project" ng-click="off(project)">工程调休</span>
+        </div>
+        <table id="attenSummaryListTable" align="center" class="table table-bordered table-striped table-condensed" style="display: block;margin-top: 15px;height: calc(100% - 200px);">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="4%">工号</td>
+                <td width="9%">部门</td>
+                <td width="7%">员工姓名</td>
+                <td width="5%">调休（天）</td>
+                <td width="5%">年假（天）</td>
+                <td width="5%">事假（天）</td>
+                <td width="5%">婚假（天）</td>
+                <td width="5%">病假（天）</td>
+                <td width="5%">丧假（天）</td>
+                <td width="5%">产（前）假（天）</td>
+                <td width="5%">工程调休（天）</td>
+                <td width="5%">总计（天）</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 53px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="merge in merges" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="0%" ng-hide="true">{{summary.userId}}</td>
+                <td width="4%">{{$index+1}}</td>
+                <!--<td width="4%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" title="{{merge.userId}}">{{merge.userId}}</td>-->
+                <td width="9%">{{merge.depart}}</td>
+                <td width="7%">{{merge.userName}}</td>
+                <td width="5%">{{merge.off}}</td>
+                <td width="5%">{{merge.annual}}</td>
+                <td width="5%">{{merge.compassionate}}</td>
+                <td width="5%">{{merge.marriage}}</td>
+                <td width="5%">{{merge.sick}}</td>
+                <td width="5%">{{merge.funeral}}</td>
+                <td width="5%">{{merge.maternity}}({{merge.antenatal}})</td>
+                <td width="5%">{{merge.project}}</td>
+                <td width="5%">{{merge.total}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+    $(".optimize").click(function(){
+        $(this).addClass("on").siblings().removeClass("on");
+    })
+</script>

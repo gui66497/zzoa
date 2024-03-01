@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.ProcessMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.Process" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="process_id" property="processId" jdbcType="VARCHAR" />
+    <result column="process_sign" property="processSign" jdbcType="VARCHAR" />
+    <result column="node_id" property="nodeId" jdbcType="VARCHAR" />
+    <result column="node_sign" property="nodeSign" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, process_id, process_sign, node_id, node_sign, user_id, user_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_process
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_process
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="zzjz.bean.Process" >
+    insert into tb_process
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="processId != null" >
+        process_id,
+      </if>
+      <if test="processSign != null" >
+        process_sign,
+      </if>
+      <if test="nodeId != null" >
+        node_id,
+      </if>
+      <if test="nodeSign != null" >
+        node_sign,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="processId != null" >
+        #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="processSign != null" >
+        #{processSign,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeId != null" >
+        #{nodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeSign != null" >
+        #{nodeSign,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.Process" >
+    update tb_process
+    <set >
+      <if test="processId != null" >
+        process_id = #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="processSign != null" >
+        process_sign = #{processSign,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeId != null" >
+        node_id = #{nodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeSign != null" >
+        node_sign = #{nodeSign,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getPageList" parameterType="zzjz.bean.ProcessRequest" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_PROCESS
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="processId != null" >
+        AND PROCESS_ID like '%${processId}%'
+      </if>
+      <if test="processSign != null" >
+        AND PROCESS_SIGN like '%${processSign}%'
+      </if>
+      <if test="nodeId != null" >
+        AND NODE_ID like '%${nodeId}%'
+      </if>
+      <if test="nodeSign != null" >
+        AND NODE_SIGN like '%${nodeSign}%'
+      </if>
+      <if test="userId != null" >
+        AND USER_ID = '${userId}'
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = '${userName}'
+      </if>
+      <if test="createTime != null" >
+        AND CREATE_TIME = '${createTime}'
+      </if>
+    </trim>
+  </select>
+
+  <select id="getStaffList" parameterType="java.lang.String" resultMap="BaseResultMap">
+  SELECT
+  <include refid="Base_Column_List"/>
+  FROM TB_PROCESS WHERE PROCESS_ID = #{processId,jdbcType=VARCHAR} and NODE_ID = #{nodeId,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html ng-app="indexModule">
+<head>
+    <title>查看历史</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="js/libs/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="js/libs/angular.js"></script>
+    <script type="text/javascript" src="js/libs/angular-route.js"></script>
+    <script type="text/javascript" src="js/libs/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/libs/angular-sanitize.js"></script>
+    <script type="text/javascript" src="js/libs/angular-animate.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-ui.js"></script>
+    <script src="exts/bootstrap/js/bootstrap.js"></script>
+    <!--<script src="exts/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="exts/bootstrap/js/bootstrap-modalmanager.js"></script>-->
+    <script type="text/javascript" src="exts/ui-bootstrap/ui-bootstrap-tpls-2.5.0.1.js"></script>
+    <!--<script src="js/libs/jquery.tree.js" type="text/javascript"></script>-->
+    <script type="text/javascript" src="exts/ng-table/ng-table.js"></script>
+    <script type="text/javascript" src="exts/angular-tree-control/angular-tree-control.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/moment.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/datetimepicker.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/datetimepicker.templates.js"></script>
+    <script type="text/javascript" src="exts/ui-tree/angular-ui-tree.js"></script>
+    <script type="text/javascript" src="exts/ui-select/select.js"></script>
+    <script type="text/javascript" src="exts/angular-loading-bar/loading-bar.js"></script>
+    <script src="exts/bootstrap/js/select2.js"></script>
+    <script src="exts/angular-multi-select/isteven-multi-select.js"></script>
+    <script src="exts/selectAddress/selectAddress2.js"></script>
+
+    <!-- CSS -->
+    <link href="css/index.css" rel="stylesheet" media="screen" />
+    <link href="exts/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <!--<link href="css/bootstrap-theme.css" rel="stylesheet" media="screen" />-->
+    <!--<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />-->
+    <!--<link href="exts/bootstrap/css/bootstrap-modal.css" rel="stylesheet" media="screen" />-->
+    <!--<link href="css/tree.css" rel="stylesheet" type="text/css" />-->
+    <link href="css/page.css" rel="stylesheet" type="text/css" />
+    <link href="exts/ng-table/ng-table.css" rel="stylesheet" type="text/css" />
+    <link href="exts/angular-tree-control/css/tree-control.css" rel="stylesheet" type="text/css" />
+    <link href="css/overall.css" rel="stylesheet" type="text/css" />
+    <link href="exts/angular-bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css" />
+    <link href="exts/ui-tree/angular-ui-tree.min.css" rel="stylesheet" type="text/css" />
+    <link href="exts/ui-select/select.css" rel="stylesheet" type="text/css" />
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">-->
+    <link href="exts/angular-loading-bar/loading-bar.css" rel="stylesheet" type="text/css" />
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="js/controllers/login.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/route.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/index.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/system.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/user.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/role.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/excel.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/tab.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/human.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/table.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/form.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/staff.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/attendance.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/trip.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/vacation.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/over.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/out.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/punch.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/calendar.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/attenSummary.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/userGroup.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/department.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/home.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/other.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/viewHistory.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/resource.controller.js"></script>
+    <!--<script type="text/javascript" src="js/controllers/manage.controller.js"></script>-->
+    <!--<script type="text/javascript" src="js/controllers/merge.controller.js"></script>-->
+    <script type="text/javascript" src="js/controllers/turnover.controller.js"></script>
+
+    <script type="text/javascript" src="js/directives/role.directive.js"></script>
+
+    <!-- Services -->
+    <script type="text/javascript" src="js/services/loginService.js"></script>
+    <script type="text/javascript" src="js/services/staffService.js"></script>
+
+    <!-- Directives -->
+    <script type="text/javascript" src="js/directives/hello.directive.js"></script>
+
+    <!-- Utils -->
+    <script type="text/javascript" src="js/utils/modal.utils.js"></script>
+    <script type="text/javascript" src="js/utils/common.utils.js"></script>
+    <script type="text/javascript" src="js/utils/date.utils.js"></script>
+    <script type="text/javascript">
+        /*$(document).ready(function(){
+         $('.modal').draggable();
+         })*/
+    </script>
+</head>
+<body>
+<div ng-controller="viewHistoryController as controller">
+        <table ng-table="controller.tableParams" align="center" class="table table-bordered table-striped table-condensed">
+            <thead>
+            <tr>
+                <td width="6%">序号</td>
+                <td width="15%">流程节点</td>
+                <td width="10%">处理人</td>
+                <td width="20%">开始时间</td>
+                <td width="20%">结束时间</td>
+                <td width="6%">操作</td>
+                <td width="23%">原因</td>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="history in viewHistory" class="contentTr">
+                <td width="6%">{{$index+1}}</td>
+                <td width="15%">{{history.actName}}</td>
+                <td width="10%">{{history.assignee}}</td>
+                <td width="20%">{{formatter(history.startTime)}}</td>
+                <td width="20%">{{formatter(history.endTime)}}</td>
+                <td width="6%" ng-switch="history.option">
+                    <span ng-switch-when="agree">同意</span>
+                    <span ng-switch-when="disagree">打回</span>
+                    <span ng-switch-default></span>
+                </td>
+                <td width="23%">{{history.reason}}</td>
+            </tr>
+            </tbody>
+        </table>
+</div>
+
+</body>
+</html>

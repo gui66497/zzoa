@@ -1,0 +1,169 @@
+<style>
+    tr {
+        border-bottom: none !important;
+    }
+
+    .control-label {
+        font-size: 14px;
+    }
+
+    .glyphicon {
+        margin-right: 2px;
+    }
+
+    .panel-group {
+        margin-bottom: 1px;
+    }
+    #departTree {
+        width: 44%;
+        float: left;
+    }
+
+    #departTree .angular-ui-tree-handle {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    #departTree .angular-ui-tree-handle:hover {
+        background: #d4e0ef;
+    }
+</style>
+<script type="text/ng-template" id="angularTreeTemplate">
+    <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" ng-style="isClick(item)"
+         style="width: 100%;float: left;z-index: 1000;line-height: 34px;">
+        <a class="btn btn-primary btn-xs" ng-if="item.nodes && item.nodes.length > 0" data-nodrag
+           ng-click="toggle(this)">
+            <span class="glyphicon"
+                  ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"></span>
+        </a>
+
+        <div style="display: inline-block;" ng-click="departNodeClick(item)">
+            <span ng-show="item.isEdit">
+                <input style="width:90%" type="text" data-nodrag ng-model="item.departName" set-focus ng-blur="setBlur(item)"/>
+             </span>
+            <span ng-show="!item.isEdit" ng-style="leftX">
+                 {{ item.departName}}
+             </span>
+        </div>
+        <div class="btn-group" role="group" aria-label="..." style="float: right;margin-bottom: 2px;margin-top: 2px;">
+            <button title="新增" type="button" ng-show="true" class=" btn btn-success btn-sm" data-nodrag
+                    ng-click="newSubItem(item)">
+                <span class="glyphicon glyphicon-plus"></span></button>
+            <button title="修改" type="button" ng-show="true" class=" btn btn-info btn-sm" data-nodrag
+                    ng-click="editItem(item)">
+                <span class="glyphicon glyphicon-edit"></span></button>
+            <button title="删除" type="button" ng-hide="false" class=" btn btn-warning btn-sm" data-nodrag
+                    ng-click="removeItem(item)||remove(this)">
+                <span class="glyphicon glyphicon-minus"></span></button>
+            <button title="角色" type="button" ng-show="true" class=" btn btn-primary btn-sm" data-nodrag
+                    ng-click="showDepartAuthorityModal(item)">
+                <span class="glyphicon glyphicon-eye-open"></span></button>
+        </div>
+    </div>
+    <ol ui-tree-nodes="" style="padding-left:27px;height: 0px" ng-model="item.nodes" ng-class="{hidden: collapsed}">
+        <li ng-repeat="item in item.nodes" ui-tree-node ng-include="'angularTreeTemplate'"
+            style="height: 0px;min-height: 0px">
+        </li>
+    </ol>
+
+</script>
+<div ng-controller="departmentCtrl as departmentCtrl">
+    <div style="padding-top: 20px">
+        <div ui-tree="treeOptions" id="departTree" ng-init="init()">
+            <ol ui-tree-nodes ng-model="angularTreeList">
+                <li ng-repeat="item in angularTreeList" ui-tree-node
+                    ng-include="readonly?'angularTreeReadOnlyTemplate':'angularTreeTemplate'" style="height: 0px">
+                </li>
+            </ol>
+        </div>
+        <div style="width: 48%;float: right;" ng-if="clickDepartId">
+            <!--<uib-accordion close-others="false" ng-repeat="staff in staffs">
+                <div uib-accordion-group class="panel-default" heading="{{staff.departRoles[0].groupId}} - {{staff.name}}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+                    This content is straight in the template.
+                </div>
+            </uib-accordion>-->
+            <table ng-table="departmentCtrl.tableParams" id="groupListTable" align="center"
+                   class="table table-bordered table-condensed">
+                <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;">
+                    <td width="7%">角色</td>
+                    <td width="11%">姓名</td>
+
+                </tr>
+                </thead>
+                <tbody style="display: block;max-height: 466px;overflow-y:scroll;width: 100%;">
+                <tr ng-if="$data.length < 1" style="display: table;width:100%;table-layout:fixed;" class="contentTr">
+                    <td>无数据</td>
+                </tr>
+                <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="7%">{{row.departRoles[0].groupName}}</td>
+                    <td width="11%">{{row.name}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="departAuthorityModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title"> 设置部门拥有角色</h4>
+                </div>
+                <div class="modal-body" style="max-height: 450px;overflow-y: auto">
+                    <!--<span ng-model="departNode">{{departNode.departName}}</span>-->
+                    <fieldset>
+                        <legend>选择角色</legend>
+                        <div ng-repeat="role in roleList.list">
+                            <label><input class="depart_role_check" type="checkbox" ng-checked="isRoleChecked(role.id)"
+                                          ng-value="role.id">{{role.name}}</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="sure" ng-click="addDepartAuthority()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addDepartModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">新增部门</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="departName">部门名称：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="departName" name="departName" placeholder="部门名称"
+                                       class="form-control" ng-model="name"
+                                       style="cursor: auto;">
+                            </div>
+                        </div>
+                        <div class="noneDiv" style="display: none">
+                            <input ng-model="item" hidden/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="addDepartInfo()">确定</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

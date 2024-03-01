@@ -1,7 +1,7 @@
 'use strict';
 
 //表单测试 controller
-indexModule.controller('formController', function ($scope, $http) {
+indexModule.controller('formController',['$scope','$http', function ($scope, $http) {
 
     $scope.openLeave = function () {
         $("#addLeaveRequest").modal({show: true, keyboard: false, backdrop: 'static'});
@@ -15,7 +15,7 @@ indexModule.controller('formController', function ($scope, $http) {
 
         // check to make sure the form is completely valid
         if (isValid) {
-            alert('our form is amazing');
+            showOkModal("提示", 'our form is amazing');
         }
 
     };
@@ -59,4 +59,4 @@ indexModule.controller('formController', function ($scope, $http) {
             })
         }
     }
-});
+}]);

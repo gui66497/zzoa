@@ -1,0 +1,221 @@
+<style type="text/css">
+    #aptitudeListTable{
+        margin-top: 15px;
+        height:calc(100% - 250px);
+        display: block;
+    }
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: none !important;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+    .addBtn {
+        margin-right: 10px;
+        padding: 0 15px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .mergeBtn {
+        margin-right: 10px;
+        padding: 5px 10px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .turn_search{
+        height: 96px;
+        margin-top: 30px;
+        padding: 10px 0 24px 0;
+        border: 1px solid #f0f4f8;
+    }
+</style>
+<div ng-controller="AptitudeController as controller" style="height: 100%;">
+    <div style="margin-top: 10px;height: 100%;">
+        <button class="mergeBtn" ng-click="toExportAptitude()" type="button">
+            <span class="glyphicon glyphicon-cloud-download"></span> 导出
+        </button>
+
+        <button class="pureBtn" style="float:right;" ng-click="aptitudeSearch()" type="button">
+            高级搜索
+        </button>
+
+
+        <!--<div style="float: right;margin-bottom: 10px;">-->
+        <!--<input type="text" ng-model="req.aptitudeType" placeholder="请输入资质类型" value="" ng-keyup="myKeyup($event)" class="form-control" style="height: 34px;margin-right: 10px;float: left;width: 150px;"/>-->
+        <!--<input type="text" ng-model="req.certificateName" placeholder="请输入证书名称" value="" ng-keyup="myKeyup($event)" class="form-control" style="height: 34px;margin-right: 10px;float: left;width: 150px;"/>-->
+        <!--<input type="text" ng-model="req.userName" placeholder="请输入持有人" value="" ng-keyup="myKeyup($event)" class="form-control" style="height: 34px;margin-right: 10px;float: left;width: 150px;"/>-->
+        <!--<input type="text" ng-model="req.certificateLevel" placeholder="请输入证书等级" value="" ng-keyup="myKeyup($event)" class="form-control" style="height: 34px;margin-right: 10px;float: left;width: 150px;"/>-->
+        <!--<input type="text" ng-model="req.fileType" placeholder="请输入保存形式" value="" ng-keyup="myKeyup($event)" class="form-control" style="height: 34px;margin-right: 10px;float: left;width: 150px;"/>-->
+        <!--<input type="text" ng-model="req.fileStatus" placeholder="请输入保存状态" value="" ng-keyup="myKeyup($event)" class="form-control" style="height: 34px;margin-right: 10px;float: left;width: 150px;"/>-->
+        <!--<button class="addBtn" ng-click="autoQuery()" type="button" style="float:left;height: 34px">-->
+        <!--<span class="glyphicon glyphicon-search"></span> 查询-->
+        <!--</button>-->
+        <!--</div>-->
+
+        <div class="turn_search" ng-show="aptitudeAll">
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">资质类型：</label>
+                    <select class="form-control" name="isFormal" style="width: 150px;"
+                            ng-model="req.aptitudeType" required="required">
+                        <option value=""></option>
+                        <option ng-repeat="x in staffAttribute" value="{{x.dicKey}}">{{x.dicValue}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">证书名称：</label>
+                    <input type="text" name="name" style="width: 150px" placeholder="请输入证书名称" class="form-control" ng-model="req.certificateName"  required>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">持有人：</label>
+                    <input type="text" name="name" style="width: 150px" placeholder="请输入持有人" class="form-control" ng-model="req.userName"  required>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">证书等级：</label>
+                    <input type="text" name="name" style="width: 150px" placeholder="请输入证书等级" class="form-control" ng-model="req.certificateLevel"  required>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3" style="margin-top: 10px;">
+                    <label class="form-label">保存形式：</label>
+                    <select class="form-control" name="isFormal" style="width: 150px;"
+                            ng-model="req.fileType" required="required">
+                        <option value=""></option>
+                        <option value="原件">原件</option>
+                        <option value="复印件">复印件</option>
+                        <option value="扫描件">扫描件</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3" style="margin-top: 10px;">
+                    <label class="form-label">保存状态：</label>
+                    <select class="form-control" name="isFormal" style="width: 150px;"
+                            ng-model="req.fileStatus" required="required">
+                        <option value=""></option>
+                        <option value="在库">在库</option>
+                        <option value="借出">借出</option>
+                        <option value="归还本人">归还本人</option>
+                    </select>
+                    <button class="pureBtn" style="float: right;width: 60px;margin-right: 5%;background: #4dbd73;color: white;" ng-click="autoQuery()" type="button">
+                        搜索
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+        <table ng-show="noContent" ng-table="controller.tableParams" id="aptitudeListTable" align="center"
+               class="table table-bordered table-striped table-condensed">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="10%">序号</td>
+                <td width="10%">资质类型</td>
+                <td width="15%">证书名称</td>
+                <td width="10%">持有人</td>
+                <td width="15%">证书编号</td>
+                <td width="10%">证书等级</td>
+                <td width="15%">保存形式</td>
+                <td width="15%">保存状态</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height:calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="10%">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                <td width="10%">{{row.aptitudeType}}</td>
+                <td width="15%">{{row.certificateName}}</td>
+                <td width="10%">{{row.userName}}</td>
+                <td width="15%">{{row.certificateId}}</td>
+                <td width="10%">{{row.certificateLevel}}</td>
+                <td width="15%">{{row.fileType}}</td>
+                <td width="15%">{{row.fileStatus}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--导出资质信息定制列弹框-->
+        <div class="modal fade" id="aptitudeExportSelect" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title"> 导出选择</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 500px;overflow-y: auto">
+                        <div style="float:left;width: 100%;margin-right: 2%;max-height: 450px;">
+                            <p style="font-size: 14px;font-weight: 700;">选择导出列</p>
+                            <div class="papers">
+                                <ul>
+                                    <li><input type="checkbox" ng-model="exportAllModel" ng-click="exportCheckAll()"/><span style="margin-left: 40px;font-weight: 700;">全选/不选</span></li>
+                                </ul>
+                                <ul ng-repeat="x in myCols" style="float: left;width: 50%;">
+                                    <li><input type="checkbox" ng-checked="x.checked" ng-click="exportCheck(x.columnName)"/><span style="margin-left: 40px;">{{x.columnName}}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="sure" ng-click="exportAptitude()" type="button">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

@@ -70,3 +70,30 @@
 .deleteBtn:hover{
     background: url("./img/delete_hover.png");
 }
+.revokeBtn{
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url("./img/revoke.png");
+}
+.revokeBtn:hover{
+    background: url("./img/revoke_hover.png");
+}
+.forBtn{
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url("./img/xiaojia.png");
+}
+.forBtn:hover{
+    background: url("./img/xiaojia_hover.png");
+}
+.lookBtn{
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: url("./img/look.png");
+}
+.lookBtn:hover{
+    background: url("./img/look_hover.png");
+}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1491380949410" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
   <process id="HelloWorldKey" isClosed="false" isExecutable="true" name="HelloWorldName" processType="None">
-    <startEvent id="start" name="开始"/>
-    <endEvent id="end" name="结束"/>
-    <userTask activiti:assignee="${user}" activiti:exclusive="true" id="usertask1" name="提交申请"/>
-    <userTask activiti:assignee="${user}" activiti:exclusive="true" id="usertask2" name="审批【部门经理】"/>
-    <userTask activiti:assignee="${user}" activiti:exclusive="true" id="usertask3" name="审批【总经理】"/>
+    <startEvent id="start" name="寮�濮�"/>
+    <endEvent id="end" name="缁撴�?"/>
+    <userTask activiti:assignee="${user}" activiti:exclusive="true" id="usertask1" name="鎻愪氦鐢宠"/>
+    <userTask activiti:assignee="${user}" activiti:exclusive="true" id="usertask2" name="瀹℃壒銆愰儴闂ㄧ粡鐞嗐��?"/>
+    <userTask activiti:assignee="${user}" activiti:exclusive="true" id="usertask3" name="瀹℃壒銆愭�荤粡鐞嗐��"/>
     <sequenceFlow id="_7" sourceRef="start" targetRef="usertask1"/>
     <sequenceFlow id="_8" sourceRef="usertask1" targetRef="usertask2"/>
     <sequenceFlow id="_9" sourceRef="usertask2" targetRef="usertask3"/>

@@ -1,7 +1,7 @@
 'use strict';
 
 //用户管理模块
-indexModule.controller('userController', function ($scope, $http, $timeout) {
+indexModule.controller('userController',['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
 
     $scope.req = {};
     $scope.req.paging = {};
@@ -129,7 +129,7 @@ indexModule.controller('userController', function ($scope, $http, $timeout) {
                 showOkModal('提示', "删除失败,"+data.message);
             }
         }).error(function (data) {
-            alert(data);
+            showOkModal("提示", data);
             $("#serverErrorModal").modal({show: true});
         });
     };
@@ -277,6 +277,6 @@ indexModule.controller('userController', function ($scope, $http, $timeout) {
      li[i].className = target ==li[i] ? "liSelected":"";
      }
      };*/
-});
+}]);
 
 //用户管理controller

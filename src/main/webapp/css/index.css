@@ -1,14 +1,17 @@
-
 #loginModal .modal-body {
     max-height: 350px;
     background: rgba(255,255,255,.8);
 }
 #loginModal {
-    max-height: 350px;
-    height:330px;
-    width:290px;
-    margin-left:-165px;
-    top: 300px;
+    /*max-height: 400px;*/
+    /*height:390px;*/
+    width:300px;
+    /*margin-left:40%;*/
+    /*top: 150px;*/
+    /*margin: 250px auto;*/
+}
+#loginTable input{
+    outline: none;
 }
 
 #reduceModal .modal-body {
@@ -55,4 +58,14 @@
 }
 td,th,span,button,label,div,select,textarea,input{
     font-family: 微软雅黑;
+}
+.closeTable{
+    background: url("/images/close.png");
+}
+.closeTable:hover{
+    background: url("/images/close_hover.png");
+}
+#login{
+    background: url("../images/login_bg.png");
+    opacity: 0.7;
 }

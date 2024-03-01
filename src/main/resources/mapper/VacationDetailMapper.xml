@@ -77,4 +77,38 @@
     delete from tb_vacation_detail
         where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <update id="updateAllDayToAttendance" parameterType="java.lang.Integer">
+    update tb_attendance a,tb_vacation_detail b set a.all_day=b.leave_typ
+    where b.id=#{id,jdbcType=INTEGER} and a.user_id=b.user_id and b.leave_part='all' and a.check_date=b.leave_date
+  </update>
+
+  <update id="updateMorDayToAttendance" parameterType="java.lang.Integer">
+    update tb_attendance a,tb_vacation_detail b set a.mor_day=b.leave_typ
+    where b.id=#{id,jdbcType=INTEGER} and a.user_id=b.user_id and b.leave_part='mor' and a.check_date=b.leave_date
+  </update>
+
+  <update id="updateAftDayToAttendance" parameterType="java.lang.Integer">
+    update tb_attendance a,tb_vacation_detail b set a.aft_day=b.leave_typ
+    where b.id=#{id,jdbcType=INTEGER} and a.user_id=b.user_id and b.leave_part='aft' and a.check_date=b.leave_date
+  </update>
+
+  <select id="countByUserId" parameterType="java.lang.Integer" resultType="java.lang.Double">
+    select sum(leave_day) leave_day from tb_vacation_detail where id=#{id,jdbcType=INTEGER} group by id
+  </select>
+
+  <select id="querySelective" parameterType="zzjz.bean.VacationDetail" resultMap="BaseResultMap">
+    select a.id, a.user_id, a.leave_date, a.leave_part, a.leave_typ, a.leave_day from tb_vacation_detail a inner join tb_vacation b on (a.id=b.id and b.status in ('97','98','99'))
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        AND a.ID = '${id}'
+      </if>
+      <if test="userId != null" >
+        AND a.USER_ID = '${userId}'
+      </if>
+      <if test="leaveDate != null" >
+        AND a.LEAVE_DATE = '${leaveDate}'
+      </if>
+    </trim>
+  </select>
 </mapper>

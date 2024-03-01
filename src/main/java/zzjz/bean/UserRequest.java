@@ -2,57 +2,112 @@ package zzjz.bean;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-/** 
-* @ClassName: UserResponse 
-* @Description: userResponse实体类
-* @author 顾征根
-* @date 2015年4月1日 下午3:36:04
-*/
+/**
+ * @author 顾征根
+ * @version 2015年4月1日 下午3:36:04
+ * @ClassName: UserResponse
+ * @Description: userResponse实体类
+ */
 @XmlRootElement
-public class UserRequest extends BaseRequest{
-	
-	private String authorId; // 作者ID 
-	
-	private String title;//标题
-	
-	private int statisticsType;//统计类型
+public class UserRequest extends BaseRequest {
 
-	private String userName;	//用户名
+    private String authorId; // 作者ID
 
-	private String password;	//登陆密码
+    private String title; //标题
 
-	public String getUserName() {
-		return userName;
-	}
+    private int statisticsType; //统计类型
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    private String userName;    //用户名
 
-	public String getPassword() {
-		return password;
-	}
+    private String password;    //登陆密码
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * getUserName.
+     *
+     * @return USER_NAME
+     */
+    public String getUserName() {
+        return userName;
+    }
 
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public int getStatisticsType() {
-		return statisticsType;
-	}
-	public void setStatisticsType(int statisticsType) {
-		this.statisticsType = statisticsType;
-	}
-	public String getAuthorId() {
-		return authorId;
-	}
-	public void setAuthorId(String authorId) {
-		this.authorId = authorId;
-	}
+    /**
+     * setUserName.
+     *
+     * @param userName USER_NAME
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * getPassword.
+     *
+     * @return PASSWORD
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * setPassword.
+     *
+     * @param password PASSWORD
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * getTitle.
+     *
+     * @return TITLE
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * setTitle.
+     *
+     * @param title TITLE
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * getStatisticsType.
+     *
+     * @return STATISTICS_TYPE
+     */
+    public int getStatisticsType() {
+        return statisticsType;
+    }
+
+    /**
+     * setStatisticsType.
+     *
+     * @param statisticsType STATISTICS_TYPE
+     */
+    public void setStatisticsType(int statisticsType) {
+        this.statisticsType = statisticsType;
+    }
+
+    /**
+     * getAuthorId.
+     *
+     * @return AUTHOR_ID
+     */
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    /**
+     * setAuthorId.
+     *
+     * @param authorId AUTHOR_ID
+     */
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
 }

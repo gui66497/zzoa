@@ -1,0 +1,93 @@
+<style type="text/css">
+
+    .inputGroup{
+        width: 200px;
+    }
+
+</style>
+<div ng-controller="userGroupController as userGroupController" style="height: 100%;">
+
+    <div class="row" style="height: 100%;">
+        <br>
+        <button class="nomalBtn" ng-click="toAddGroup()" type="button">
+            <span class="glyphicon glyphicon-plus"></span> 新增角色
+        </button>
+        <div class="span8" style="margin-top: 15px;height: calc(100% - 220px);">
+            <table style="display: block;margin-top: 15px;height: 100%;" ng-table="userGroupController.tableParams" id="groupListTable" align="center" class="table table-bordered table-striped table-condensed">
+                <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;">
+                    <td width="20%">角色Id</td>
+                    <td width="25%">角色名称</td>
+                    <td width="25%">类型</td>
+                    <td width="30%">操作</td>
+                </tr>
+                </thead>
+                <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="20%">{{row.id}}</td>
+                    <td width="25%">{{row.name}}</td>
+                    <td width="25%">{{row.type}}</td>
+                    <td>
+                        <button class="btn btn-danger btn-small" ng-disabled="isDisable(row)" ng-click="deleteGroup(row.id)" type="button"><i class="icon-remove"></i>删除</button>
+                        <button type="button" class="btn btn-info btn-small edit-group" data-id="${group.id}" ng-disabled="isDisable(row)" ng-click="toEditGroup($index,row.id)"><i class="icon-pencil"></i>编辑</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="modal fade" id="userGroupModal" tabindex="-1" role="dialog" aria-labelledby="ApproveModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="ApproveModalLabel">角色信息</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 300px;overflow-y: auto">
+                        <form class="form-horizontal" name="groupForm">
+                            <div class="form-group" ng-class="{ 'has-error' : groupForm.groupId.$invalid && !groupForm.groupId.$pristine }">
+                                <label for="groupId" class="col-sm-3 control-label">角色ID：<span style="color: red;">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="groupId" name="groupId" placeholder="请输入角色ID" class="form-control" ng-model="groupForm.groupId" required>
+                                    <p ng-show="groupForm.groupId.$invalid && !groupForm.groupId.$pristine" class="help-block">请输入角色ID</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-class="{ 'has-error' : groupForm.groupName.$invalid && !groupForm.groupName.$pristine }">
+                                <label for="groupName" class="col-sm-3 control-label">角色名：<span style="color: red;">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="groupName" name="groupName" placeholder="请输入角色名" class="form-control" ng-model="groupForm.groupName" required>
+                                    <p ng-show="groupForm.groupName.$invalid && !groupForm.groupName.$pristine" class="help-block">请输入角色名</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group"  ng-class="{ 'has-error' : groupForm.groupType.$invalid && !groupForm.groupType.$pristine }">
+                                <label  class="col-sm-3 control-label" for="groupType">角色类型：<span style="color: red;">*</span></label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="groupType" name="groupType" style="width: 240px;" ng-model="groupForm.groupType" required="required">
+                                        <option value="security-role">安全角色</option>
+                                        <option value="feature-role" selected>功能角色</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure"
+                                ng-disabled="groupForm.id.$invalid||groupForm.name.$invalid||groupForm.type.$invalid"
+                                ng-click="saveGroup()">提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

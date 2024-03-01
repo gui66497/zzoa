@@ -1,0 +1,157 @@
+<style type="text/css">
+    #attenSingleSummaryListTable {
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 100%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+    #dateYear{
+        width: 200px;
+        height:34px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        padding-left: 10px;
+        float: left;
+    }
+    #uploadBtn{
+        margin-right: 10px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+
+</style>
+<div ng-controller="attenSingleSummaryController" style="height: 100%;">
+    <div style="margin-top: 15px;height: 100%;">
+        <input type="number" id="dateYear" value="" onkeyup="value=this.value.replace(/[^\d]/g,'')" maxlength="4" style="margin-bottom: 15px;"/>
+        <select name="departSelect" class="form-control" ng-model="req.depart" required="required" style="float:left;width: 200px;margin: 0 10px;">
+            <option value="null">所有部门</option>
+            <option ng-repeat="x in departs" value="{{x.departId}}">{{x.departName}}</option>
+        </select>
+        <select id="opt" name="opt" class="form-control" ng-model="req.opt" required="required" style="float:left;width: 200px;margin: 0 10px;">
+            <option value="02" ng-selected="02">事假</option>
+            <option value="03">产假</option>
+            <option value="04">婚假</option>
+            <option value="05">丧假</option>
+            <option value="06">病假</option>
+            <option value="07">工程调休</option>
+            <option value="08">产前假</option>
+            <option value="20">出差</option>
+            <option value="21">外出</option>
+        </select>
+
+        <button id="uploadBtn" class="query" ng-click="autoQuery()" type="button" style="float:left;height: 34px">
+            <span class="glyphicon glyphicon-search"></span> 查询
+        </button>
+        <button class="nomalBtn" ng-click="export()" type="button">
+            <span class="glyphicon glyphicon-cloud-download"></span> 导出
+        </button>
+        <table id="attenSingleSummaryListTable" align="center" class="table table-bordered table-striped table-condensed" style="display: block;margin-top: 15px;height: calc(100% - 200px);">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;">
+                    <td width="4%">工号</td>
+                    <td width="9%">部门</td>
+                    <td width="7%">员工姓名</td>
+                    <td width="6%">三月</td>
+                    <td width="6%">四月</td>
+                    <td width="6%">五月</td>
+                    <td width="6%">六月</td>
+                    <td width="6%">七月</td>
+                    <td width="6%">八月</td>
+                    <td width="6%">九月</td>
+                    <td width="6%">十月</td>
+                    <td width="7%">十一月</td>
+                    <td width="7%">十二月</td>
+                    <td width="6%">一月</td>
+                    <td width="6%">二月</td>
+                    <td width="6%">共计</td>
+                </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="single in singles" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="0%" ng-hide="true">{{summary.staffId}}</td>
+                    <td width="4%">{{$index+1}}</td>
+                    <!--<td width="4%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" title="{{single.staffId}}">{{single.staffId}}</td>-->
+                    <td width="9%">{{single.departId}}</td>
+                    <td width="7%">{{single.name}}</td>
+                    <td width="6%">{{single.month03}}</td>
+                    <td width="6%">{{single.month04}}</td>
+                    <td width="6%">{{single.month05}}</td>
+                    <td width="6%">{{single.month06}}</td>
+                    <td width="6%">{{single.month07}}</td>
+                    <td width="6%">{{single.month08}}</td>
+                    <td width="6%">{{single.month09}}</td>
+                    <td width="6%">{{single.month10}}</td>
+                    <td width="7%">{{single.month11}}</td>
+                    <td width="7%">{{single.month12}}</td>
+                    <td width="6%">{{single.month01}}</td>
+                    <td width="6%">{{single.month02}}</td>
+                    <td width="6%">{{single.month}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

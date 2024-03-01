@@ -1,9 +1,12 @@
 package zzjz.bean;
 
-import org.jeecgframework.poi.excel.annotation.Excel;
-
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * @author 彭鹏
+ * @version 2017/10/13
+ */
 @XmlRootElement
 public class AttendanceExcel {
     /**
@@ -12,7 +15,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "考勤号码" )
+    @Excel(name = "考勤号码")
     private String userId;
 
     /**
@@ -21,7 +24,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "日期" ,importFormat="yyyy-MM-dd")
+    @Excel(name = "日期", importFormat = "yyyy-MM-dd")
     private String checkDate;
 
     /**
@@ -30,7 +33,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "姓名" )
+    @Excel(name = "姓名")
     private String userName;
 
     /**
@@ -39,7 +42,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "上班时间" ,importFormat="HH:mm")
+    @Excel(name = "上班时间", importFormat = "HH:mm")
     private String beginTime;
 
     /**
@@ -48,7 +51,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "下班时间" ,importFormat="HH:mm")
+    @Excel(name = "下班时间", importFormat = "HH:mm")
     private String endTime;
 
     /**
@@ -57,7 +60,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "签到时间" ,importFormat="HH:mm")
+    @Excel(name = "签到时间", importFormat = "HH:mm")
     private String signTime;
 
     /**
@@ -66,7 +69,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "签退时间" ,importFormat="HH:mm")
+    @Excel(name = "签退时间", importFormat = "HH:mm")
     private String leaveTime;
 
     /**
@@ -75,7 +78,7 @@ public class AttendanceExcel {
      *
      * @mbggenerated
      */
-    @Excel( name = "部门" )
+    @Excel(name = "部门")
     private String depart;
 
     /**
@@ -171,7 +174,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.user_id
      *
      * @return the value of tb_attendance.user_id
-     *
      * @mbggenerated
      */
     public String getUserId() {
@@ -183,7 +185,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.user_id
      *
      * @param userId the value for tb_attendance.user_id
-     *
      * @mbggenerated
      */
     public void setUserId(String userId) {
@@ -195,7 +196,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.check_date
      *
      * @return the value of tb_attendance.check_date
-     *
      * @mbggenerated
      */
     public String getCheckDate() {
@@ -207,7 +207,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.check_date
      *
      * @param checkDate the value for tb_attendance.check_date
-     *
      * @mbggenerated
      */
     public void setCheckDate(String checkDate) {
@@ -219,7 +218,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.user_name
      *
      * @return the value of tb_attendance.user_name
-     *
      * @mbggenerated
      */
     public String getUserName() {
@@ -231,7 +229,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.user_name
      *
      * @param userName the value for tb_attendance.user_name
-     *
      * @mbggenerated
      */
     public void setUserName(String userName) {
@@ -243,7 +240,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.begin_time
      *
      * @return the value of tb_attendance.begin_time
-     *
      * @mbggenerated
      */
     public String getBeginTime() {
@@ -255,7 +251,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.begin_time
      *
      * @param beginTime the value for tb_attendance.begin_time
-     *
      * @mbggenerated
      */
     public void setBeginTime(String beginTime) {
@@ -267,7 +262,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.end_time
      *
      * @return the value of tb_attendance.end_time
-     *
      * @mbggenerated
      */
     public String getEndTime() {
@@ -279,7 +273,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.end_time
      *
      * @param endTime the value for tb_attendance.end_time
-     *
      * @mbggenerated
      */
     public void setEndTime(String endTime) {
@@ -291,7 +284,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.sign_time
      *
      * @return the value of tb_attendance.sign_time
-     *
      * @mbggenerated
      */
     public String getSignTime() {
@@ -303,7 +295,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.sign_time
      *
      * @param signTime the value for tb_attendance.sign_time
-     *
      * @mbggenerated
      */
     public void setSignTime(String signTime) {
@@ -315,7 +306,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.leave_time
      *
      * @return the value of tb_attendance.leave_time
-     *
      * @mbggenerated
      */
     public String getLeaveTime() {
@@ -327,7 +317,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.leave_time
      *
      * @param leaveTime the value for tb_attendance.leave_time
-     *
      * @mbggenerated
      */
     public void setLeaveTime(String leaveTime) {
@@ -339,7 +328,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.depart
      *
      * @return the value of tb_attendance.depart
-     *
      * @mbggenerated
      */
     public String getDepart() {
@@ -351,7 +339,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.depart
      *
      * @param depart the value for tb_attendance.depart
-     *
      * @mbggenerated
      */
     public void setDepart(String depart) {
@@ -363,7 +350,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.all_day
      *
      * @return the value of tb_attendance.all_day
-     *
      * @mbggenerated
      */
     public String getAllDay() {
@@ -375,7 +361,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.all_day
      *
      * @param allDay the value for tb_attendance.all_day
-     *
      * @mbggenerated
      */
     public void setAllDay(String allDay) {
@@ -387,7 +372,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.mor_day
      *
      * @return the value of tb_attendance.mor_day
-     *
      * @mbggenerated
      */
     public String getMorDay() {
@@ -399,7 +383,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.mor_day
      *
      * @param morDay the value for tb_attendance.mor_day
-     *
      * @mbggenerated
      */
     public void setMorDay(String morDay) {
@@ -411,7 +394,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.aft_day
      *
      * @return the value of tb_attendance.aft_day
-     *
      * @mbggenerated
      */
     public String getAftDay() {
@@ -423,7 +405,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.aft_day
      *
      * @param aftDay the value for tb_attendance.aft_day
-     *
      * @mbggenerated
      */
     public void setAftDay(String aftDay) {
@@ -435,7 +416,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.eve_day
      *
      * @return the value of tb_attendance.eve_day
-     *
      * @mbggenerated
      */
     public String getEveDay() {
@@ -447,7 +427,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.eve_day
      *
      * @param eveDay the value for tb_attendance.eve_day
-     *
      * @mbggenerated
      */
     public void setEveDay(String eveDay) {
@@ -459,7 +438,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.is_error
      *
      * @return the value of tb_attendance.is_error
-     *
      * @mbggenerated
      */
     public String getIsError() {
@@ -471,7 +449,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.is_error
      *
      * @param isError the value for tb_attendance.is_error
-     *
      * @mbggenerated
      */
     public void setIsError(String isError) {
@@ -483,7 +460,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.error_desc
      *
      * @return the value of tb_attendance.error_desc
-     *
      * @mbggenerated
      */
     public String getErrorDesc() {
@@ -495,7 +471,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.error_desc
      *
      * @param errorDesc the value for tb_attendance.error_desc
-     *
      * @mbggenerated
      */
     public void setErrorDesc(String errorDesc) {
@@ -507,7 +482,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.late
      *
      * @return the value of tb_attendance.late
-     *
      * @mbggenerated
      */
     public Double getLate() {
@@ -519,7 +493,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.late
      *
      * @param late the value for tb_attendance.late
-     *
      * @mbggenerated
      */
     public void setLate(Double late) {
@@ -531,7 +504,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.early
      *
      * @return the value of tb_attendance.early
-     *
      * @mbggenerated
      */
     public Double getEarly() {
@@ -543,7 +515,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.early
      *
      * @param early the value for tb_attendance.early
-     *
      * @mbggenerated
      */
     public void setEarly(Double early) {
@@ -555,7 +526,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.absent
      *
      * @return the value of tb_attendance.absent
-     *
      * @mbggenerated
      */
     public Double getAbsent() {
@@ -567,7 +537,6 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.absent
      *
      * @param absent the value for tb_attendance.absent
-     *
      * @mbggenerated
      */
     public void setAbsent(Double absent) {
@@ -579,7 +548,6 @@ public class AttendanceExcel {
      * This method returns the value of the database column tb_attendance.over_time
      *
      * @return the value of tb_attendance.over_time
-     *
      * @mbggenerated
      */
     public Double getOverTime() {
@@ -591,17 +559,30 @@ public class AttendanceExcel {
      * This method sets the value of the database column tb_attendance.over_time
      *
      * @param overTime the value for tb_attendance.over_time
-     *
      * @mbggenerated
      */
     public void setOverTime(Double overTime) {
         this.overTime = overTime;
     }
 
+    /**
+     * This method was generated by MyBatis Generator.
+     * This method returns the value of the database column tb_attendance.work_day
+     *
+     * @return the value of tb_attendance.work_day
+     * @mbggenerated
+     */
     public String getWorkDay() {
         return workDay;
     }
 
+    /**
+     * This method was generated by MyBatis Generator.
+     * This method sets the value of the database column tb_attendance.work_day
+     *
+     * @param workDay the value for tb_attendance.work_day
+     * @mbggenerated
+     */
     public void setWorkDay(String workDay) {
         this.workDay = workDay;
     }

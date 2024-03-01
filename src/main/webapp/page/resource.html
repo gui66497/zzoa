@@ -1,0 +1,432 @@
+<style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .alldom {
+        width: 100%;
+        height: 500px;
+    }
+    #divall,#myFile {
+        padding: 0;
+        list-style: none;
+    }
+
+    #divall li,#myFile li {
+        overflow: hidden;
+        width: 100px;
+        height: 115px;
+        float: left;
+        margin-left: 25px;
+        background: url(images/myfile.png) center top no-repeat;
+        border: 1px solid #fff;
+        position: relative;
+        transition: all 0.2s ease-in 0.1s;
+    }
+
+    #divall li.bgclocrc,#myFile li.bgclocrc  {
+        background: url(images/myfile.png) center top no-repeat #f1f2fd;
+        border: 1px solid #a7aae3;
+    }
+
+    #divall li:hover,#myFile li:hover {
+        background: url(images/myfile.png) center top no-repeat #f1f2fd;
+        border: 1px solid #a7aae3;
+    }
+
+    input.changename {
+        position: absolute;
+        border-radius: 0px;
+        left: -25px;
+        bottom: 10px;
+        overflow: hidden;
+        width: 98px;
+        height: 20px;
+        color: #595c5f;
+        line-height: 20px;
+        text-align: center;
+        font-size: 12px;
+        z-index: 0;
+        border: none;
+    }
+
+    input.changename:hover {
+        background: none;
+        color: #F33;
+    }
+
+    .changename {
+        width: 88px;
+        height: 24px;
+        line-height: 20px;
+        text-align: center;
+        background: none;
+        border: 1px solid #CCC;
+        border-radius: 8px;
+        transition: all 0.2s ease-in 0.1s;
+        margin-left: 25px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .userdefined-file {
+        /*position: absolute;*/
+        top: 0;
+        z-index: 2;
+        width: 100%;
+        height: 34px;
+        line-height: 34px;
+        font-size: 0;
+        /*应对子元素为 inline-block 引起的外边距*/
+    }
+    .userdefined-file input[type="text"] {
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 14px;
+        padding-left: 14px;
+        width: 80%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        height: 34px;
+        line-height: 34px;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .userdefined-file button {
+        display: inline-block;
+        vertical-align: middle;
+        width: 20%;
+        text-align: center;
+        height: 34px;
+        line-height: 34px;
+        font-size: 14px;
+        background-color: rgb(77,189,115);
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        border-radius:0 5px 5px 0;
+    }
+    .userdefined-file button:disabled {
+        background-color: #bec3c7;
+    }
+
+    .file input[type="file"] {
+        position: absolute;
+        top: 0;
+        z-index: 3;
+        opacity: 0;
+        width: 100%;
+        height: 34px;
+        line-height: 34px;
+        cursor: pointer;
+    }
+    .menu-zdy {
+        width: 100px;
+        padding: 4px;
+        height: auto;
+        background: rgb(255,255,255);
+        border: 1px solid rgb(221,224,228);
+        box-shadow: 0 0 8px rgb(221,224,228);
+        text-align: left;
+        position: absolute;
+        border-radius: 5px;
+    }
+
+    .menu-zdy a {
+        text-decoration: none;
+        text-align: center;
+        font-family: 'Microsoft YaHei';
+        font-size: 12px;
+        color: #666;
+    }
+
+    .menu-zdy .menu-one {
+        padding: 5px 5px 5px 10px;
+        width: 90px;
+        height: 24px;
+    }
+
+    .menu-zdy .menu-two {
+        padding: 5px 5px 5px 10px;
+        width: 90px;
+        height: 24px;
+    }
+    .menu-zdy .menu-three {
+        padding: 5px 5px 5px 10px;
+        width: 90px;
+        height: 24px;
+    }
+    .menu-zdy .menu-four {
+        padding: 5px 5px 5px 10px;
+        width: 90px;
+        height: 24px;
+    }
+
+    .menu-zdy>div:hover{
+        background: #3498db;
+        border-radius: 3px;
+    }
+    .menu-zdy>div:hover>a{
+        color: rgb(255,255,255);
+    }
+
+    .menu-zdy a:hover {
+        color: rgb(255,255,255);
+    }
+    #breakNavigation{
+        margin-top: 10px;
+        width: 96%;
+        background: rgb(245,245,245);
+        padding: 3px 5px;
+        border-radius: 6px;
+        margin-left: 25px;
+    }
+    .breakStyle{
+        font-size: 12px;
+        color: rgb(17, 107, 126);
+    }
+    .breakStyle:hover{
+        color: #000;
+    }
+    /*用于阻止被文件名input被选中*/
+    .wrapper {
+        user-select: none;
+    }
+    .wrapper::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<div ng-controller="resourceController as controller">
+    <div id="breakNavigation">
+        <h5 style="cursor: pointer;margin:5px 10px;">
+            <a href="javascritp:void(0);" style="text-decoration: none;" class="breakStyle" ng-click="catalog()">目录</a>
+            <span ng-repeat="n in allName">
+            <a href="javascritp:void(0);" style="text-decoration: none;" class="breakStyle" ng-click="catalogChange($index)"><span style="padding: 0 2px;">＞</span>{{n.name}}</a>
+            </span>
+        </h5>
+    </div>
+
+    <div id="top" style="width: 80%;height: 500px;position: absolute;background: white;" ng-if="allFile"></div>
+
+    <div class="alldom" style="margin-top: 10px;" ng-show="!allFile">
+        <button ng-if="canAddCata" class="nomalBtn" ng-click="newFile()" type="button" style="margin-left: 25px;margin-bottom: 10px;">
+            <span class="glyphicon glyphicon-plus"></span> 新增文件夹
+        </button>
+        <ul id="divall" ng-repeat="x in catalogs" style="margin-bottom: 0px;" >
+
+            <li ng-dblclick="doubleClick($index)" ng-right-click="rightClick($index)">
+                <div class="wrapper">
+                    <input type="text" class="changename" title="{{x.name}}" ng-blur ="rename()" value="{{x.name}}" ng-disabled="!canEditC" id="inputName{{x.id}}"/>
+                </div>
+            </li>
+
+        </ul>
+        <!--新增文件夹-->
+        <ul id="myFile" ng-if="addFiles" style="margin-bottom: 0px;">
+            <li>
+                <input type="text" class="changename" id="addMyFile" ng-blur ="add()" ng-model="addName"/>
+            </li>
+        </ul>
+    </div>
+    <div style=" clear:both;"></div>
+    <div class="menu-zdy" id="menu" ng-show="rightDiv" ng-style="where">
+        <div class="menu-one" ng-click="changeCatalog()">
+            <a href="javascript:void(0);" id="changename">重命名</a>
+        </div>
+        <div class="menu-two">
+            <a href="javascript:void(0);" ng-if="!clickResource && canAddCata" ng-click="removeCatalog()">删除文件夹</a>
+        </div>
+    </div>
+
+    <div class="modal fade" id="uploadResourceModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="exampleModalLabel3">文件上传</h4>
+                </div>
+                <div class="modal-body" style="max-height: 550px;">
+                    <form class="form-horizontal" name="resourceForm" style="padding-right: 3%;">
+                        <div class="form-group" ng-class="{ 'has-error' : resourceForm.fileName.$invalid && !resourceForm.fileName.$pristine }">
+                            <label class="col-sm-3 control-label">资源文件：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="file">
+                                    <div class="userdefined-file">
+                                        <input type="text" name="userdefinedFile" ng-model="formData.fileName" placeholder="请选择资源文件" ng-disabled="noUpload">
+                                        <button type="button" ng-disabled="noUpload">选择文件</button>
+                                    </div>
+                                    <input type="file" name="file" id="file" ng-disabled="noUpload" ng-model="myFile" onchange="angular.element(this).scope().fileNameChanged(this)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group" ng-class="{ 'has-error' : resourceForm.name.$invalid && !resourceForm.name.$pristine }">
+                            <label for="name" class="col-sm-3 control-label">文件名：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" id="name" name="name" placeholder="请输入文件名" class="form-control" ng-model="formData.name" required>
+                                <p ng-show="resourceForm.name.$invalid && !resourceForm.name.$pristine" class="help-block">请输入文件名</p>
+                            </div>
+                        </div>-->
+
+                        <div class="form-group" ng-class="{ 'has-error' : resourceForm.type.$invalid && !resourceForm.type.$pristine }">
+                            <label class="col-sm-3 control-label">下载权限：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="type" ng-model="type" >
+                                    <option value="public">公开</option>
+                                    <option value="choose">指定组公开</option>
+                                    <option value="secret">非公开</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--20201124 删除此选项 默认不sm-->
+                        <!--<div class="form-group" ng-class="{ 'has-error' : resourceForm.isSecret.$invalid && !resourceForm.isSecret.$pristine }">
+                            <label for="name" class="col-sm-3 control-label">涉密：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <label class="radio-inline">
+                                    <input type="radio" name="radio_secret" ng-model="formData.isSecret" value="1">是
+                                </label>
+                                <label class="radio-inline" >
+                                    <input type="radio" name="radio_secret" ng-model="formData.isSecret" value="0">否
+                                </label>
+                            </div>
+                        </div>-->
+
+                        <div ng-show="needChooseGroup" class="form-group" ng-class="{ 'has-error' : resourceForm.type.$invalid && !resourceForm.type.$pristine }">
+                            <label class="col-sm-3 control-label">组选择：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <div style="width: 153px" isteven-multi-select input-model="groupSections" output-model="selectGroups"
+                                     button-label="groupName" item-label="groupName" tick-property="ticked"
+                                     translation="localLang" max-labels="4" helper-elements="" max-height="200px">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="needChooseAction" class="form-group">
+                            <label class="col-sm-3 control-label">流程选择：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="processionDefSelect" style="width: 240px;"
+                                        ng-model="formData.actReId"
+                                        ng-options="a.id as a.name + ' [版本'+a.version+']' for a in processDefs" required="required">
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-disabled="resourceForm.name.$invalid ||resourceForm.fileName.$invalid ||resourceForm.isSecret.$invalid"
+                            ng-click="submit()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--下载申请模态框-->
+    <div class="modal fade" id="addDownModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" style="font-weight: 700;">加班申请</h4>
+                </div>
+                <div class="modal-body" style="height: 220px;">
+                    <form class="form-horizontal" name="overAddForm">
+                        <table width="90%">
+                            <tr>
+                                <td width="30%" class="start" style="font-weight: 700;">加班日期:</td>
+                                <td width="70%">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="dropdown" role="button" data-toggle="dropdown"
+                                           data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="overDate" name="overDate" class="form-control"
+                                                       data-ng-model="formData.overDate" disabled="disabled"
+                                                       style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker data-ng-model="formData.overDate"
+                                                            data-datetimepicker-config="{ dropdownSelector: '#dropdown',  minView:'day' }"
+                                                            data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td width="30%" class="start" style="font-weight: 700;">加班时间:</td>
+                                <td width="70%">
+                                    <select id="overDay" name="overDay" class="applySelect form-control" ng-model="formData.overDay" required="required">
+                                        <option value="0.5">0.5天</option>
+                                        <option value="1">1天</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="font-weight: 700;padding-right: 7px;">加班原因:</td>
+                                <td width="70%"> <textarea class=" form-control" ng-model="formData.reason"
+                                                           style="float:right;" ng-click="asdfg()"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <div class="noneDiv"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure" ng-disabled="overAddForm.overDate.$invalid ||overAddForm.overDay.$invalid"
+                                ng-click="saveAndSubmitDown()">保存提交</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="DownChooseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">处理人选择</h4>
+                </div>
+                <div class="modal-body apply" style="max-height: 450px;overflow-y: auto">
+                    <h4 style="padding-left: 1rem;">
+                        <div class="opt" ng-repeat="x in formData.processors" style="float:left;width:25%;">
+                            <input class="magic-radio" ng-change="radioChange()" type="radio" id="do{{x.staffId}}" name="radio" value="{{x.staffId}}" data-ng-model="formData.processor">
+                            <label for="do{{x.staffId}}" id="down{{x.staffId}}" style="font-weight: 500;">{{x.name}}</label>
+                        </div>
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="submitDown()" ng-disabled="disSub">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function () {
+        $("#top").load("./page/secondFloor.html");
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    })
+</script>

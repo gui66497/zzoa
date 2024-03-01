@@ -1,0 +1,133 @@
+<style type="text/css">
+    #peopleCountTable {
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 100%;
+        align: center;
+        margin-top: 15px;
+        height:calc(100% - 250px);
+        display: block;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+    .CountBtn{
+        margin-right: 10px;
+        padding: 5px 10px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    #startCountMonth,#endCountMonth{
+        width: 150px;
+        padding: 4.5px 0 4.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        margin-right: 10px;
+    }
+    .mold{
+        padding: 4.5px 0 4.5px 10px;
+        width: 150px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        margin-left: -4px;
+        margin-right: 15px;
+        outline:none;
+    }
+
+</style>
+<div ng-controller="peopleCountController" style="height: 100%;">
+    <div style="margin-top: 15px;height: 100%;">
+        <span style="font-size: 14px;">开始日期：</span><input type="month" id="startCountMonth" value=""/>
+        <span style="font-size: 14px;">结束日期：</span><input type="month" id="endCountMonth" value=""/>
+        <span style="font-size: 14px;">计算规则：</span><select class="mold" id="rule" ng-model="req.rule">
+            <option value="0" selected>月均算年均</option>
+            <option value="1">年初末算年均</option>
+        </select>
+        <div style="margin-top: 10px;"><span style="font-size: 14px;">双软人员：</span>
+            <select class="mold" id="moldPeople" ng-model="req.post">
+                <option></option>
+                <option ng-repeat="mold in molds" value="{{mold.col}}">{{mold.col}}</option>
+            </select>
+            <span style="font-size: 14px;">人员学历：</span><select class="mold" id="record">
+                <option></option>
+                <option>初中及以下</option>
+                <option>高中</option>
+                <option>大专</option>
+                <option>本科</option>
+                <option>硕士</option>
+                <option>博士</option>
+            </select>
+            <button class="CountBtn" ng-click="CountShow()" type="button">
+                <span class="glyphicon glyphicon-search"></span> 查询
+            </button>
+            <button class="CountBtn" ng-click="export()" type="button">
+                <span class="glyphicon glyphicon-cloud-download"></span> 导出
+            </button>
+        </div>
+        <table id="peopleCountTable" align="center" class="table table-bordered table-striped table-condensed;">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr>
+                <td width="20%">年/月</td>
+                <td width="20%">月初人数</td>
+                <td width="20%">月末人数</td>
+                <td width="20%">月均人数</td>
+                <td width="20%">年均人数</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height:calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="count in counts" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="20%">{{count.month}}</td>
+                <td width="20%">{{count.monthBegin}}</td>
+                <td width="20%">{{count.monthEnd}}</td>
+                <td width="20%">{{count.monthAvg}}</td>
+                <td width="20%">{{count.avg}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

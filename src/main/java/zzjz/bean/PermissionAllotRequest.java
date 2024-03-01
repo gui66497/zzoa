@@ -2,26 +2,51 @@ package zzjz.bean;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * @author 彭鹏
+ * @version 2017年05月09日11:24
+ */
 @XmlRootElement
 public class PermissionAllotRequest {
 
-	private long systemId;
-	private PagingEntity paging;
+    private long systemId;
 
-	public long getSystemId() {
-		return systemId;
-	}
+    private PagingEntity paging;
 
-	public void setSystemId(long systemId) {
-		this.systemId = systemId;
-	}
+    /**
+     * getSystemId.
+     *
+     * @return SYSTEM_ID
+     */
+    public long getSystemId() {
+        return systemId;
+    }
 
-	public PagingEntity getPaging() {
-		return paging;
-	}
+    /**
+     * setSystemId.
+     *
+     * @param systemId SYSTEM_ID
+     */
+    public void setSystemId(long systemId) {
+        this.systemId = systemId;
+    }
 
-	public void setPaging(PagingEntity paging) {
-		this.paging = paging;
-	}
+    /**
+     * getPaging.
+     *
+     * @return PAGING
+     */
+    public PagingEntity getPaging() {
+        return paging;
+    }
+
+    /**
+     * setPaging.
+     *
+     * @param paging PAGING
+     */
+    public void setPaging(PagingEntity paging) {
+        this.paging = paging;
+    }
 
 }

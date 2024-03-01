@@ -1,0 +1,425 @@
+<style type="text/css">
+    #manageListTable {
+        width: 100%;
+        height:calc(100% - 250px);
+        display: block;
+        margin-top: 15px;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    #startManageMonth,#endManageMonth,#userName,.allInput{
+        width: 150px;
+        padding: 4.5px 0 4.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline: none;
+        margin-right: 12px;
+    }
+    .manageBtn {
+        padding: 4px 10px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        margin: 0 20px 10px 0;
+    }
+    .manageContent{
+        width: 500px;
+        height: 280px;
+        border-radius: 5px;
+        padding: 10px 10px;
+        margin: 0 auto;
+    }
+    .manageContent>div{
+        font-size: 16px;
+    }
+    .optimize{
+        padding: 5.5px 12px;
+        border: none;
+        outline: none;
+        color: white;
+        border-radius: 4px;
+    }
+    .this{
+        background: rgb(1, 163, 163);
+        opacity:0.8;
+    }
+    .last{
+        background: #0469c0;
+        opacity:0.8;
+    }
+    .on{
+        opacity:1;
+    }
+    .btnBg{
+        background: none;
+        border: none;
+        outline: none;
+        color: #0e90d2;
+        font-size: 11px;
+    }
+    .billStyle{
+        opacity:0.8;
+    }
+</style>
+<div ng-controller="manageController as controller" style="height: 100%;">
+    <div class="cover" ng-if="hideFrom">
+        <img src="images/loading.gif" style="position: relative;top: 50%;left: 50%;margin-top: -21px;margin-left: -32px;">
+    </div>
+    <div style="margin-top: 10px;height: 100%;">
+
+        <div class="form-inline" style="margin-bottom: 15px;">
+            <span style="font-size: 14px;float:left;line-height: 30px;">事项类别：</span>
+            <select id="diff" name="applyTyp" class="allInput" ng-model="req.finish" style="float:left;width: 150px;margin-right: 15px;padding: 4px 0 4px 10px;height: 30px;" required="required">
+                <option value=true ng-selected=true>已完成</option>
+                <option value=false>处理中</option>
+            </select>
+            <!--<span>-->
+            <span style="font-size: 14px;float:left;line-height: 30px;">事项名称：</span>
+            <select id="applyTyp" name="applyTyp" class="allInput" ng-model="req.applyTyp" style="float:left;width: 150px;margin-right: 15px;padding: 4px 0 4px 10px;height: 30px;" required="required">
+                <option value="all" ng-selected="all">全部</option>
+                <option value="punch">忘打卡</option>
+                <option value="over">加班</option>
+                <option value="out">外出</option>
+                <option value="trip1">出差[未核销]</option>
+                <option value="trip2">出差[已核销]</option>
+                <option value="vacation">请假</option>
+            </select>
+        <!--</span>-->
+            <span style="font-size: 14px;">员工姓名：</span><input type="text" id="userName" placeholder="请输入姓名" value="" ng-keyup="myKeyup($event)" style="height: 30px;"/>
+            <span style="font-size: 14px;">部门：</span>
+            <select name="departSelect" ng-model="req.depart" class="allInput" ng-change="selectChange()" style="width: 170px;margin-right: 10px;padding: 4px 0 4px 10px;height: 30px;display: inline-block;">
+                <option ng-if="isHr" value="undefined">全部</option>
+                <option ng-repeat="x in allList" value="{{x.departName}}">{{x.departName}}</option>
+            </select>
+            <input class="allInput" style="width: 200px;height: 30px;    margin-right: 16px;" id="manage_range" name="manage_range">
+            <button class="manageBtn" ng-click="collectShow()" type="button"><span class="glyphicon glyphicon-search"></span>查询</button>
+            <button class="manageBtn" type="button" ng-click="downBill()" ng-disabled="!disBill" ng-class="{'billStyle':billStyles}"><span class="glyphicon glyphicon-cloud-download"></span>下载</button>
+        </div>
+
+
+
+
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+        <table ng-show="noContent" ng-table="controller.tableParams" id="manageListTable" align="center" class="table table-bordered table-striped table-condensed">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="5%">选择</td>
+                <td width="5%">序号</td>
+                <td width="10%">申请人</td>
+                <td width="20%">部门</td>
+                <td width="15%">申请事项</td>
+                <td width="25%">日期</td>
+                <td width="10%">天数（天）</td>
+                <td width="10%">操作</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="5%"><input type="checkbox" ng-model="m[$index]" ng-checked = "select_one" ng-click="selectOne([$index])"></td>
+                <td width="5%">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                <td width="0%" ng-hide="true">{{row.id}}</td>
+                <td width="0%" ng-hide="true">{{row.actId}}</td>
+                <td width="10%">{{row.userName}}</td>
+                <td width="20%">{{row.departName}}</td>
+                <td width="15%" ng-switch="row.applyTyp">
+                    <span ng-switch-when="punch">忘打卡</span>
+                    <span ng-switch-when="over">加班</span>
+                    <span ng-switch-when="trip1">出差[<button class="btnBg" ng-click="setTripInfo($index)" type="button">未核销</button>]</span>
+                    <span ng-switch-when="trip2">出差[已核销]</span>
+                    <span ng-switch-when="out">外出</span>
+                    <span ng-switch-when="vacation">请假</span>
+                    <span ng-switch-when="down">下载</span>
+                    <span ng-switch-default>未知</span>
+                </td>
+                <td width="25%">{{row.applyDate}}</td>
+                <td width="10%">{{row.applyDay}}</td>
+                <td width="10%">
+                    <button title="查看详情" class="lookBtn" ng-click="collectHistory($index)" type="button"></button>
+                    <button title="查看流程" class="resumeBtn" ng-click="viewHistory($index)" type="button"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--忘打卡待办事项模态框-->
+    <div class="modal fade" id="punchModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        汇总信息
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:600px;overflow-y: scroll;">
+                    <div class="manageContent">
+                        <h4>忘打卡信息</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>申请时间：</b>{{formData.punchDate}}</div>
+                        <div ng-switch="formData.punchTyp">
+                            <b>申请类型：</b>
+                            <span ng-switch-when="0">上午签到</span>
+                            <span ng-switch-when="1">上午签退</span>
+                            <span ng-switch-when="2">下午签到</span>
+                            <span ng-switch-when="3">下午签退</span>
+                        </div>
+                        <!--<div><b>申请类型：</b>{{formData.punchTyp==0 ? '签到':'签退'}}</div>-->
+                        <div><b>证明人：</b>{{formData.witness}}</div>
+                        <div><b>申请原因：</b>{{formData.reason}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--加班待办事项模态框-->
+    <div class="modal fade" id="overModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        汇总信息
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:600px;overflow-y: scroll;">
+                    <div class="manageContent">
+                        <h4>加班信息</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>申请日期：</b>{{formData.overDate}}</div>
+                        <div><b>加班时间：</b>{{formData.overDay}}天</div>
+                        <div><b>加班原因：</b>{{formData.reason}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--外出待办事项模态框-->
+    <div class="modal fade" id="outModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        汇总信息
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:600px;overflow-y: scroll;">
+                    <div class="manageContent">
+                        <h4>外出信息</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>申请日期：</b>{{formData.outDate}}</div>
+                        <div><b>外出时间段：</b>{{formData.outPart}}</div>
+                        <div><b>外出原因：</b>{{formData.reason}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--出差待办事项模态框-->
+    <div class="modal fade" id="tripModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        汇总信息
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:600px;overflow-y: scroll;">
+                    <div class="manageContent">
+                        <h4>出差信息</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>出差地：</b>{{formData.address}}</div>
+                        <div><b>开始时间：</b>{{formData.tripDate}}</div>
+                        <div><b>结束时间：</b>{{formData.backDate}}</div>
+                        <div><b>出差天数：</b>{{formData.tripDay}}天</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--请假待办事项模态框-->
+    <div class="modal fade" id="vacationModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        汇总信息
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:700px;overflow-y: scroll;">
+                    <div class="manageContent">
+                        <h4>请假信息</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>请假类型：</b>{{formData.leaveTyp}}</div>
+                        <div><b>开始时间：</b>{{formData.leaveDate}}</div>
+                        <div><b>开始时段：</b>{{formData.leavePart==0 ? '上午':'下午'}}</div>
+                        <div><b>结束时间：</b>{{formData.backDate}}</div>
+                        <div><b>结束时段：</b>{{formData.backPart==0 ? '上午':'下午'}}</div>
+                        <div><b>请假天数：</b>{{formData.leaveDay}}天</div>
+                        <div><b>请假原因：</b>{{formData.reason}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 出差信息 -->
+    <div class="modal fade" id="showTripFormModal1" tabindex="-1" role="dialog" aria-labelledby="showTripFormModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="showTripFormModalLabel"> 出差信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name="tripForm">
+                        <table id="AddAndUpdateTable" width="100%" name="AddAndUpdateTable">
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差地：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <input type="text" id="address" name="address" class="form-control"
+                                           ng-model="tripFormData.address" ng-maxlength="20" disabled/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">拟办事项：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <input type="text" id="intends" name="intends" class="form-control"
+                                           ng-model="tripFormData.intends" ng-maxlength="100" disabled/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">开始日期：<span style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown"
+                                           data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="tripDate" name="tripDate" class="form-control"
+                                                       data-ng-model="tripFormData.tripDate" disabled="disabled"
+                                                       style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker data-ng-model="tripFormData.tripDate"
+                                                            data-datetimepicker-config="{ dropdownSelector: '#dropdown1',  minView:'day' }"
+                                                            data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                            ng-change="changDate()"></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">开始时段：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <select id="tripPart" name="tripPart" class="form-control" ng-model="tripFormData.tripPart" required="required" ng-change="changDate()">
+                                        <option value="0">上午</option>
+                                        <option value="1">下午</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">结束日期：<span style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown"
+                                           data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="backDate" name="backDate" class="form-control"
+                                                       data-ng-model="tripFormData.backDate" disabled="disabled"
+                                                       style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker data-ng-model="tripFormData.backDate"
+                                                            data-datetimepicker-config="{ dropdownSelector: '#dropdown2',  minView:'day' }"
+                                                            data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                            ng-change="changDate()"></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">结束时段：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <select id="backPart" name="backPart" class="form-control" ng-model="tripFormData.backPart" required="required" ng-change="changDate()">
+                                        <option value="0">上午</option>
+                                        <option value="1">下午</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差天数：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <input type="text" name="tripDay" class="form-control"
+                                           ng-model="tripFormData.tripDay" ng-maxlength="20" disabled/>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure"
+                            ng-disabled="tripForm.address.$invalid||tripForm.intends.$invalid||tripForm.tripDate.$invalid||tripForm.backDate.$invalid||tripForm.tripPart.$invalid||tripForm.backPart.$invalid"
+                            ng-click="submitTripInfo()">保存提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+    $(".optimize").click(function(){
+        $(this).addClass("on").siblings().removeClass("on");
+    })
+</script>

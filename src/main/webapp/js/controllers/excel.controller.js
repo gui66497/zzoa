@@ -1,13 +1,14 @@
 'use strict';
 
 //excel controller
-indexModule.controller('excelController', function ($scope, $http) {
+indexModule.controller('excelController',['$scope','$http', function ($scope, $http) {
 
     /**
      * 上传
      */
     $scope.testUpload = function () {
-        var files = document.getElementsByName('file')[1].files;
+        var tt = document.getElementsByName('file');
+        var files = document.getElementsByName('file')[0].files;
         if (files.length < 1) {
             showOkModal("提示信息", "请先选择文件！");
             return;
@@ -51,4 +52,4 @@ indexModule.controller('excelController', function ($scope, $http) {
         });
     };
 
-});
+}]);

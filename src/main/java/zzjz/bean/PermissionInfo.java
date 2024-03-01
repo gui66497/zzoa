@@ -3,143 +3,236 @@ package zzjz.bean;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * @author 曹雪东
+ * @version 2015年5月9日 上午10:00:08
  * @ClassName: PermissionInfo
  * @Description: 权限实体类
- * @author 曹雪东
- * @date 2015年5月9日 上午10:00:08
  */
 @XmlRootElement
 public class PermissionInfo {
 
-	private long id;
-	private String name;
-	private String sign;
-	private String creatorId;
-	private String creatorName;
-	private String createTime;
-	private String remark;
-	private long systemId;
-	private String systemName;
-	private int delete_falg;
-	public void setRelation_flag(String relation_flag) {
-		this.relation_flag = relation_flag;
-	}
+    private long id;            //id
 
-	private String targetName = ""; // 外部数据显示名称
-	private String targetId = "-1"; // 外部数据ID
-	private String targetTableName = ""; // 外部数据表名
-	private String relation_flag;				//判断是否该权限需要和分类关联  0：不需要 1：需要
+    private String name;        //权限名称
 
-	public String getRelation_flag() {
-		return relation_flag;
-	}
+    private String sign;        //权限标志
 
-	public void setReration_flag(String relation_flag) {
-		this.relation_flag = relation_flag;
-	}
+    private String creatorId;   //创建者id
 
-	public long getId() {
-		return id;
-	}
+    private String creatorName; //创建者名称
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    private String createTime;  //创建时间
 
-	public String getName() {
-		return name;
-	}
+    private String remark;      //备注
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private long systemId;      //系统id
 
-	public String getSign() {
-		return sign;
-	}
+    private String systemName;  //系统name
 
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
+    private int deleteFlag;    //删除标识
 
-	public String getCreatorId() {
-		return creatorId;
-	}
+    private String targetName = ""; // 外部数据显示名称
 
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
-	}
+    private String targetId = "-1"; // 外部数据ID
 
-	public String getCreatorName() {
-		return creatorName;
-	}
+    private String targetTableName = ""; // 外部数据表名
 
-	public void setCreatorName(String creatorName) {
-		this.creatorName = creatorName;
-	}
+    private String relationFlag;                //判断是否该权限需要和分类关联  0：不需要 1：需要
 
-	public String getCreateTime() {
-		return createTime;
-	}
+    /**
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
 
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
+    /**
+     * @param id the id to set
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public long getSystemId() {
-		return systemId;
-	}
+    /**
+     * @return the sign
+     */
+    public String getSign() {
+        return sign;
+    }
 
-	public void setSystemId(long systemId) {
-		this.systemId = systemId;
-	}
+    /**
+     * @param sign the sign to set
+     */
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
 
-	public String getSystemName() {
-		return systemName;
-	}
+    /**
+     * @return the creatorId
+     */
+    public String getCreatorId() {
+        return creatorId;
+    }
 
-	public void setSystemName(String systemName) {
-		this.systemName = systemName;
-	}
+    /**
+     * @param creatorId the creatorId to set
+     */
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
 
-	public int getDelete_falg() {
-		return delete_falg;
-	}
+    /**
+     * @return the creatorName
+     */
+    public String getCreatorName() {
+        return creatorName;
+    }
 
-	public void setDelete_falg(int delete_falg) {
-		this.delete_falg = delete_falg;
-	}
+    /**
+     * @param creatorName the creatorName to set
+     */
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
 
-	public String getTargetName() {
-		return targetName;
-	}
+    /**
+     * @return the createTime
+     */
+    public String getCreateTime() {
+        return createTime;
+    }
 
-	public void setTargetName(String targetName) {
-		this.targetName = targetName;
-	}
+    /**
+     * @param createTime the createTime to set
+     */
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
-	public String getTargetId() {
-		return targetId;
-	}
+    /**
+     * @return the remark
+     */
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setTargetId(String targetId) {
-		this.targetId = targetId;
-	}
+    /**
+     * @param remark the remark to set
+     */
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public String getTargetTableName() {
-		return targetTableName;
-	}
+    /**
+     * @return the systemId
+     */
+    public long getSystemId() {
+        return systemId;
+    }
 
-	public void setTargetTableName(String targetTableName) {
-		this.targetTableName = targetTableName;
-	}
+    /**
+     * @param systemId the systemId to set
+     */
+    public void setSystemId(long systemId) {
+        this.systemId = systemId;
+    }
+
+    /**
+     * @return the systemName
+     */
+    public String getSystemName() {
+        return systemName;
+    }
+
+    /**
+     * @param systemName the systemName to set
+     */
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
+    }
+
+    /**
+     * @return the deleteFlag
+     */
+    public int getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    /**
+     * @param deleteFlag the delete_falg to set
+     */
+    public void setDeleteFlag(int deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    /**
+     * @return the targetName
+     */
+    public String getTargetName() {
+        return targetName;
+    }
+
+    /**
+     * @param targetName the targetName to set
+     */
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
+    }
+
+    /**
+     * @return the targetId
+     */
+    public String getTargetId() {
+        return targetId;
+    }
+
+    /**
+     * @param targetId the targetId to set
+     */
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
+    }
+
+    /**
+     * @return the targetTableName
+     */
+    public String getTargetTableName() {
+        return targetTableName;
+    }
+
+    /**
+     * @param targetTableName the targetTableName to set
+     */
+    public void setTargetTableName(String targetTableName) {
+        this.targetTableName = targetTableName;
+    }
+
+    /**
+     * @return the relationFlag
+     */
+    public String getRelationFlag() {
+        return relationFlag;
+    }
+
+    /**
+     * @param relationFlag the relationFlag to set
+     */
+    public void setRelationFlag(String relationFlag) {
+        this.relationFlag = relationFlag;
+    }
 
 }

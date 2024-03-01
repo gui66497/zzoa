@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .alldom {
+            width: 100%;
+            height: 500px;
+            margin-top: 10px;
+        }
+
+        #divall, #addFile {
+            padding: 0;
+            list-style: none;
+        }
+
+        #divall li, #addFile li {
+            overflow: hidden;
+            width: 100px;
+            height: 115px;
+            float: left;
+            margin-left: 25px;
+            background: url(images/myfile.png) center top no-repeat;
+            border: 1px solid #fff;
+            position: relative;
+            transition: all 0.2s ease-in 0.1s;
+        }
+
+        #divall li.bgclocrc, #addFile li.bgclocrc {
+            background: url(images/myfile.png) center top no-repeat #f1f2fd;
+            border: 1px solid #a7aae3;
+        }
+
+        #divall li:hover, #addFile li:hover {
+            background: url(images/myfile.png) center top no-repeat #f1f2fd;
+            border: 1px solid #a7aae3;
+        }
+
+        #resourceUl {
+            padding: 0;
+            list-style: none;
+        }
+
+        #resourceUl li {
+            overflow: hidden;
+            width: 100px;
+            height: 115px;
+            float: left;
+            margin-left: 55px;
+            background: url(images/txt.png) center top no-repeat;
+            background-size: 60px 75px;
+            border: 1px solid #fff;
+            position: relative;
+            transition: all 0.2s ease-in 0.1s;
+        }
+
+        #resourceUl li.bgclocrc {
+            background: url(images/txt.png) center top no-repeat #f1f2fd;
+            background-size: 60px 75px;
+            border: 1px solid #a7aae3;
+        }
+
+        #resourceUl li:hover {
+            background: url(images/txt.png) center top no-repeat #f1f2fd;
+            background-size: 60px 75px;
+            border: 1px solid #a7aae3;
+            padding-top: 10px;
+        }
+
+        input.changename {
+            position: absolute;
+            border-radius: 0px;
+            left: -25px;
+            bottom: 10px;
+            overflow: hidden;
+            width: 98px;
+            height: 20px;
+            color: #595c5f;
+            line-height: 20px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 0;
+            border: none;
+        }
+
+        input.changename:hover {
+            background: none;
+            color: #F33;
+        }
+
+        .changename {
+            width: 88px;
+            height: 24px;
+            line-height: 20px;
+            text-align: center;
+            background: none;
+            border: 1px solid #CCC;
+            border-radius: 8px;
+            transition: all 0.2s ease-in 0.1s;
+            margin-left: 25px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .changename:hover {
+            background: #09F;
+            color: #fff;
+        }
+        /*修改子节点的文件图标*/
+        #resourceMoveModal .ztree li span.button.ico_docu {
+            margin-right: 2px;
+            background-position: -110px 0;
+            vertical-align: top;
+        }
+        /*用于阻止被文件名input被选中*/
+        .wrapper {
+            user-select: none;
+        }
+        .wrapper::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+<div ng-controller="secondFloorController as controller">
+
+    <div class="alldom">
+        <button ng-if="canAddCata" class="nomalBtn" ng-click="newFile()" type="button"
+                style="margin-left: 25px;margin-bottom: 10px;">
+            <span class="glyphicon glyphicon-plus"></span> 新增文件夹
+        </button>
+        <button ng-if="canUpload" class="nomalBtn" ng-click="toUploadFile()" type="button"
+                style="margin-left: 25px;margin-bottom: 10px;">
+            <span class="glyphicon glyphicon-plus"></span> 上传文件
+        </button>
+        <ul id="divall" ng-repeat="x in allCatalogs2" style="margin-bottom: 0px;">
+            <li ng-dblclick="doubleClicks($index)" ng-right-click="rightClickTwo($index)">
+                <div class="wrapper">
+                    <input type="text" class="changename" title="{{x.name}}" ng-blur="rename2()" value="{{x.name}}"
+                           ng-disabled="!childcanEditC" id="inputName{{x.id}}"/>
+                </div>
+            </li>
+        </ul>
+
+        <ul id="resourceUl" ng-repeat="x in resources" style="margin-bottom: 0px;">
+            <li ng-click="firstClick($index)" ng-right-click="rightClickTwos($index)">
+                <div class="wrapper">
+                    <input type="text" class="changename" title="{{x.name}}" ng-blur="renameResource()" value="{{x.name}}"
+                           ng-disabled="!canEditR" id="inputNames{{x.id}}"/>
+                </div>
+            </li>
+        </ul>
+        <!--新增的-->
+        <ul id="addFile" ng-if="addFiles" style="margin-bottom: 0px;">
+            <li>
+                <input type="text" class="changename" id="addMyFile" ng-blur="add()" ng-model="addName"/>
+            </li>
+        </ul>
+        <!--右击的-->
+        <div style=" clear:both;"></div>
+        <div class="menu-zdy" id="menu" ng-show="rightDiv" ng-style="where">
+            <div class="menu-one" ng-show="canUpdateResource" ng-click="changeCatalog()">
+                <a href="javascript:void(0);" id="changename">重命名</a>
+            </div>
+            <div class="menu-two" ng-if="!clickResource && canAddCata">
+                <a href="javascript:void(0);" ng-click="removeCatalog()">删除文件夹</a>
+            </div>
+            <div class="menu-three" ng-if="clickResource" ng-show="canMoveResource" ng-click="preMoveResource()">
+                <a href="javascript:void(0);" id="moveResourceBtn">移动到</a>
+            </div>
+            <div class="menu-three" ng-if="clickResource" ng-click="preRemoveResource()">
+                <a href="javascript:void(0);" id="removethispc">删除文件</a>
+            </div>
+            <div class="menu-four" ng-show="canUpdateResource" ng-click="preUpdateResource()">
+                <a href="javascript:void(0);" id="updateResource">修改文件</a>
+            </div>
+            <div class="menu-four" ng-show="canDown" ng-click="preDownResource()">
+                <a href="javascript:void(0);" id="downResource">下载文件</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="resourceMoveModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">资源移动</h4>
+                </div>
+                <div class="modal-body apply" style="max-height: 450px;overflow-y: auto">
+                    <ul id="resourceTree" class="ztree">
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="submitMove()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

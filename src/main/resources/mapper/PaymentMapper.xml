@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.PaymentMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.Payment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ascription" property="ascription" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="price_lower" property="priceLower" jdbcType="VARCHAR" />
+    <result column="price_upper" property="priceUpper" jdbcType="VARCHAR" />
+    <result column="act_id" property="actId" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ascription, name, account, bank, reason, price_lower, price_upper, act_id, create_user, user_name, create_time, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_payment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_payment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="zzjz.bean.Payment" >
+    insert into tb_payment (id, ascription, name, 
+      account, bank, reason, 
+      price_lower, price_upper, act_id, create_user, user_name, create_time, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{ascription,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{account,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{priceLower,jdbcType=VARCHAR}, #{priceUpper,jdbcType=VARCHAR}, #{actId,jdbcType=VARCHAR},
+      #{createUser,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zzjz.bean.Payment" >
+    insert into tb_payment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ascription != null" >
+        ascription,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="priceLower != null" >
+        price_lower,
+      </if>
+      <if test="priceUpper != null" >
+        price_upper,
+      </if>
+      <if test="actId != null" >
+        act_id,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ascription != null" >
+        #{ascription,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="priceLower != null" >
+        #{priceLower,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUpper != null" >
+        #{priceUpper,jdbcType=VARCHAR},
+      </if>
+      <if test="actId != null" >
+        #{actId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.Payment" >
+    update tb_payment
+    <set >
+      <if test="ascription != null" >
+        ascription = #{ascription,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="priceLower != null" >
+        price_lower = #{priceLower,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUpper != null" >
+        price_upper = #{priceUpper,jdbcType=VARCHAR},
+      </if>
+      <if test="actId != null" >
+        act_id = #{actId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zzjz.bean.Payment" >
+    update tb_payment
+    set ascription = #{ascription,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      price_lower = #{priceLower,jdbcType=VARCHAR},
+      price_upper = #{priceUpper,jdbcType=VARCHAR},
+      act_id = #{actId,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getPaymentList" resultMap="BaseResultMap" parameterType="zzjz.bean.PaymentRequest">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM tb_payment
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null">
+        AND id = #{id}
+      </if>
+      <if test="ascription != null">
+        AND ascription = #{ascription}
+      </if>
+      <if test="name != null">
+        AND name = #{name}
+      </if>
+      <if test="account != null">
+        AND account = #{account}
+      </if>
+      <if test="bank != null">
+        AND bank = #{bank}
+      </if>
+      <if test="reason != null">
+        AND reason = #{reason}
+      </if>
+      <if test="priceLower != null">
+        AND price_lower = #{priceLower}
+      </if>
+      <if test="priceUpper != null">
+        AND price_upper = #{priceUpper}
+      </if>
+      <if test="actId != null">
+        AND act_id = #{actId}
+      </if>
+      <if test="createUser != null">
+        AND create_user = '${createUser}'
+      </if>
+      <if test="userName != null">
+        AND user_name = '${userName}'
+      </if>
+      <if test="startTime != null">
+        AND create_time &gt;= '${startTime}'
+      </if>
+      <if test="endTime != null">
+        AND create_time &lt;= '${endTime}'
+      </if>
+      <if test="status != null" >
+        AND status = '${status}'
+      </if>
+    </trim>
+    ORDER BY create_time ASC
+  </select>
+
+  <select id="queryByActId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_payment
+    where act_id = #{actId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByActId" parameterType="java.lang.String" >
+    delete from tb_payment
+    where act_id = #{actId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

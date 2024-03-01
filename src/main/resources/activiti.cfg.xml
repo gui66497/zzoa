@@ -7,15 +7,33 @@
         ">
 
 
+    <!-- 引入配置文件 -->
+    <!--<bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath*:*.properties" />
+    </bean>-->
+
 <!-- 配置自定义属性 -->
     <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
         <!-- 数据库连接配置 -->
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/zzoa?characterEncoding=utf8"></property>
-        <property name="jdbcDriver" value="com.mysql.jdbc.Driver"></property>
-        <property name="jdbcUsername" value="root"></property>
-        <property name="jdbcPassword" value="12345"></property>
+        <property name="jdbcUrl" value="${jdbc.url}"></property>
+        <property name="jdbcDriver" value="${jdbc.driver}"></property>
+        <property name="jdbcUsername" value="${jdbc.username}"></property>
+        <property name="jdbcPassword" value="${jdbc.password}"></property>
         <!-- 建表策略 -->
         <property name="databaseSchemaUpdate" value="true"></property>
+
+        <!-- 最大连接数 -->
+        <property name="jdbcMaxActiveConnections" value="200"></property>
+        <!-- 最大空闲连接数 -->
+        <property name="jdbcMaxIdleConnections" value="20"></property>
+        <!-- 连接检查时间 -->
+        <property name="jdbcMaxCheckoutTime" value="20000"></property>
+        <!-- 连接无用后，是否主动连接 -->
+        <property name="jdbcPingEnabled" value="true"></property>
+        <!-- 连接无用检查并连接间隔，单位毫秒 -->
+        <property name="jdbcPingConnectionNotUsedFor" value="3600000"></property>
+        <property name="jobExecutorActivate" value="false"></property>
     </bean>
 
     <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
@@ -24,6 +42,7 @@
 
     <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
     <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
+    <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService"/>
     <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"/>
     <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
     <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>

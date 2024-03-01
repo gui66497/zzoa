@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.ProviderMapper">
+    <resultMap id="BaseResultMap" type="zzjz.bean.Provider">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="provider_type" property="providerType" jdbcType="VARCHAR"/>
+        <result column="product_type" property="productType" jdbcType="VARCHAR"/>
+        <result column="supplier_type" property="supplierType" jdbcType="VARCHAR"/>
+        <result column="area" property="area" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="brand" property="brand" jdbcType="VARCHAR"/>
+        <result column="product" property="product" jdbcType="VARCHAR"/>
+        <result column="contactor" property="contactor" jdbcType="VARCHAR"/>
+        <result column="job" property="job" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="qq" property="qq" jdbcType="VARCHAR"/>
+        <result column="mail" property="mail" jdbcType="VARCHAR"/>
+        <result column="contact_time" property="contactTime" jdbcType="TIMESTAMP"/>
+        <result column="a_type" property="aType" jdbcType="VARCHAR"/>
+        <result column="b_type" property="bType" jdbcType="VARCHAR"/>
+        <result column="c_type" property="cType" jdbcType="VARCHAR"/>
+        <result column="location" property="location" jdbcType="VARCHAR"/>
+        <result column="other_contactor" property="otherContactor" jdbcType="VARCHAR"/>
+        <result column="website" property="website" jdbcType="VARCHAR"/>
+        <result column="payment" property="payment" jdbcType="VARCHAR"/>
+        <result column="capital" property="capital" jdbcType="VARCHAR"/>
+        <result column="three_ce" property="threeCe" jdbcType="VARCHAR"/>
+        <result column="iso_ce" property="isoCe" jdbcType="VARCHAR"/>
+        <result column="agent_ce" property="agentCe" jdbcType="VARCHAR"/>
+        <result column="technical_param" property="technicalParam" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="bank" property="bank" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="ALL_Column_List">
+        p.id, p.provider_type, p.product_type, p.supplier_type,p.area, p.name, p.brand, p.product,
+        p.contactor, p.job, p.tel,p.qq, p.mail, p.contact_time, p.a_type, p.b_type, p.c_type,
+        p.location,p.other_contactor,p.website, p.payment, p.capital, p.three_ce,
+        p.iso_ce, p.agent_ce, p.technical_param,p.account, p.bank, p.create_user,p.create_time
+    </sql>
+
+    <insert id="insert" parameterType="zzjz.bean.Provider">
+        insert into tb_provider (id,provider_type, product_type, supplier_type,
+        area, name, brand,
+        product, contactor, job,
+        tel, qq, mail, contact_time,
+        a_type, b_type, c_type,
+        location, other_contactor, website,
+        payment, capital, three_ce,
+        iso_ce, agent_ce, technical_param,
+        account, bank, create_time, create_user)
+        values (#{id,jdbcType=INTEGER}, #{providerType,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, #{supplierType,jdbcType=VARCHAR},
+        #{area,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
+        #{product,jdbcType=VARCHAR}, #{contactor,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR},
+        #{tel,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{contactTime,jdbcType=TIMESTAMP},
+        #{aType,jdbcType=VARCHAR}, #{bType,jdbcType=VARCHAR}, #{cType,jdbcType=VARCHAR},
+        #{location,jdbcType=VARCHAR}, #{otherContactor,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR},
+        #{payment,jdbcType=VARCHAR}, #{capital,jdbcType=VARCHAR}, #{threeCe,jdbcType=VARCHAR},
+        #{isoCe,jdbcType=VARCHAR}, #{agentCe,jdbcType=VARCHAR}, #{technicalParam,jdbcType=VARCHAR},
+        #{account,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},
+        #{createUser,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="zzjz.bean.Provider">
+        insert into tb_provider
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="providerType != null">
+                provider_type,
+            </if>
+            <if test="productType != null">
+                product_type,
+            </if>
+            <if test="supplierType != null">
+                supplier_type,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="brand != null">
+                brand,
+            </if>
+            <if test="product != null">
+                product,
+            </if>
+            <if test="contactor != null">
+                contactor,
+            </if>
+            <if test="job != null">
+                job,
+            </if>
+            <if test="tel != null">
+                tel,
+            </if>
+            <if test="qq != null">
+                qq,
+            </if>
+            <if test="mail != null">
+                mail,
+            </if>
+            <if test="contactTime != null">
+                contact_time,
+            </if>
+            <if test="aType != null">
+                a_type,
+            </if>
+            <if test="bType != null">
+                b_type,
+            </if>
+            <if test="cType != null">
+                c_type,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="otherContactor != null">
+                other_contactor,
+            </if>
+            <if test="website != null">
+                website,
+            </if>
+            <if test="payment != null">
+                payment,
+            </if>
+            <if test="capital != null">
+                capital,
+            </if>
+            <if test="threeCe != null">
+                three_ce,
+            </if>
+            <if test="isoCe != null">
+                iso_ce,
+            </if>
+            <if test="agentCe != null">
+                agent_ce,
+            </if>
+            <if test="technicalParam != null">
+                technical_param,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="bank != null">
+                bank,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="providerType != null">
+                #{providerType,jdbcType=VARCHAR},
+            </if>
+            <if test="productType != null">
+                #{productType,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierType != null">
+                #{supplierType,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="brand != null">
+                #{brand,jdbcType=VARCHAR},
+            </if>
+            <if test="product != null">
+                #{product,jdbcType=VARCHAR},
+            </if>
+            <if test="contactor != null">
+                #{contactor,jdbcType=VARCHAR},
+            </if>
+            <if test="job != null">
+                #{job,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="qq != null">
+                #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="mail != null">
+                #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="contactTime != null">
+                #{contactTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="aType != null">
+                #{aType,jdbcType=VARCHAR},
+            </if>
+            <if test="bType != null">
+                #{bType,jdbcType=VARCHAR},
+            </if>
+            <if test="cType != null">
+                #{cType,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="otherContactor != null">
+                #{otherContactor,jdbcType=VARCHAR},
+            </if>
+            <if test="website != null">
+                #{website,jdbcType=VARCHAR},
+            </if>
+            <if test="payment != null">
+                #{payment,jdbcType=VARCHAR},
+            </if>
+            <if test="capital != null">
+                #{capital,jdbcType=VARCHAR},
+            </if>
+            <if test="threeCe != null">
+                #{threeCe,jdbcType=VARCHAR},
+            </if>
+            <if test="isoCe != null">
+                #{isoCe,jdbcType=VARCHAR},
+            </if>
+            <if test="agentCe != null">
+                #{agentCe,jdbcType=VARCHAR},
+            </if>
+            <if test="technicalParam != null">
+                #{technicalParam,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="bank != null">
+                #{bank,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="getProviderList" resultMap="BaseResultMap" parameterType="zzjz.bean.ProviderRequest">
+        SELECT
+        <include refid="ALL_Column_List"/>
+        FROM tb_provider p
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="providerType != null">
+                AND p.provider_type like '%${providerType}%'
+            </if>
+            <if test="productType != null">
+                AND p.product_type like '%${productType}%'
+            </if>
+            <if test="supplierType != null">
+                AND p.supplier_type like '%${supplierType}%'
+            </if>
+            <if test="area != null">
+                AND p.area like '%${area}%'
+            </if>
+            <if test="name != null">
+                AND p.name like '%${name}%'
+            </if>
+            <if test="brand != null">
+                AND p.brand like '%${brand}%'
+            </if>
+            <if test="product != null">
+                AND p.product like '%${product}%'
+            </if>
+            <if test="contactor != null">
+                AND p.contactor like '%${contactor}%'
+            </if>
+            <if test="job != null">
+                AND p.job like '%${job}%'
+            </if>
+            <if test="tel != null">
+                AND p.tel like '%${tel}%'
+            </if>
+            <if test="qq != null">
+                AND p.qq like '%${qq}%'
+            </if>
+            <if test="mail != null">
+                AND p.mail like '%${mail}%'
+            </if>
+            <if test="contactTime != null">
+                AND p.contactTime like '%${contactTime}%'
+            </if>
+            <if test="aType != null">
+                AND p.aType like '%${aType}%'
+            </if>
+            <if test="bType != null">
+                AND p.bType like '%${bType}%'
+            </if>
+            <if test="cType != null">
+                AND p.cType like '%${cType}%'
+            </if>
+            <if test="location != null">
+                AND p.location like '%${location}%'
+            </if>
+            <if test="otherContactor != null">
+                AND p.other_contactor like '%${otherContactor}%'
+            </if>
+            <if test="website != null">
+                AND p.website like '%${website}%'
+            </if>
+            <if test="payment != null">
+                AND p.payment like '%${payment}%'
+            </if>
+            <if test="capital != null">
+                AND p.capital like '%${capital}%'
+            </if>
+            <if test="threeCe != null">
+                AND p.threeCe like '%${threeCe}%'
+            </if>
+            <if test="isoCe != null">
+                AND p.isoCe like '%${isoCe}%'
+            </if>
+            <if test="agentCe != null">
+                AND p.agent_ce like '%${agentCe}%'
+            </if>
+            <if test="technicalParam != null">
+                AND p.technical_param like '%${technicalParam}%'
+            </if>
+            <if test="account != null">
+                AND p.account like '%${account}%'
+            </if>
+            <if test="bank != null">
+                AND p.bank like '%${bank}%'
+            </if>
+            <if test="createUser != null">
+                AND p.create_user = '${createUser}'
+            </if>
+            <if test="createTime != null">
+                AND p.create_time &gt;= '${createTime}'
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="ALL_Column_List" />
+        from tb_provider p
+        where p.id = #{id,jdbcType=INTEGER}
+    </select>
+    <update id="updateByPrimaryKey" parameterType="zzjz.bean.Provider" >
+        update tb_provider
+        set provider_type = #{providerType,jdbcType=VARCHAR},
+        product_type = #{productType,jdbcType=VARCHAR},
+        supplier_type = #{supplierType,jdbcType=VARCHAR},
+        area = #{area,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
+        brand = #{brand,jdbcType=CHAR},
+        product = #{product,jdbcType=VARCHAR},
+        contactor = #{contactor,jdbcType=VARCHAR},
+        job = #{job,jdbcType=VARCHAR},
+        tel = #{tel,jdbcType=VARCHAR},
+        qq = #{qq,jdbcType=VARCHAR},
+        mail = #{mail,jdbcType=VARCHAR},
+        contact_time = #{contactTime,jdbcType=VARCHAR},
+        a_type = #{aType,jdbcType=VARCHAR},
+        b_type = #{bType,jdbcType=VARCHAR},
+        c_type = #{cType,jdbcType=VARCHAR},
+        location = #{location,jdbcType=VARCHAR},
+        other_contactor = #{otherContactor,jdbcType=VARCHAR},
+        website = #{website,jdbcType=VARCHAR},
+        payment = #{payment,jdbcType=VARCHAR},
+        capital = #{capital,jdbcType=VARCHAR},
+        three_ce = #{threeCe,jdbcType=VARCHAR},
+        iso_ce = #{isoCe,jdbcType=VARCHAR},
+        agent_ce = #{agentCe,jdbcType=VARCHAR},
+        technical_param = #{technicalParam,jdbcType=VARCHAR},
+        account = #{account,jdbcType=VARCHAR},
+        bank = #{bank,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=VARCHAR},
+        create_user = #{createUser,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteProviderById" parameterType="java.lang.Integer" >
+        delete from tb_provider
+      where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into tb_provider (
+        provider_type, product_type, supplier_type,
+        area, name, brand,
+        product, contactor, job,
+        tel, qq, mail, contact_time,
+        a_type, b_type, c_type,
+        location, other_contactor, website,
+        payment, capital, three_ce,
+        iso_ce, agent_ce, technical_param,
+        account, bank
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.providerType}, #{item.productType}, #{item.supplierType},
+            #{item.area}, #{item.name}, #{item.brand},
+            #{item.product}, #{item.contactor}, #{item.job},
+            #{item.tel}, #{item.qq}, #{item.mail}, #{item.contactTime},
+            #{item.aType}, #{item.bType}, #{item.cType},
+            #{item.location}, #{item.otherContactor}, #{item.website},
+            #{item.payment}, #{item.capital}, #{item.threeCe},
+            #{item.isoCe}, #{item.agentCe}, #{item.technicalParam},
+            #{item.account}, #{item.bank})
+        </foreach>
+    </insert>
+    <select id="getAllProviderList" resultMap="BaseResultMap">
+        select * from tb_provider
+    </select>
+</mapper>

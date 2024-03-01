@@ -1,10 +1,10 @@
 <style type="text/css">
     #calendarListTable {
-        border: 0px;
         cellspacing: 0;
         cellpadding: 0;
-        width: 97%;
+        width: 100%;
         align: center;
+        margin-top: 20px;
     }
 
     td {
@@ -62,32 +62,97 @@
         background: url("images/edit_hover.png");
     }
 
+    #queryMonth{
+        width: 200px;
+        padding: 6.5px 0 6.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+    }
+    .uploadBtn {
+        margin-right: 10px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .colorBg{
+        display:inline-block ;
+        content: '';
+        width:50px;
+        height:24px;
+        border-radius: 4px;
+        position:relative;
+        top:6px;
+    }
+    .bgSearch{
+        display: inline-block;
+        content:'';
+        height: 34px;
+        margin-right: 7px;
+    }
+    .btnBg{
+        background: none;
+        border: none;
+        outline: none;
+        color: #0e90d2;
+        font-size: 11px;
+    }
+    .leftBg{
+        float: left;
+    }
+    .rightBg{
+        float: right;
+    }
+
+    .monthStyle{
+        width: 100%;
+        height:90px;
+        opacity:1;
+    }
+    .monthStyle:hover{
+        opacity:0.8;
+    }
+
 </style>
 <div ng-controller="calendarController">
-    <div>
-        <table id="calendarListTable" align="center">
-            <thead>
-            <tr>
-                <td width="10%">序号</td>
-                <td width="20%">日期</td>
-                <td width="10%">是否周末</td>
-                <td width="10%">是否节假日</td>
-                <td width="15%">操作</td>
+    <div style="margin-top: 15px;">
+        <input type="month" id="queryMonth" value=""/>
+        <button class="uploadBtn" ng-click="dateQuery()" type="button"><span class="glyphicon glyphicon-plus"></span>查询</button>
+        <span class="bgSearch"><span class="colorBg" style="background-color: rgb(255,219,219);"></span>节假日</span>
+        <span class="bgSearch"><span class="colorBg" style="background-color: rgb(245,245,245);"></span>工作日</span>
+        <span class="bgSearch"><span class="colorBg" style="background-color: rgb(174,238,238);"></span>非工作日</span>
+        <table id="calendarListTable" align="center" class="table table-bordered table-striped table-condensed">
+            <thead style="display: table;width: 100%;table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td>星期日</td>
+                <td>星期一</td>
+                <td>星期二</td>
+                <td>星期三</td>
+                <td>星期四</td>
+                <td>星期五</td>
+                <td>星期六</td>
             </tr>
             </thead>
-            <tr ng-repeat="calendar in calendars" class="contentTr">
-                <td>{{$index+1}}</td>
-                <td>{{calendar.curDay}}</td>
-                <td>{{calendar.isWorkday == '1' ? '是' : '否'}}</td>
-                <td>{{calendar.isHoliday == '1' ? '是' : '否'}}</td>
-                <td>
-                    <button class="editBtn" title="设为节假日" ng-click="setHoliday($index)"/>
-                    &nbsp;
-                    <button class="editBtn" title="设为工作日" ng-click="setWorkday($index)"/>
-                    &nbsp;
+            <tbody style="display: block;width: 100%;">
+            <tr ng-repeat="calendar in calendars" style="display: table;width:100%;table-layout:fixed;" ng-click="one($index)">
+                <td ng-repeat="week in calendar"ng-mouseover="hover=true" ng-mouseleave="hover = false" class="monthStyle" ng-style="work{{week.isWorkday}}Ho{{week.isHoliday}}D{{week.thisMonth}}">
+                    <button type="button" class="btnBg leftBg" ng-click="setWorkday($index)" ng-if="hover" ng-show="!changeWork{{week.thisMonth}}">{{week.isWorkday==0?'设为工作日':'取消工作日'}}</button>
+                    {{week.day}}
+                    <button type="button" class="btnBg rightBg" ng-click="setHoliday($index)" ng-if="hover" ng-show="!changeHoliday{{week.thisMonth}}">{{week.isHoliday==0?'设为节假日':'取消节假日'}}</button>
                 </td>
             </tr>
+            </tbody>
         </table>
-
     </div>
+
 </div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

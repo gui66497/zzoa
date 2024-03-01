@@ -1,0 +1,191 @@
+<style type="text/css">
+    /*input[type="password"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
+    }
+
+    input[type="text"] {
+        width: 240px;
+        margin-left: 30px;
+        margin-top: 11px;
+    }*/
+    treecontrol ul{
+        font-size: 15px;
+    }
+    .c-iExpanded{
+        background: url("../images/icons/person_li.png");
+    }
+    .tab-content{
+        height:100%;
+        padding: 44px 0 0 0;
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+    .tab-content>.active{
+        height:calc(100% - 20px);
+    }
+    .nav-tabs{
+        background: #d4e0ef;
+        border-bottom: none;
+        position: fixed;
+        width: calc(100% - 230px);
+        z-index:900;
+    }
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #555;
+        cursor: default;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+    /*.leftDiv{
+        padding-top: 12px;
+        float: left;
+        width: 220px;
+        height: 100%;
+        background: #116b7e;
+        position: fixed;
+    }*/
+    .nav-tabs>li>a{
+        margin-top: 5px;
+        border-radius: 6px 6px 0 0;
+    }
+    .rightDiv{
+        width: 100%;
+        padding: 80px 0px 0 229px;
+        transition: 1s;
+    }
+    .tree-boot{
+        color:#dcf9ff;
+    }
+    #style>li.active,#style>li.active:focus,#style>li.active:hover{
+        background: white;
+    }
+    #style>li>a{
+        text-decoration: none;
+    }
+    button.close{
+        margin-top: 10px;
+        margin-right: 5px;
+    }
+    #首页{
+        display: none;
+    }
+    .tabs{
+        width:100px;
+        float:left;
+        text-align: center;
+        height: 39px;
+        margin-top: 5px;
+        border-radius: 6px 6px 0 0;
+        line-height: 39px;
+        margin-right: 5px;
+    }
+    .tabs:hover{
+        background:  rgb(238,238,238);
+    }
+    .telescopic{
+        width: 9px;
+        height: 100%;
+        background: rgb(39, 125, 146);
+        float: left;
+        position: fixed;
+        top: 80px;
+        left: 220px;
+        transition: 1s;
+    }
+    .leftDiv{
+        left:0;
+        transition: 1s;
+    }
+    .retractLeft{
+        left:-220px;
+    }
+    .retractBtn{
+        left:0;
+    }
+    .retractRight{
+        padding: 80px 0px 0 9px;
+    }
+    .rightBtn{
+        width: 9px;
+        height: 41px;
+        background: url('./images/right.gif');
+        position: relative;
+        top:50%;
+        margin-top: -20px;
+    }
+    .rightBtn:hover{
+        cursor: pointer;
+    }
+    .firstFloor{
+        height: 16px;
+        padding: 1px 10px;
+        background: url(./images/icons/personnel_16x16.png) no-repeat;
+        margin: 4px;
+        float: left;
+        position: relative;
+        top: -2px;
+    }
+    .floor290{
+        background: url('./images/shangcai.png') no-repeat;
+    }
+
+</style>
+<div ng-controller="humanController" style="height: 100%;">
+    <div style="height: 100%;">
+        <div class="leftDiv" ng-class="{'retractLeft':isRetractBtn}">
+            <treecontrol class="tree-boot"
+                         tree-model="treeData1"
+                         options="treeOptions"
+                         on-selection="nodeSelect(node)"
+                         selected-node="node1"
+                         expanded-nodes="expandedNodes"
+                         ng-show="page">
+                {{node.name}}
+            </treecontrol>
+            <treecontrol class="tree-boot"
+                         tree-model="treeCommerce"
+                         options="treeOptions"
+                         on-selection="nodeSelect(node)"
+                         selected-node="node1"
+                         expanded-nodes="expandedNodesCommerce">
+                <span ng-show="{{node.show}}" class="firstFloor floor{{node.id}}"></span>
+                {{node.name}}
+            </treecontrol>
+
+        </div>
+        <div class="telescopic" ng-click="telescopicBtn()" ng-class="{'retractBtn':isRetractBtn}">
+            <div class="rightBtn"></div>
+        </div>
+
+        <div class="rightDiv" ng-class="{'retractRight':isRetractBtn}" style="height: 100%;">
+            <form id="outerForm" name="outerForm" class="tab-form-demo" style="height: 100%;">
+                <uib-tabset active="activeIndex" style="height: 100%;">
+                    <div style="float:left;background: #d4e0ef;width: 21px;height: 40px;">
+                        <img src="images/left_16x16.png" style="padding: 12px 2.5px;" ng-show="leftRight" ng-click="left()"/>
+                    </div>
+
+                    <div id="style2" style="float:left;width: calc(100% - 42px);height: 44px;overflow:hidden;">
+                        <div id="style" ng-style="moveStyle">
+                            <uib-tab ng-repeat="content in contents" index="content.id" heading="{{content.name}}" id="{{content.id}}" class="tabs">
+                                <div ng-include="content.url" autoscroll="true" style="height: 100%;">
+                                </div>
+                            </uib-tab>
+                        </div>
+                    </div>
+
+                    <div style="float:right;background: #d4e0ef;width: 21px;height: 40px;">
+                        <img src="images/right_16x16.png" style="padding: 12px 2.5px;" ng-show="leftRight" ng-click="right()"/>
+                    </div>
+                </uib-tabset>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

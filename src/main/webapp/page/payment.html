@@ -1,0 +1,204 @@
+<style type="text/css">
+    .addPayment{
+        width: 88%;
+        margin-right: 2%;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .paymentName{
+        float: left;
+        width: 32%;
+        line-height: 34px;
+        text-align: right;
+        font-weight: 700;
+        position: relative;
+    }
+    .searchMenu{
+        width: 68%;
+        left: 32%;
+        position: absolute;
+        z-index: 99;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.6);
+        background: white;
+    }
+    .styleLi,.styleAccount,.styleBank{
+        margin-left: -40px;
+        text-align: left;
+        padding: 5px;
+        font-weight: 700;
+        font-family: inherit;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+    }
+    .styleLi,.styleAccount,.styleBank:hover{
+        background: wheat;
+        cursor: pointer;
+    }
+    #bigNum{
+        margin-left: 32%;
+    }
+    .exportBtn{
+        width: 20px;
+        height: 20px;
+        outline: none;
+        border: none;
+        background: url(images/down.png);
+    }
+    .contentTr td{
+        /*width:150px;*/
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+    }
+</style>
+<div ng-controller="paymentController as controller" style="height: 100%;">
+    <div class="cover" ng-if="hideFrom">
+        <img src="images/loading.gif" style="position: relative;top: 50%;left: 50%;margin-top: -21px;margin-left: -32px;">
+    </div>
+    <div style="margin-top: 10px;height: 100%;">
+        <button class="add information" ng-click="addAndUpdatePayment()" type="button">
+            <span class="glyphicon glyphicon-plus"></span> 新增付款
+        </button>
+        <div class="form-inline" style="float: right;margin-bottom: 10px;">
+            <input class="form-control" style="width: 200px;vertical-align:bottom;" id="pay_range" name="pay_range">
+            <button class="searchBtn" ng-click="search()" type="button"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </div>
+        <!--<button class="overBtn" ng-click="search()" type="button"><span class="glyphicon glyphicon-plus"></span>查询</button>
+        <input type="month" id="overMonth" ng-model="searchTime" value=""/>-->
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+        <table ng-show="noContent" ng-table="controller.tableParams" id="processListTable" align="center"
+               class="table table-bordered table-striped table-condensed" style="display: block;margin-top: 15px;height: calc(100% - 250px);">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="10%">序号</td>
+                <td width="10%">归属</td>
+                <td width="10%">收款单位名称</td>
+                <td width="10%">账号</td>
+                <td width="20%">开户行</td>
+                <td width="10%">付款事由</td>
+                <td width="10%">付款金额（小写）</td>
+                <td width="10%">付款金额（大写）</td>
+                <td width="10%">流程编号</td>
+                <td width="10%">创建时间</td>
+                <td width="7%">创建人</td>
+                <td width="7%">流程状态</td>
+
+                <td width="10%">操作</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="0%" ng-hide="true">{{row.id}}</td>
+                <td width="10%">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                <td width="10%" title="{{row.ascription}}">{{row.ascription}}</td>
+                <td width="10%" title="{{row.name}}">{{row.name}}</td>
+                <td width="10%" title="{{row.account}}">{{row.account}}</td>
+                <td width="20%" title="{{row.bank}}">{{row.bank}}</td>
+                <td width="10%" title="{{row.reason}}">{{row.reason}}</td>
+                <td width="10%" title="{{row.priceLower}}">{{row.priceLower}}</td>
+                <td width="10%" title="{{row.priceUpper}}">{{row.priceUpper}}</td>
+                <td width="10%" title="{{row.actId}}">{{row.actId}}</td>
+                <td width="10%" title="{{row.createTime}}">{{row.createTime}}</td>
+                <td width="7%" title="{{row.userName}}">{{row.userName}}</td>
+                <td width="7%" ng-switch="row.status">
+                    <span ng-switch-when="00">待发起</span>
+                    <span ng-switch-when="01">处理中</span>
+                    <span ng-switch-when="02">打回中</span>
+                    <span ng-switch-when="03">已打回</span>
+                    <span ng-switch-when="93">已打回(已忽略)</span>
+                    <span ng-switch-when="97">已打印</span>
+                    <span ng-switch-when="99">已通过</span>
+                    <span ng-switch-default>未知</span>
+                </td>
+
+                <td width="10%">
+                    <button title="修改" class="editBtn" ng-click="updatePayment($index)" type="button"/>
+                    <button title="删除" class="deleteBtn" ng-click="showDeletePayment($index)" type="button"/>
+                    <button title="导出" class="exportBtn" ng-click="exportPayment($index)" type="button"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="modal fade" id="addPayment" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 550px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title"> 新增付款管理</h4>
+            </div>
+            <div class="modal-body" style="max-height: 450px;overflow-y: auto">
+                <form class="form-horizontal" name="paymentFrom">
+                    <div class="addPayment">
+                        <span class="paymentName">归属：</span>
+                        <input type="text" name="ascription" style="width: 68%;" class="form-control" ng-model="formData.ascription" required>
+                    </div>
+                    <div class="addPayment">
+                        <span class="paymentName">收款单位名称：</span>
+                        <input type="text" name="name" style="width: 68%;" class="form-control" ng-model="formData.name" ng-keyup="company()" id="content" ng-blur="out()" autocomplete="off" required>
+                        <ul class="searchMenu" ng-show="menuHide">
+                            <li ng-repeat="x in popupPrompt|filter:formData.name|filter:x.eng" class="styleLi" ng-click="selected($index)"><span class="name">{{x.name}}</span><span class="account" ng-show="false">{{x.account}}</span><span class="bank" ng-show="false">{{x.bank}}</span></span></li>
+                        </ul>
+                    </div>
+                    <div class="addPayment">
+                        <span class="paymentName">账号：</span>
+                        <input type="text" name="account" style="width: 68%;" class="form-control" ng-model="formData.account" autocomplete="off" required>
+                    </div>
+                    <div class="addPayment">
+                        <span class="paymentName">开户行：</span>
+                        <input type="text" name="bank" style="width: 68%;" class="form-control" ng-model="formData.bank" autocomplete="off" required>
+                    </div>
+                    <div class="addPayment">
+                        <span class="paymentName">付款事由：</span>
+                        <input type="text" name="reason" style="width: 68%;" class="form-control" ng-model="formData.reason" required>
+                    </div>
+                    <div class="addPayment">
+                        <span class="paymentName">付款金额：</span>
+                        <input type="text" name="priceLower" style="width: 68%;" class="form-control" ng-model="formData.priceLower" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" required>
+                        <p id="smallNum" ng-show="hidden">{{formData.priceLower|currency:'￥'}}</p>
+                        <p id="bigNum">{{formData.priceLower|Chinese}}</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="sure" ng-click="saveAndSubmitPayment()"  ng-disabled="paymentFrom.ascription.$invalid ||paymentFrom.name.$invalid ||paymentFrom.account.$invalid ||paymentFrom.bank.$invalid ||paymentFrom.reason.$invalid ||paymentFrom.priceLower.$invalid">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="modal fade" id="paymentChooseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">处理人选择</h4>
+                </div>
+                <div class="modal-body apply" style="max-height: 450px;overflow-y: auto">
+                    <h4 style="padding-left: 1rem;">
+                        <div class="opt" ng-repeat="x in formData.processors" style="float:left;width:25%;">
+                            <input class="magic-radio" ng-change="radioChange2()" type="radio" id="pro{{x.userId}}" name="radio" value="{{x.userId}}" data-ng-model="formData.processor">
+                            <label for="pro{{x.userId}}" id="payment{{x.userId}}" style="font-weight: 500;">{{x.userName}}</label>
+                        </div>
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="submitPayment()"  ng-disabled="disSub2">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

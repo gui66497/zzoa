@@ -1,0 +1,586 @@
+<style type="text/css">
+    #attendanceListTable {
+        border: 0px;
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 100%;
+        align: center;
+    }
+
+    td {
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 0px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+    .modal-header {
+        color: #ffffff;
+        font-size: 16px;
+        font-family: 微软雅黑;
+        background-color: #1c2b36;
+        height: 50px;
+        line-height: 50px;
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+
+    .uploadBtn {
+        margin-right: 10px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+
+    .workSearch {
+        width: 103px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid rgb(204, 204, 204);
+        outline: none;
+        padding-left: 10px;
+    }
+
+    #attendanceListTable > thead {
+        border-top: 1px solid rgb(221, 221, 221);
+    }
+
+    .attSearchBtn {
+        width: 50px;
+        height: 30px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    #departMultiSelect{
+        display: inline
+    }
+    #departMultiSelect button{
+        line-height: 10px;
+    }
+    .btnBg {
+        width: 15px;
+        height: 15px;
+        border: 0;
+        background: url("images/edit15.png");
+    }
+
+    .btnBg:hover {
+        background: url("images/edit15_hover.png");
+    }
+    .optimize{
+        padding: 5.5px 12px;
+        border: none;
+        outline: none;
+        color: white;
+        border-radius: 4px;
+    }
+    .this{
+        background: rgb(1, 163, 163);
+        opacity:0.8;
+    }
+    .last{
+        background: #0469c0;
+        opacity:0.8;
+    }
+    .on{
+        opacity:1;
+    }
+
+</style>
+<div ng-controller="attendanceManController as controller" style="height: 100%;">
+    <div style="padding-top: 20px;height: 100%;">
+        <!--<button class="inputAtt uploadBtn" ng-click="showInputAttModal()">
+            <span class="glyphicon glyphicon-plus"></span> 录入事项
+        </button>
+        <button class="inputSign uploadBtn" ng-click="showInputSignModal()">
+            <span class="glyphicon glyphicon-plus"></span> 添加签到
+        </button>
+        <button class="inputLeave uploadBtn" ng-click="showInputLeaveModal()">
+            <span class="glyphicon glyphicon-plus"></span> 添加签退
+        </button>-->
+        <!--<button class="inputLead uploadBtn" ng-click="showInputLeadModal()">-->
+            <!--<span class="glyphicon glyphicon-plus"></span> 考勤导入-->
+        <!--</button>-->
+        <button class="inputLead uploadBtn" ng-show="isManager" ng-click="showRecordAgainModal()" type="button">
+            <span class="glyphicon glyphicon-cloud-upload"></span> 考勤补录
+        </button>
+        <div class="form-inline" style="float:right;">
+            <button type="button" ng-click="thisWeek()" class="optimize this">本周</button>
+            <button type="button" ng-click="thisMonth()" class="optimize this">本月</button>
+            <button type="button" ng-click="lastWeek()" class="optimize last">上周</button>
+            <button type="button" ng-click="lastMonth()" class="optimize last">上月</button>
+            <div id="departMultiSelect" isteven-multi-select ng-show="isManager" input-model="departSections" output-model="selectedDeparts"
+                    button-label="departName" item-label="departName" tick-property="ticked"
+                    translation="localLang" max-labels="3" helper-elements="" max-height="350px">
+            </div>
+            <input class="workSearch" ng-disabled="!isManager" type="text" ng-model="req.userName" placeholder="用户名" ng-keyup="myKeyup($event)"/>
+            <!--<input class="workSearch" type="text" ng-model="req.depart" placeholder="部门"/>-->
+            <!--<select style="    display: inline;width: 103px;height: 30px;padding-top: 3px;" ng-model="req.depart" class="form-control" name="customSearch.departName" id="bottomSelect">
+                <option value="">所有部门</option>
+                <option ng-repeat="x in sections" value="{{x.departName}}">{{x.departName}}</option>
+            </select>-->
+
+            <select ng-change="alter()" ng-style="selectWork" class="workSearch" name="name" ng-model="req.isError">
+                <option value="">是否异常</option>
+                <option value="0">正常</option>
+                <option value="1">异常</option>
+            </select>
+            <input class="form-control" style="width: 200px;vertical-align: bottom;height: 30px" id="attendance_range" name="attendance_range">
+            <!--<span style="font-size: 14px;">开始日期：</span><input class="dateSearch" type="date" ng-model="req.beginTime" />
+            <span style="font-size: 14px;">结束日期：</span><input class="dateSearch" type="date" ng-model="req.endTime" />-->
+            <button class="attSearchBtn" ng-click="workSearch()" type="button">搜索</button>
+        </div>
+
+        <br/><br/>
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+        <table ng-table="controller.tableParams" align="center"
+               class="table table-bordered table-striped table-condensed" style="height: calc(100% - 250px);display: block;margin-top: 15px;">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="4%">序号</td>
+                <td width="7%">用户名</td>
+                <td width="8%">部门</td>
+                <td width="8%">考勤日期</td>
+                <td width="6%">签到时间</td>
+                <td width="6%">签退时间</td>
+                <td width="6%">加班时间</td>
+                <td width="6%">迟到(小时)</td>
+                <td width="6%">早退(小时)</td>
+                <td width="6%">旷工(天)</td>
+                <td width="6%">整日考勤</td>
+                <td width="6%">上午考勤</td>
+                <td width="6%">下午考勤</td>
+                <td width="6%">是否异常</td>
+                <td width="13%">异常原因</td>
+                <!--<td width="5%">清除事项</td>-->
+            </tr>
+            </thead>
+            <tbody style="display: block;height:calc(100% - 53px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="4%">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                <td width="7%">{{row.userName}}</td>
+                <td width="8%">{{row.depart}}</td>
+                <td width="8%">{{row.checkDate}}</td>
+                <td width="6%">{{row.signTime}}<button type="button" ng-if="isManager" class="btnBg" title="修改" ng-click="editSignTime($index)"/></td>
+                <td width="6%">{{row.leaveTime}}<button type="button" ng-if="isManager" class="btnBg" title="修改" ng-click="editLeaveTime($index)"/></td>
+                <td width="6%">{{row.overTime}}</td>
+                <td width="6%">{{row.late}}</td>
+                <td width="6%">{{row.early}}</td>
+                <td width="6%">{{row.absent}}</td>
+                <td width="6%" ng-switch="row.allDay">
+                    <span ng-switch-when="00">调休</span>
+                    <span ng-switch-when="01">年假</span>
+                    <span ng-switch-when="02">事假</span>
+                    <span ng-switch-when="03">产假</span>
+                    <span ng-switch-when="04">婚假</span>
+                    <span ng-switch-when="05">丧假</span>
+                    <span ng-switch-when="06">病假</span>
+                    <span ng-switch-when="07">工程调休</span>
+                    <span ng-switch-when="08">产前假</span>
+                    <span ng-switch-when="10">加班</span>
+                    <span ng-switch-when="20">出差</span>
+                    <span ng-switch-when="21">外出</span>
+                </td>
+                <td width="6%" ng-switch="row.morDay">
+                    <span ng-switch-when="00">调休</span>
+                    <span ng-switch-when="01">年假</span>
+                    <span ng-switch-when="02">事假</span>
+                    <span ng-switch-when="03">产假</span>
+                    <span ng-switch-when="04">婚假</span>
+                    <span ng-switch-when="05">丧假</span>
+                    <span ng-switch-when="06">病假</span>
+                    <span ng-switch-when="07">工程调休</span>
+                    <span ng-switch-when="08">产前假</span>
+                    <span ng-switch-when="10">加班</span>
+                    <span ng-switch-when="20">出差</span>
+                    <span ng-switch-when="21">外出</span>
+                </td>
+                <td width="6%" ng-switch="row.aftDay">
+                    <span ng-switch-when="00">调休</span>
+                    <span ng-switch-when="01">年假</span>
+                    <span ng-switch-when="02">事假</span>
+                    <span ng-switch-when="03">产假</span>
+                    <span ng-switch-when="04">婚假</span>
+                    <span ng-switch-when="05">丧假</span>
+                    <span ng-switch-when="06">病假</span>
+                    <span ng-switch-when="07">工程调休</span>
+                    <span ng-switch-when="08">产前假</span>
+                    <span ng-switch-when="10">加班</span>
+                    <span ng-switch-when="20">出差</span>
+                    <span ng-switch-when="21">外出</span>
+                </td>
+                <td width="6%">{{row.isError==1 ? '异常' : '正常'}}</td>
+                <td width="13%">{{row.errorDesc}}</td>
+                <!--<td width="5%">
+                    <button class="deleteBtn" title="清除事项" ng-click="removal($index)"/>
+                </td>-->
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="inputAttModal" tabindex="-1" role="dialog" aria-labelledby="inputAttModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="inputAttModalLabel"> 新增事项</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="inputAttForm" novalidate>
+                            <table id="inputAttTable" width="90%" name="inputAttTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">用户：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="userId" class="form-control"
+                                               ng-model="formData.userId" ng-maxlength="20" required/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">日期：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#">
+                                                <div class="input-group">
+                                                    <input type="text" id="addDate" name="addDate" class="form-control" data-ng-model="formData.checkDate" disabled="disabled" style="cursor: pointer" required>
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <datetimepicker   data-ng-model="formData.checkDate"
+                                                                  data-datetimepicker-config="{ dropdownSelector: '#dropdown2',  minView:'day' }"
+                                                                  data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">时段：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <select id="time" name="time" class="form-control" ng-model="formData.time"
+                                                required="required">
+                                            <option value="0">整天</option>
+                                            <option value="1">上午</option>
+                                            <option value="2">下午</option>
+                                            <option value="3">晚上</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">操作：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <select id="opt" name="opt" class="form-control" ng-model="formData.opt"
+                                                required="required">
+                                            <option value="00">调休</option>
+                                            <option value="01">年假</option>
+                                            <option value="02">事假</option>
+                                            <option value="03">产假</option>
+                                            <option value="04">婚假</option>
+                                            <option value="05">丧假</option>
+                                            <option value="06">病假</option>
+                                            <option value="07">工程调休</option>
+                                            <option value="08">产前假</option>
+                                            <option value="10">加班</option>
+                                            <option value="20">出差</option>
+                                            <option value="21">外出</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                        <button type="button" class="sure"
+                                ng-disabled="formData.userId.$invalid||formData.checkDate.$invalid||formData.time.$invalid||formData.opt.$invalid"
+                                ng-click="inputChecked()">确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--考勤补录模态框-->
+        <div class="modal fade" id="recordAgainModal" tabindex="-1" role="dialog" aria-labelledby="recordAgainModal">
+            <div class="modal-dialog" role="document" style="width: 500px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title"> 考勤补录</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-inline" name="recordAgainForm">
+                            <div class="form-group">
+
+                                <label class="col-sm-4 control-label" style="line-height: 30px;font-size: 14px;" for="recordAgainDate">补录日期：</label>
+                                <div class="col-sm-8">
+
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="recordDropdown" role="button" data-toggle="dropdown" data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="recordAgainDate" name="recordAgainDate" class="form-control" data-ng-model="recordAgainDate" disabled="disabled" style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <p ng-show="showWait" style="color: red" class="help-block">请稍候。。。</p>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker   data-ng-model="recordAgainDate"
+                                                              data-datetimepicker-config="{ dropdownSelector: '#recordDropdown',  minView:'day' }"
+                                                              data-on-set-time="onTimeSet(newDate, oldDate)" data-></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                        <button type="button" class="sure"
+                                ng-disabled="showWait"
+                                ng-click="recordAgain()">确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="inputSignModal" tabindex="-1" role="dialog" aria-labelledby="inputSignModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="inputSignModalLabel" style="font-weight: 700;"> 添加签到时间</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="inputSignForm" novalidate>
+                            <table id="inputSignTable" width="90%" name="inputSignTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">用户：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="userId" class="form-control"
+                                               ng-model="formData.userId" ng-maxlength="20" required/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">日期：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="dropdown" role="button" data-toggle="dropdown" data-target="#">
+                                                <div class="input-group">
+                                                    <input type="text" id="signDate" name="signDate" class="form-control" data-ng-model="formData.checkDate" disabled="disabled" style="cursor: pointer" required>
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <datetimepicker   data-ng-model="formData.checkDate"
+                                                                  data-datetimepicker-config="{ dropdownSelector: '#dropdown',  minView:'day' }"
+                                                                  data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">时间：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="time" name="signTime" id="signTime" class="form-control"
+                                               ng-model="formData.signTime" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                        <button type="button" class="sure"
+                                ng-disabled="formData.userId.$invalid||formData.checkDate.$invalid||formData.signTime.$invalid"
+                                ng-click="inputSignTime()">确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="inputLeaveModal" tabindex="-1" role="dialog" aria-labelledby="inputLeaveModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="inputLeaveModalLabel"> 添加签退时间</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="inputLeaveForm" novalidate>
+                            <table id="inputLeaveTable" width="90%" name="inputLeaveTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">用户：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="userId" class="form-control"
+                                               ng-model="formData.userId" ng-maxlength="20" required/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">日期：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target="#">
+                                                <div class="input-group">
+                                                    <input type="text" id="leaveDate" name="leaveDate" class="form-control" data-ng-model="formData.checkDate" disabled="disabled" style="cursor: pointer" required>
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <datetimepicker   data-ng-model="formData.checkDate"
+                                                                  data-datetimepicker-config="{ dropdownSelector: '#dropdown1',  minView:'day' }"
+                                                                  data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">时间：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="time" name="leaveTime" id="leaveTime" class="form-control"
+                                               ng-model="formData.leaveTime" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                        <button type="button" class="sure"
+                                ng-disabled="formData.userId.$invalid||formData.checkDate.$invalid||formData.leaveTime.$invalid"
+                                ng-click="inputLeaveTime()">确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="inputTimeModal" tabindex="-1" role="dialog" aria-labelledby="inputTimeModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="inputTimeModalLabel" style="font-weight: 700;"> 时间修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="inputTimeForm" novalidate>
+                            <table id="inputTimeTable" width="90%" name="inputTimeTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="font-weight: 700;">请输入时间：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="time" name="inputTime" id="inputTime" class="form-control"
+                                               ng-model="formData.inputTime" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                        <button type="button" class="sure"
+                                ng-disabled="formData.inputTime.$invalid"
+                                ng-click="inputTimeSubmit()">确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--考勤导入模态框-->
+        <div class="modal fade" id="inputLeadModal" tabindex="-1" role="dialog" aria-labelledby="inputLeadModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="inputLeadModalLabel"> 考勤导入</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="file" name="file" id="file_btn" class="myFile" ng-model="myFile"
+                                       style="display: none">
+                                <button class="uploadBtn" ng-click="getFileClick()" type="button"><span
+                                        class="glyphicon glyphicon-file"></span>选择文件
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button class="uploadBtn" ng-click="upload()" type="button">
+                                    <span class="glyphicon glyphicon-upload"></span> 上传
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                        <button type="button" class="sure"
+                                ng-disabled="formData.userId.$invalid||formData.checkDate.$invalid||formData.leaveTime.$invalid"
+                                ng-click="inputLeaveTime()">确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+    $(".optimize").click(function(){
+        $(this).addClass("on").siblings().removeClass("on");
+    })
+</script>

@@ -1,0 +1,263 @@
+<style type="text/css">
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: none !important;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+    .applyBtn {
+        margin-right: 10px;
+        width: 150px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+    .start:after{
+        display: inline-block;
+        content: "*";
+        color: red;
+    }
+    #outMonth{
+        width: 200px;
+        padding: 6.5px 0 6.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        float: right;
+        margin-right: 10px;
+    }
+    .outBtn {
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        float: right;
+    }
+    .cover{
+        width:100%;
+        height:100%;
+        background-color: rgb(255,255,255);
+        opacity: 0.5;
+        position: absolute;
+        z-index:99999;
+        left:0px;
+        top:0px;
+    }
+
+</style>
+<div ng-controller="outController as controller" style="height: 100%;">
+    <div class="cover" ng-if="hideFrom">
+        <img src="images/loading.gif" style="position: relative;top: 50%;left: 50%;margin-top: -21px;margin-left: -32px;">
+    </div>
+    <div style="margin-top: 10px;height: 100%;">
+        <button class="add information" ng-click="addAndUpdateOut()" type="button">
+            <span class="glyphicon glyphicon-plus"></span> 外出申请
+        </button>
+        <div class="form-inline" style="float: right;margin-bottom: 10px;">
+            <!--<input type="date" class="dateSearch" ng-model="req.startTime" value=""/>  ~
+            <input type="date" class="dateSearch" ng-model="req.endTime" value=""/>-->
+            <input class="form-control" style="width: 200px;vertical-align:bottom;" id="out_range" name="out_range">
+            <button class="searchBtn" ng-click="search()" type="button"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </div>
+
+        <!--<button class="outBtn" ng-click="search()" type="button"><span class="glyphicon glyphicon-plus"></span>查询</button>
+        <input type="month" id="outMonth" ng-model="searchTime" value=""/>-->
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+        <table ng-show="noContent" ng-table="controller.tableParams" id="outListTable" align="center"
+               class="table table-bordered table-striped table-condensed" style="height:calc(100% - 200px);display: block;margin-top: 15px;">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="10%">序号</td>
+                <td width="8%">用户名</td>
+                <td width="20%">外出日期</td>
+                <td width="20%">外出时间段</td>
+                <td width="20%">创建时间</td>
+                <td width="7%">状态</td>
+                <td width="15%">操作</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="0%" ng-hide="true">{{row.actId}}</td>
+                <td width="10%">{{row.id}}</td>
+                <td width="8%">{{row.userName}}</td>
+                <td width="20%">{{row.outDate}}</td>
+                <td width="20%" ng-switch="row.outPart">
+                    <span ng-switch-when="mor">上午</span>
+                    <span ng-switch-when="aft">下午</span>
+                    <span ng-switch-when="all">全天</span>
+                    <span ng-switch-default>未知</span>
+                </td>
+                <td width="20%">{{row.createTime | limitTo:19}}</td>
+                <td width="7%" ng-switch="row.status">
+                    <span ng-switch-when="00">待发起</span>
+                    <span ng-switch-when="01">处理中</span>
+                    <span ng-switch-when="02">打回中</span>
+                    <span ng-switch-when="03">已打回</span>
+                    <span ng-switch-when="93">已打回(已忽略)</span>
+                    <span ng-switch-when="97">已打印</span>
+                    <span ng-switch-when="99">已通过</span>
+                    <span ng-switch-default>未知</span>
+                </td>
+                <td width="15%">
+                    <button type="button" title="修改" class="editBtn" ng-click="addAndUpdateOut($index)"></button>
+                    <button type="button" title="撤销" class="revokeBtn" ng-click="showRevokeOut($index)"></button>
+                    <button type="button" title="删除" class="deleteBtn" ng-click="showDeleteOut($index)"></button>
+                    <button type="button" title="查看历史" class="lookBtn" ng-click="viewHistoryOut($index)" ></button>
+                    <button type="button" title="导出" class="downBtn" ng-click="downLoadOut($index)"></button>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--外出申请模态框-->
+    <div class="modal fade" id="addAndUpdateOutModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">外出申请</h4>
+                </div>
+                <div class="modal-body" style="height: 220px;">
+                    <form class="form-horizontal" name="outAddForm">
+                        <table width="90%">
+                            <tr>
+                                <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;" class="start">外出日期：</td>
+                                <td width="70%">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="dropdown" role="button" data-toggle="dropdown"
+                                           data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="outDate" name="outDate" class="form-control"
+                                                       data-ng-model="formData.outDate" disabled="disabled"
+                                                       style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker data-ng-model="formData.outDate"
+                                                            data-datetimepicker-config="{ dropdownSelector: '#dropdown',  minView:'day' }"
+                                                            data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;" class="start">外出时间段：</td>
+                                <td width="70%">
+                                    <select id="outPart" name="outPart" class="applySelect form-control" ng-model="formData.outPart" required="required">
+                                        <option value="mor">上午</option>
+                                        <option value="aft">下午</option>
+                                        <option value="all">全天</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;font-weight: 700;padding-right: 47px;" >外出原因：</td>
+                                <td width="70%"> <textarea class=" form-control" ng-model="formData.reason"
+                                                           style="float:right;"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <div class="noneDiv"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure" ng-disabled="outAddForm.outDate.$invalid ||outAddForm.outPart.$invalid"
+                                ng-click="saveAndSubmitOut()">保存提交</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="outChooseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">处理人选择</h4>
+                </div>
+                <div class="modal-body apply" style="max-height: 450px;overflow-y: auto">
+                    <h4 style="padding-left: 1rem;">
+                        <div class="opt" ng-repeat="x in formData.processors" style="float:left;width:25%;">
+                            <input class="magic-radio" ng-change="radioChange()" type="radio" id="o{{x.staffId}}" name="radio" value="{{x.staffId}}" data-ng-model="formData.processor">
+                            <label for="o{{x.staffId}}" id="out{{x.staffId}}" style="font-weight: 500;">{{x.name}}</label>
+                        </div>
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="submitOut()" ng-disabled="disSub">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

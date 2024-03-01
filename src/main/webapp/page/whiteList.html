@@ -1,0 +1,194 @@
+<style>
+    #whiteListTable{
+        margin-top: 15px;
+        height:calc(100% - 220px);
+        display: block;
+    }
+    .tableDiv{
+        width: 88%;
+        margin-right: 2%;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .whiteListName{
+        float: left;
+        width: 30%;
+        line-height: 34px;
+        text-align: right;
+        font-weight: 700;
+        position: relative;
+        margin-right: 2%;
+    }
+    .whiteBtn {
+        padding: 4px 10px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        margin: 0 20px 10px 0;
+    }
+    #userName{
+        width: 150px;
+        padding: 5.5px 0 5.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        margin-right: 15px;
+    }
+</style>
+<div ng-controller="whiteListController as controller" style="height: 100%;">
+    <div class="cover" ng-if="hideFrom">
+        <img src="images/loading.gif" style="position: relative;top: 50%;left: 50%;margin-top: -21px;margin-left: -32px;">
+    </div>
+    <div style="width: 100%;margin-top: 10px;height: 100%;">
+        <button class="add information" style="width: 80px" ng-click="addAndUpdateList()" type="button">
+            <span class="glyphicon glyphicon-plus"></span> 新增
+        </button>
+        <div style="float:right;">
+            <input type="text" placeholder="请输入用户名"  id="userName" ng-model="req.userName"/>
+            <select ng-model="req.type" class="form-control" style="width: 150px;margin-right: 10px;padding: 4px 0 4px 10px;height: 30px;display: inline-block;">
+                <option value="">事项类别</option>
+                <option value="1">哺乳假(上午签到)</option>
+                <option value="2">哺乳假(上午签退)</option>
+                <option value="3">哺乳假(下午签到)</option>
+                <option value="4">哺乳假(下午签退)</option>
+            </select>
+            <button type="button" class="whiteBtn" ng-click="whiteShow()"><span class="glyphicon glyphicon-plus"></span>查询</button>
+        </div>
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+        <table ng-show="noContent" id="whiteListTable" ng-table="controller.tableParams" align="center" class="table table-bordered table-striped table-condensed">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="5%">序号</td>
+                <td width="10%">姓名</td>
+                <td width="10%">开始时间</td>
+                <td width="10%">结束时间</td>
+                <td width="10%">事项类别</td>
+                <td width="10%">方案描述</td>
+                <td width="5%">操作</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height:calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in tableData" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="0%" ng-hide="true">{{row.id}}</td>
+                <td width="5%">{{$index+1}}</td>
+                <td width="10%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.userName}}</td>
+                <td width="10%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.beginDate}}</td>
+                <td width="10%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.endDate}}</td>
+                <td width="10%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"  ng-switch="row.type">
+                    <span ng-switch-when="1">哺乳假(上午签到)</span>
+                    <span ng-switch-when="2">哺乳假(上午签退)</span>
+                    <span ng-switch-when="3">哺乳假(下午签到)</span>
+                    <span ng-switch-when="4">哺乳假(下午签退)</span>
+                </td>
+                <td width="10%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.description}}</td>
+                <td width="5%">
+                    <button class="editBtn" title="修改信息" ng-click="editList($index)" type="button"/>
+                    <button class="deleteBtn" title="删除信息" ng-click="deleteList($index)" type="button"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="modal fade" id="whiteListModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" ng-if="!amendOrAdd">修改白名单</h4>
+                    <h4 class="modal-title" ng-if="amendOrAdd">新增白名单</h4>
+                </div>
+                <div class="modal-body" style="max-height: 450px;">
+                    <form class="form-horizontal" name="whiteListForm">
+                        <div class="tableDiv" ng-show="!idName">
+                            <span class="whiteListName">姓名：<span style="color: red;">*</span></span>
+                            <ui-select id="userId" style="width: 68%;display: inline-block;" name="userId" class="mySelect" theme="bootstrap" ng-model="selected.value" on-select="onSelectStaff($item, $model)" required="required">
+                                <ui-select-match placeholder="请选择一位员工">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices group-by="'departName'" repeat="item in (allStaff | filter: $select.search) track by item.id">
+                                    <span ng-bind="item.name"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="tableDiv">
+                            <span class="whiteListName">事项类别：<span style="color: red;">*</span></span>
+                            <select  style="width: 68%;" class="form-control" ng-model="formData.type" ng-change="changeVacation()" required>
+                                <option value="1">哺乳假(上午签到)</option>
+                                <option value="2">哺乳假(上午签退)</option>
+                                <option value="3">哺乳假(下午签到)</option>
+                                <option value="4">哺乳假(下午签退)</option>
+                            </select>
+                        </div>
+                        <div class="tableDiv">
+                            <span class="whiteListName">处理方案：<span style="color: red;">*</span></span>
+                            <input type="text" name="description" style="width: 68%;" class="form-control" ng-model="formData.description" required disabled>
+                        </div>
+                        <div class="tableDiv">
+                            <span class="whiteListName">开始时间：<span style="color: red;">*</span></span>
+                            <div style="width: 68%;display: inline-block;">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="startTimeDropdown" role="button"  data-toggle="dropdown"
+                                       data-target="#">
+                                        <div class="input-group">
+                                            <input type="text" name="beginDate" class="form-control"
+                                                   data-ng-model="formData.beginDate"
+                                                   style="cursor: pointer" disabled="disabled" required>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-ng-model="formData.beginDate"
+                                                        data-datetimepicker-config="{ dropdownSelector: '#dropdown',  minView:'day' }"
+                                                        data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                        data-></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tableDiv">
+                            <span class="whiteListName">结束时间：<span style="color: red;">*</span></span>
+                            <div style="width: 68%;display: inline-block;">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="endTimeDropdown" role="button"  data-toggle="dropdown"
+                                       data-target="#">
+                                        <div class="input-group">
+                                            <input type="text" name="endDate" class="form-control"
+                                                   data-ng-model="formData.endDate"
+                                                   style="cursor: pointer" disabled="disabled" required>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-ng-model="formData.endDate"
+                                                        data-datetimepicker-config="{ dropdownSelector: '#dropdown',  minView:'day' }"
+                                                        data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                        data-></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="submitList()" ng-disabled="whiteListForm.userName.$invalid ||whiteListForm.type.$invalid ||whiteListForm.description.$invalid ||whiteListForm.beginDate.$invalid ||whiteListForm.endDate.$invalid">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

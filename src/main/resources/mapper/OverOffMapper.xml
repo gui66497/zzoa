@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.OverOffMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.OverOff" >
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="month_date" property="monthDate" jdbcType="CHAR" />
+    <result column="last_left" property="lastLeft" jdbcType="DOUBLE" />
+    <result column="over_day" property="overDay" jdbcType="DOUBLE" />
+    <result column="off_day" property="offDay" jdbcType="DOUBLE" />
+    <result column="left_day" property="leftDay" jdbcType="DOUBLE" />
+    <result column="use_day" property="useDay" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, month_date , last_left, over_day, off_day, left_day, use_day
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="zzjz.bean.OverOff" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_over_off
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and month_date = #{monthDate,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="zzjz.bean.OverOff" >
+    delete from tb_over_off
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and month_date = #{monthDate,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="zzjz.bean.OverOff" >
+    insert into tb_over_off (user_id, month_date,
+      last_left, over_day, off_day, 
+      left_day,use_day)
+    values (#{userId,jdbcType=VARCHAR}, #{monthDate,jdbcType=CHAR},
+      #{lastLeft,jdbcType=DOUBLE}, #{overDay,jdbcType=DOUBLE}, #{offDay,jdbcType=DOUBLE}, 
+      #{leftDay,jdbcType=DOUBLE},#{useDay,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="zzjz.bean.OverOff" >
+    insert into tb_over_off
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="monthDate != null" >
+        month_date,
+      </if>
+      <if test="lastLeft != null" >
+        last_left,
+      </if>
+      <if test="overDay != null" >
+        over_day,
+      </if>
+      <if test="offDay != null" >
+        off_day,
+      </if>
+      <if test="leftDay != null" >
+        left_day,
+      </if>
+      <if test="useDay != null" >
+        use_day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="monthDate != null" >
+        #{monthDate,jdbcType=CHAR},
+      </if>
+      <if test="lastLeft != null" >
+        #{lastLeft,jdbcType=DOUBLE},
+      </if>
+      <if test="overDay != null" >
+        #{overDay,jdbcType=DOUBLE},
+      </if>
+      <if test="offDay != null" >
+        #{offDay,jdbcType=DOUBLE},
+      </if>
+      <if test="leftDay != null" >
+        #{leftDay,jdbcType=DOUBLE},
+      </if>
+      <if test="useDay != null" >
+        #{useDay,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.OverOff" >
+    update tb_over_off
+    <set >
+      <if test="lastLeft != null" >
+        last_left = #{lastLeft,jdbcType=DOUBLE},
+      </if>
+      <if test="overDay != null" >
+        over_day = #{overDay,jdbcType=DOUBLE},
+      </if>
+      <if test="offDay != null" >
+        off_day = #{offDay,jdbcType=DOUBLE},
+      </if>
+      <if test="leftDay != null" >
+        left_day = #{leftDay,jdbcType=DOUBLE},
+      </if>
+      <if test="useDay != null" >
+        use_day = #{useDay,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and month_date = #{monthDate,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zzjz.bean.OverOff" >
+    update tb_over_off
+    set last_left = #{lastLeft,jdbcType=DOUBLE},
+      over_day = #{overDay,jdbcType=DOUBLE},
+      off_day = #{offDay,jdbcType=DOUBLE},
+      left_day = #{leftDay,jdbcType=DOUBLE},
+      use_day = #{useDay,jdbcType=DOUBLE}
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and month_date = #{monthDate,jdbcType=CHAR}
+  </update>
+  <select id="queryLastLeftZeroDaysInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_over_off
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and last_left='0' order by month_date desc LIMIT 1
+  </select>
+  <select id="queryListByMonthAndUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_over_off
+    where user_id = #{userId,jdbcType=VARCHAR}
+    <if test="month != null" >
+        and month_date &gt;= #{month,jdbcType=VARCHAR}
+    </if>
+    order by month_date
+  </select>
+  <select id="queryListByMonthAndUserDesc" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_over_off
+    where user_id = #{userId,jdbcType=VARCHAR}
+    <if test="month != null" >
+      and month_date &gt;= #{month,jdbcType=VARCHAR}
+    </if>
+    order by month_date desc
+  </select>
+  <select id="queryListBigger" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_over_off
+    where user_id = #{userId,jdbcType=VARCHAR}
+    <if test="month != null" >
+      and month_date &gt; #{month,jdbcType=VARCHAR}
+    </if>
+    order by month_date
+  </select>
+</mapper>

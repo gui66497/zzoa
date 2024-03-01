@@ -18,6 +18,15 @@ var DateToString2 = function (time) {
     return year + "-" + month + "-" + date;
 };
 
+//获取日期字符串(2014.03)
+var DateToStringMonth = function (time) {
+    var datetime = new Date();
+    datetime.setTime(time);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    return year + "." + month;
+};
+
 //获取日期时间字符串(2014-03-15 14:20:05)
 var DateToString3 = function (time) {
     var datetime = new Date();

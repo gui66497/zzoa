@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../images/logo60x60.jpg" type="image/x-icon"/>
+    <meta charset="UTF-8">
+    <title>简历预览</title>
+</head>
+<body>
+<div style="text-align: center">
+    <img id="show" src="" style="max-width: 100%;margin: 0 auto">
+</div>
+
+<script>
+
+    //截取url路径的参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  decodeURI(r[2]); return null;
+    }
+
+    console.log(getQueryString("file"));
+    var imgFile = "../images/resume/" + getQueryString("file");
+    document.getElementById("show").src = imgFile;
+</script>
+</body>
+</html>

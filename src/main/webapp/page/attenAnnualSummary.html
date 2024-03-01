@@ -1,0 +1,183 @@
+<style type="text/css">
+    #attenAnnualSummaryListTable {
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 100%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        /*border-bottom: 1px solid #c0c0c0;*/
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+    #ansYear,#nameYear{
+        width: 200px;
+        height: 34px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        padding-left: 10px;
+        float: left;
+        margin-right: 10px;
+    }
+    #uploadBtn{
+        margin-right: 10px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        float: left;
+    }
+
+</style>
+<div ng-controller="attenAnnualSummaryController" style="height: 100%;">
+    <div style="margin-top: 15px;height: 100%;">
+        <input type="number" id="ansYear" value="" onkeyup="value=this.value.replace(/[^\d]/g,'')" maxlength="4" style="margin-bottom: 15px"/>
+        <input id="nameYear" type="text" ng-model="req.userName" placeholder="用户名" ng-keyup="myKeyup($event)"/>
+        <select name="departSelect" class="form-control" ng-model="req.depart" required="required" style="float:left;width: 200px;margin: 0 10px;">
+            <option value="null">所有部门</option>
+            <option ng-repeat="x in departs" value="{{x.departId}}">{{x.departName}}</option>
+        </select>
+        <button id="uploadBtn" class="query" ng-click="autoQuery()" type="button">
+            <span class="glyphicon glyphicon-search"></span> 查询
+        </button>
+        <button class="nomalBtn" ng-click="export()" type="button" type="button">
+            <span class="glyphicon glyphicon-cloud-download"></span> 导出
+        </button>
+        <table id="attenAnnualSummaryListTable" align="center" class="table table-bordered table-striped table-condensed" style="display: block;margin-top: 15px;height: calc(100% - 200px);">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;">
+                    <!--<td width="4%">序号</td>-->
+                    <td width="4%">工号</td>
+                    <td width="8%">部门</td>
+                    <td width="6%">员工姓名</td>
+                    <td width="6%">总年假</td>
+                    <td width="5%">三月</td>
+                    <td width="5%">四月</td>
+                    <td width="5%">五月</td>
+                    <td width="5%">六月</td>
+                    <td width="5%">七月</td>
+                    <td width="5%">八月</td>
+                    <td width="5%">九月</td>
+                    <td width="5%">十月</td>
+                    <td width="6%">十一月</td>
+                    <td width="6%">十二月</td>
+                    <td width="5%">一月</td>
+                    <td width="5%">二月</td>
+                    <td width="6%">共计</td>
+                    <td width="6%">剩余年假</td>
+                    <td width="4%">操作</td>
+                </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="single in singles" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="0%" ng-hide="true">{{summary.staffId}}</td>
+                    <td width="4%">{{$index+1}}</td>
+                    <!--<td width="4%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" title="{{single.staffId}}">{{single.staffId}}</td>-->
+                    <td width="8%">{{single.departId}}</td>
+                    <td width="6%">{{single.name}}</td>
+                    <td width="6%">{{single.monthAll}}</td>
+                    <td width="5%">{{single.month03}}</td>
+                    <td width="5%">{{single.month04}}</td>
+                    <td width="5%">{{single.month05}}</td>
+                    <td width="5%">{{single.month06}}</td>
+                    <td width="5%">{{single.month07}}</td>
+                    <td width="5%">{{single.month08}}</td>
+                    <td width="5%">{{single.month09}}</td>
+                    <td width="5%">{{single.month10}}</td>
+                    <td width="6%">{{single.month11}}</td>
+                    <td width="6%">{{single.month12}}</td>
+                    <td width="5%">{{single.month01}}</td>
+                    <td width="5%">{{single.month02}}</td>
+                    <td width="6%">{{single.monthUse}}</td>
+                    <td width="6%">{{single.monthLeft}}</td>
+                    <td width="4%"><button class="editBtn" title="修改年假天数" ng-click="showChangeAnnualDaysModel($index)" type="button"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--修改年假天数模态框-->
+    <div class="modal fade" id="changeAnnualDaysModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        年假信息修改
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" id="confirmModalMessage1" style="max-height:600px;overflow-y: scroll;">
+                    <div class="topContent">
+                        <h4>年假信息修改</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div ng-show="!true"><b>修改人：</b>{{formData.userId}}</div>
+                        <div ng-show="!true"><b>年份：</b>{{formData.year}}</div>
+                        <div><b>年假总天数：</b><input type="text" name="leaveDay" class="form-control" ng-model="formData.annualAll" ng-maxlength="5" ng-change="changDays()"/></div>
+                        <div><b>年假已用天数：</b><input type="text" name="annualUse" class="form-control" ng-model="formData.annualUse" ng-maxlength="5" ng-change="changDays()"/></div>
+                        <div><b>年假剩余天数：</b>{{formData.annualLeft}}</div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="confirmModalFooter1">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="sure" data-dismiss="modal" id="btnExecute1" ng-click="submit()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.TalentMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.Talent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="resume_name" property="resumeName" jdbcType="VARCHAR" />
+    <result column="word_desc" property="wordDesc" javaType="string" jdbcType="CLOB" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, sex, phone, email, type, keyword, source, area, resume_name,word_desc, create_time, note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_talent
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_talent
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="zzjz.bean.Talent" >
+    insert into tb_talent (id, user_name, sex, 
+      phone, email, type, keyword,
+      source, area, resume_name,word_desc, create_time, note
+      )
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR},
+      #{source,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{resumeName,jdbcType=VARCHAR}, #{wordDesc,jdbcType=CLOB},
+      #{createTime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zzjz.bean.Talent" >
+    insert into tb_talent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="resumeName != null" >
+        resume_name,
+      </if>
+      <if test="wordDesc != null" >
+        word_desc,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeName != null" >
+        #{resumeName,jdbcType=VARCHAR},
+      </if>
+      <if test="wordDesc != null" >
+        #{wordDesc,jdbcType=CLOB},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.Talent" >
+    update tb_talent
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeName != null" >
+        resume_name = #{resumeName,jdbcType=VARCHAR},
+      </if>
+      <if test="wordDesc != null" >
+        word_desc = #{wordDesc,jdbcType=CLOB},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zzjz.bean.Talent" >
+    update tb_talent
+    set user_name = #{userName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      resume_name = #{resumeName,jdbcType=VARCHAR},
+      word_desc = #{wordDesc,jdbcType=CLOB},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getTalentList" parameterType="zzjz.bean.Talent" resultMap="BaseResultMap" >
+  select
+    <include refid="Base_Column_List" />
+  from tb_talent
+  <trim prefix="where" prefixOverrides="and|or">
+    <if test="userName != null" >
+      and user_name like '%${userName}%'
+    </if>
+    <if test="sex != null" >
+      and sex like '%${sex}%'
+    </if>
+    <if test="phone != null" >
+      and phone like '%${phone}%'
+    </if>
+    <if test="email != null" >
+      and email like '%${email}%'
+    </if>
+    <if test="type != null">
+      and ${type}
+    </if>
+    <if test="keyword != null" >
+      and ${keyword}
+    </if>
+    <if test="source != null" >
+      and source like '%${source}%'
+    </if>
+    <if test="area != null" >
+      and area like '%${area}%'
+    </if>
+    <if test="resumeName != null" >
+      and resume_name like '%${resumeName}%'
+    </if>
+    <if test="createTime != null" >
+      and create_time like '%${createTime}%'
+    </if>
+    <if test="wordDesc != null" >
+      and word_desc like '%${wordDesc}%'
+    </if>
+    <if test="note != null" >
+      and note like '%${note}%'
+    </if>
+  </trim>
+</select>
+  <select id="selectByPhoneAndEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_talent
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="phone != null" >
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null" >
+        and email = #{email,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+</mapper>

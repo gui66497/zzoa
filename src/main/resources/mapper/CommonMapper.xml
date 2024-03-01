@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.CommonMapper" >
+  <select id="actSeq" resultType="java.lang.Integer">
+    SELECT NEXTVAL('actSeq')
+  </select>
+
+  <select id="selectOptionDays" resultType="java.util.Map" >
+    SELECT out_date optionDate,out_part optionPart FROM tb_out where user_id=#{userId,jdbcType=VARCHAR} and out_date BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+    union all
+    select leave_date optionDate,leave_part optionPart from tb_vacation_detail where user_id=#{userId,jdbcType=VARCHAR} and leave_date BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+    union all
+    select trip_date optionDate,trip_part optionPart from tb_trip_detail where user_id=#{userId,jdbcType=VARCHAR} and trip_date BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectForOptionDays" resultType="java.util.Map" >
+    SELECT out_date optionDate,out_part optionPart FROM tb_out where user_id=#{userId,jdbcType=VARCHAR} and out_date BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+    union all
+    select leave_date optionDate,leave_part optionPart from tb_vacation_detail where user_id=#{userId,jdbcType=VARCHAR} and leave_date BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+    union all
+    select trip_date optionDate,trip_part optionPart from tb_trip_detail where user_id=#{userId,jdbcType=VARCHAR} and id !=#{id,jdbcType=INTEGER} and trip_date BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+  </select>
+</mapper>

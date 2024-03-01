@@ -1,10 +1,9 @@
 <style type="text/css">
     #tripListTable {
-        border: 0px;
-        cellspacing: 0;
-        cellpadding: 0;
-        width: 97%;
-        align: center;
+        width: 100%;
+        height:calc(100% - 200px);
+        display: block;
+        margin-top: 15px;
     }
 
     td {
@@ -15,7 +14,7 @@
     }
 
     tr {
-        border-bottom: 1px solid #c0c0c0;
+        border-bottom: 0px;
         border-left: 0px;
         border-right: 0px;
         border-top: 0px;
@@ -57,41 +56,382 @@
         background-color: #DEE2E7;
         border-radius: 3px
     }
-
+    #AddAndUpdateTable>tr{
+        border: none;
+    }
+    #tripMonth{
+        width: 200px;
+        padding: 6.5px 0 6.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        float: right;
+        margin-right: 10px;
+    }
+    .tripBtn {
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        float: right;
+    }
+    .cover{
+        width:100%;
+        height:100%;
+        background-color: rgb(255,255,255);
+        opacity: 0.5;
+        position: absolute;
+        z-index:99999;
+        left:0px;
+        top:0px;
+    }
+    .downLoad{
+             width: 20px;
+             height:20px;
+             outline: none;
+             border:none;
+             background: url("images/down.png");
+         }
+    .downLoad:hover{
+        background: url("images/down_hover.png");
+    }
 </style>
-<div ng-controller="tripController">
-    <div>
-            <table id="tripListTable" align="center">
-                <thead>
-                <tr>
-                    <td width="10%">序号</td>
-                    <td width="20%">用户名</td>
-                    <td width="10%">创建时间</td>
+<div ng-controller="tripController as controller" style="height: 100%;">
+    <div class="cover" ng-if="hideFrom">
+        <img src="images/loading.gif" style="position: relative;top: 50%;left: 50%;margin-top: -21px;margin-left: -32px;">
+    </div>
+    <div style="margin-top: 10px;height: 100%;">
+        <button class="add information" ng-click="addAndUpdate()" type="button">
+            <span class="glyphicon glyphicon-plus"></span> 出差申请
+        </button>
+        <div class="form-inline" style="float: right;margin-bottom: 10px;">
+            <!--<input type="date" class="dateSearch" ng-model="req.startTime" value=""/>  ~
+            <input type="date" class="dateSearch" ng-model="req.endTime" value=""/>-->
+            <input class="form-control" style="width: 200px;vertical-align:bottom;" id="trip_range" name="trip_range">
+            <button class="searchBtn" ng-click="search()" type="button"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </div>
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+            <table ng-show="noContent" ng-table="controller.tableParams" id="tripListTable" align="center" class="table table-bordered table-striped table-condensed">
+                <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;">
+                    <td width="5%">序号</td>
+                    <td width="7%">用户名</td>
+                    <td width="8%">出差地</td>
+                    <td width="6%">天数</td>
+                    <td width="10%">申请开始日期</td>
+                    <td width="10%">申请结束日期</td>
+                    <td width="12%">实际出发时间</td>
+                    <td width="12%">实际返回时间</td>
+                    <td width="12%">创建时间</td>
+                    <td width="6%">状态</td>
+                    <td width="12%">操作</td>
                 </tr>
                 </thead>
-                <tr ng-repeat="trip in trips" class="contentTr">
-                    <td>{{$index+1}}</td>
-                    <td>{{trip.userName}}</td>
-                    <td>{{trip.createTime | limitTo:19}}</td>
+                <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="row in $data " class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="0%" ng-hide="true">{{row.actId}}</td>
+                    <td width="5%">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                    <td width="7%">{{row.userName}}</td>
+                    <td width="8%">{{row.address}}</td>
+                    <td width="6%">{{row.tripDay}}</td>
+                    <td width="10%">{{row.tripDate}}&nbsp;{{row.tripPart== 0 ? '上午' : '下午' }}</td>
+                    <td width="10%">{{row.backDate}}&nbsp;{{row.backPart== 0 ? '上午' : '下午' }}</td>
+                    <td width="12%">{{row.startTime}}</td>
+                    <td width="12%">{{row.endTime}}</td>
+                    <td width="12%">{{row.createTime | limitTo:19}}</td>
+                    <td width="6%" ng-switch="row.status">
+                        <span ng-switch-when="00">待发起</span>
+                        <span ng-switch-when="01">处理中</span>
+                        <span ng-switch-when="02">打回中</span>
+                        <span ng-switch-when="03">已打回</span>
+                        <span ng-switch-when="93">已打回(已忽略)</span>
+                        <span ng-switch-when="97">已打印</span>
+                        <span ng-switch-when="98">已核销</span>
+                        <span ng-switch-when="99">已通过</span>
+                        <span ng-switch-default>未知</span>
+                    </td>
+                    <td width="12%">
+                        <button title="修改" class="editBtn" ng-click="addAndUpdate($index)" type="button"></button>
+                        <button title="撤销" class="revokeBtn" ng-click="showRevokeTrip($index)" type="button"></button>
+                        <button title="删除" class="deleteBtn" ng-click="showDeleteTrip($index)" type="button"></button>
+                        <button title="销差" class="forBtn" ng-click="forTrip($index)" type="button"></button>
+                        <button title="查看历史" class="lookBtn" ng-click="viewHistoryTrip($index)" type="button"></button>
+                        <button title="导出" class="downLoad" ng-click="exportTrip($index)" type="button"></button>
+                    </td>
                 </tr>
+                </tbody>
             </table>
-            <div style="height:40px;margin:auto;text-align:left;padding: 10px 20px;">
-                <div style="width:30%;height:30px;float:left;padding-top:10px;font-weight: bold;">
-                    <span margin-left="20px">共 {{totalRecordCount}} 条记录！</span>
-                </div>
-                <div style="width:40%;height:30px;float:left;">
-                    <ul class="pager" style="margin-top: 10px;">
-                        <li class="previous disabled" id="previousPageLink">
-                            <a href="javascript:void(0)" unable="false" id="previousPage"
-                               ng-click="previousPage()">&larr; 上一页</a>
-                        </li>
-                        <li class="next" id="nextPageLink">
-                            <a href="javascript:void(0)" unable="false" id="nextPage"
-                               ng-click="nextPage()">下一页 &rarr;</a>
-                        </li>
-                    </ul>
+
+        <!-- 出差信息 -->
+        <div class="modal fade" id="AddAndUpdateTripModal" tabindex="-1" role="dialog" aria-labelledby="AddAndUpdateTripModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="AddAndUpdateTripModalLabel"> 出差信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" name="tripForm">
+                            <table id="AddAndUpdateTable" width="100%" name="AddAndUpdateTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差地：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" id="address" name="address" class="form-control"
+                                               ng-model="formData.address" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">拟办事项：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" id="intends" name="intends" class="form-control"
+                                               ng-model="formData.intends" ng-maxlength="100" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">开始日期：<span style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown"
+                                               data-target="#">
+                                                <div class="input-group">
+                                                    <input type="text" id="tripDate" name="tripDate" class="form-control"
+                                                           data-ng-model="formData.tripDate" disabled="disabled"
+                                                           style="cursor: pointer" required>
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <datetimepicker data-ng-model="formData.tripDate"
+                                                                data-datetimepicker-config="{ dropdownSelector: '#dropdown1',  minView:'day' }"
+                                                                data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                                ng-change="changDate()"></datetimepicker>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">开始时段：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <select id="tripPart" name="tripPart" class="form-control" ng-model="formData.tripPart" required="required" ng-change="changDate()">
+                                            <option value="0">上午</option>
+                                            <option value="1">下午</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">结束日期：<span style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown"
+                                               data-target="#">
+                                                <div class="input-group">
+                                                    <input type="text" id="backDate" name="backDate" class="form-control"
+                                                           data-ng-model="formData.backDate" disabled="disabled"
+                                                           style="cursor: pointer" required>
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <datetimepicker data-ng-model="formData.backDate"
+                                                                data-datetimepicker-config="{ dropdownSelector: '#dropdown2',  minView:'day' }"
+                                                                data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                                ng-change="changDate()"></datetimepicker>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">结束时段：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <select id="backPart" name="backPart" class="form-control" ng-model="formData.backPart" required="required" ng-change="changDate()">
+                                            <option value="0">上午</option>
+                                            <option value="1">下午</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差天数：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="tripDay" class="form-control"
+                                               ng-model="formData.tripDay" ng-maxlength="20" disabled/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure"
+                                ng-disabled="tripForm.address.$invalid||tripForm.intends.$invalid||tripForm.tripDate.$invalid||tripForm.backDate.$invalid||tripForm.tripPart.$invalid||tripForm.backPart.$invalid"
+                                ng-click="saveAndSubmit()">保存提交
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 销差 -->
+        <div class="modal fade" id="forTripModal" tabindex="-1" role="dialog" aria-labelledby="forTripModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="forTripModalLabel"> 销差信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" name="forTripForm">
+                            <table id="forTripTable" width="100%" name="forTripTable">
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差地：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" id="forAddress" name="forAddress" class="form-control"
+                                               ng-model="formData.address" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">拟办事项：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" id="forIntends" name="forIntends" class="form-control"
+                                               ng-model="formData.intends" ng-maxlength="100" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">交通工具：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" id="forTools" name="forTools" class="form-control"
+                                               ng-model="formData.tools" ng-maxlength="20" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">开始时间：<span style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="forDropdown1" role="button" data-toggle="dropdown"
+                                               data-target="#">
+                                                <div class="input-group">
+                                                    <input type="text" id="startTime" name="startTime" class="form-control"
+                                                           data-ng-model="formData.startTime" disabled="disabled"
+                                                           style="cursor: pointer" required>
+                                                    <span class="input-group-addon"><i
+                                                            class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <datetimepicker data-ng-model="formData.startTime"
+                                                                data-datetimepicker-config="{ dropdownSelector: '#dropdown1',  minView:'minute' }"
+                                                                data-on-set-time="onTimeSet3(newDate, oldDate)"
+                                                                ng-change="forChangDate()"></datetimepicker>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">结束日期：<span style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="forDropdown2" role="button" data-toggle="dropdown"
+                                               data-target="#">
+                                                <div class="input-group">
+                                                    <input type="text" id="endTime" name="endTime" class="form-control"
+                                                           data-ng-model="formData.endTime" disabled="disabled"
+                                                           style="cursor: pointer" required>
+                                                    <span class="input-group-addon"><i
+                                                            class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <datetimepicker data-ng-model="formData.endTime"
+                                                                data-datetimepicker-config="{ dropdownSelector: '#dropdown2',  minView:'minute' }"
+                                                                data-on-set-time="onTimeSet3(newDate, oldDate)"
+                                                                ng-change="forChangDate()"></datetimepicker>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差天数：<span
+                                            style="color: red;margin-left: 5px">*</span></td>
+                                    <td width="70%" class="tdAlignLeft">
+                                        <input type="text" name="forTripDay" class="form-control"
+                                               ng-model="formData.tripDay" ng-maxlength="20" disabled/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure"
+                                ng-disabled="forTripForm.address.$invalid||tripForm.intends.$invalid||tripForm.tools.$invalid||forTripForm.tripDate.$invalid||forTripForm.backDate.$invalid||forTripForm.tripPart.$invalid||forTripForm.backPart.$invalid"
+                                ng-click="forTripSubmit()">保存提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="tripChooseModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title">处理人选择</h4>
+                    </div>
+                    <div class="modal-body apply" style="max-height: 450px;overflow-y: auto">
+                        <h4 style="padding-left: 1rem;">
+                            <div class="opt" ng-repeat="x in formData.processors" style="float:left;width:25%;">
+                                <input class="magic-radio" ng-change="radioChange()" type="radio" id="t{{x.staffId}}" name="radio" value="{{x.staffId}}" data-ng-model="formData.processor">
+                                <label for="t{{x.staffId}}" id="trip{{x.staffId}}" style="font-weight: 500;">{{x.name}}</label>
+                            </div>
+                        </h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure" ng-click="submitTrip()" ng-disabled="disSub">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document" style="width: 670px;height: 450px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title">流程图</h4>
+                    </div>
+                    <div class="modal-body apply" style="">
+                        <img id="activitiImg" style="width: 637px" src="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure" ng-click="submitTrip()">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

@@ -1,10 +1,10 @@
 <style type="text/css">
     #attenSummaryListTable {
-        border: 0px;
         cellspacing: 0;
         cellpadding: 0;
-        width: 97%;
+        width: 100%;
         align: center;
+        margin-top: 15px;
     }
 
     td {
@@ -15,7 +15,7 @@
     }
 
     tr {
-        border-bottom: 1px solid #c0c0c0;
+        /*border-bottom: 1px solid #c0c0c0;*/
         border-left: 0px;
         border-right: 0px;
         border-top: 0px;
@@ -26,22 +26,6 @@
     thead td {
         font-size: 14px;
         font-weight: bold;
-    }
-
-    #roleInfoTable tr {
-        border: 0px solid #FFF;
-    }
-
-    #roleInfoTable td {
-        border: 0px solid #FFF;
-    }
-
-    #userEditTable tr, td {
-        border: 0px solid #FFF;
-    }
-
-    #userAddTable tr, td {
-        border: 0px solid #FFF;
     }
 
     .mu li {
@@ -57,64 +41,131 @@
         background-color: #DEE2E7;
         border-radius: 3px
     }
-
-    .editBtn:hover {
-        background: url("images/edit_hover.png");
+    #attenSummaryListTable>thead{
+        border-top: 1px solid rgb(221,221,221);
+    }
+    #dateMonth{
+        width: 200px;
+        padding: 6.5px 0 6.5px 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+    }
+    .uploadBtnSum {
+        margin-left: 10px;
+        padding: 5px 10px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .dateSearch{
+        width: 150px;
+    }
+    .day{
+        position: relative;
+        left: -68px;
+        line-height:30px;
+        top: 1px;
     }
 
 </style>
-<div ng-controller="attenSummaryController">
-    <div>
-        <table id="attenSummaryListTable" align="center">
-            <thead>
-            <tr>
-                <td width="4%">序号</td>
-                <td width="6%">部门</td>
-                <td width="4%">工号</td>
-                <td width="6%">员工姓名</td>
-                <td width="5%">应出勤</td>
-                <td width="5%">实出勤</td>
-                <td width="5%">迟到（次）</td>
-                <td width="5%">早退（次）</td>
-                <td width="5%">旷工（天）</td>
-                <td width="6%">本月加班（天）</td>
-                <td width="5%">调休（天）</td>
-                <td width="5%">年假（天）</td>
-                <td width="5%">事假（天）</td>
-                <td width="5%">婚假（天）</td>
-                <td width="5%">病假（天）</td>
-                <td width="5%">丧假（天）</td>
-                <td width="5%">产（前）假（天）</td>
-                <td width="5%">出差（天）</td>
-                <td width="4%">餐补</td>
-                <td width="6%">迟到扣款</td>
-                <td width="6%">备注</td>
-            </tr>
+<div ng-controller="attenSummaryController" style="height: 100%;">
+    <div style="margin-top: 15px;height: 100%;">
+        <select name="departSelect" class="form-control" ng-model="req.depart" required="required" style="height: 30px;padding:3px 10px;float:left;width: 150px;margin: 0 10px;">
+            <option value="null">所有部门</option>
+            <option ng-repeat="x in departs" value="{{x.departName}}">{{x.departName}}</option>
+        </select>
+        <span style="font-size: 14px;">开始月份：</span><input class="dateSearch" id="startTime" type="month" ng-model="req.beginTime" />
+        <span style="font-size: 14px;">结束月份：</span><input class="dateSearch" id="endTime" type="month" ng-model="req.endTime" />
+        <button class="uploadBtnSum" ng-click="dateShow()" type="button">
+            <span class="glyphicon glyphicon-search"></span> 查询
+        </button>
+        <button class="uploadBtnSum" ng-click="export()" type="button">
+            <span class="glyphicon glyphicon-cloud-download"></span> 导出
+        </button>
+        <table id="attenSummaryListTable" align="center" class="table table-bordered table-striped table-condensed" style="display: block;margin-top: 15px;height: calc(100% - 200px);">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;">
+                    <td width="4%">序号</td>
+                    <td width="9%">部门</td>
+                    <td width="6%">员工姓名</td>
+                    <td width="4.5%">应出勤</td>
+                    <td width="4.5%">实出勤</td>
+                    <td width="5%">迟到（次）</td>
+                    <td width="5%">早退（次）</td>
+                    <td width="5%">旷工（天）</td>
+                    <td width="6%">本月加班（天）</td>
+                    <td width="4%">调休（天）</td>
+                    <td width="4%">年假（天）</td>
+                    <td width="4%">事假（天）</td>
+                    <td width="4%">婚假（天）</td>
+                    <td width="4%">病假（天）</td>
+                    <td width="4%">丧假（天）</td>
+                    <td width="5%">产（前）假（天）</td>
+                    <td width="6%">工程调休（天）</td>
+                    <td width="4%">出差（天）</td>
+                    <td width="4%">餐补</td>
+                    <td width="6%">迟到扣款</td>
+                    <td width="4%">操作</td>
+                </tr>
             </thead>
-            <tr ng-repeat="summary in summarys" class="contentTr">
-                <td>{{$index+1}}</td>
-                <td>{{summary.depart}}</td>
-                <td>{{summary.userId}}</td>
-                <td>{{summary.userName}}</td>
-                <td>{{summary.workday}}</td>
-                <td>{{summary.actual}}</td>
-                <td>{{summary.late}}</td>
-                <td>{{summary.early}}</td>
-                <td>{{summary.absent}}</td>
-                <td>{{summary.overtime}}</td>
-                <td>{{summary.off}}</td>
-                <td>{{summary.annual}}</td>
-                <td>{{summary.compassionate}}</td>
-                <td>{{summary.marriage}}</td>
-                <td>{{summary.sick}}</td>
-                <td>{{summary.funeral}}</td>
-                <td>{{summary.maternity}}</td>
-                <td>{{summary.trip}}</td>
-                <td>{{summary.meal}}</td>
-                <td>{{summary.deduction}}</td>
-                <td>{{summary.note}}</td>
-            </tr>
+            <tbody style="display: block;height: calc(100% - 53px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="summary in summarys" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="0%" ng-hide="true">{{summary.userId}}</td>
+                    <td width="4%">{{$index+1}}</td>
+                    <!--<td width="4%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" title="{{summary.userId}}">{{summary.userId}}</td>-->
+                    <td width="9%">{{summary.depart}}</td>
+                    <td width="6%">{{summary.userName}}</td>
+                    <td width="4.5%">{{summary.workday}}</td>
+                    <td width="4.5%">{{summary.actual}}</td>
+                    <td width="5%">{{summary.late}}</td>
+                    <td width="5%">{{summary.early}}</td>
+                    <td width="5%">{{summary.absent}}</td>
+                    <td width="6%">{{summary.overtime}}</td>
+                    <td width="4%">{{summary.off}}</td>
+                    <td width="4%">{{summary.annual}}</td>
+                    <td width="4%">{{summary.compassionate}}</td>
+                    <td width="4%">{{summary.marriage}}</td>
+                    <td width="4%">{{summary.sick}}</td>
+                    <td width="4%">{{summary.funeral}}</td>
+                    <td width="5%">{{summary.maternity}}({{summary.antenatal}})</td>
+                    <td width="6%">{{summary.project}}</td>
+                    <td width="4%">{{summary.trip}}</td>
+                    <td width="4%">{{summary.meal}}</td>
+                    <td width="6%">{{summary.deduction}}</td>
+                    <td width="4%">
+                        <button class="consult" title="查看详情" ng-click="showDetails($index)" type="button"></button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
 
     </div>
+
+    <!--详情模态框-->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        详情
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="content in Content" style="margin-top: 10px;">
+                        {{$index+1}}. {{userName}} 于 {{content.beginDate}} {{content.type}} {{content.days}} 天
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

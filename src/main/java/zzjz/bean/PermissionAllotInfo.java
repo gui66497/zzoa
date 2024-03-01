@@ -3,107 +3,258 @@ package zzjz.bean;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+/**
+ * @author 彭鹏
+ * @version 2017年05月09日11:24
+ */
 @XmlRootElement
 public class PermissionAllotInfo {
 
-	private long id;// 角色ID
-	private String createTime;// 创建时间
-	private int deleteFlag;// 删除标记
-	private String creator;// 角色用户关系创建者ID
-	private String name;// 角色名称
-	private long systemId;// 系统ID
-	private String systemName;// 系统名称
-	private String creatorName = "";
-	private String remark;
-	private List<User> userList;// 角色关联的用户
-	private String sign;//角色标识
+    /**
+     * 角色ID
+     */
+    private long id;
 
-	public String getSign() {
-		return sign;
-	}
+    /**
+     * 创建时间
+     */
+    private String createTime;
 
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
+    /**
+     * 删除标记
+     */
+    private int deleteFlag;
 
-	public String getCreatorName() {
-		return creatorName;
-	}
+    /**
+     * 角色用户关系创建者ID
+     */
+    private String creator;
 
-	public String getRemark() {
-		return remark;
-	}
+    /**
+     * 角色名称
+     */
+    private String name;
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    /**
+     * 系统ID
+     */
+    private long systemId;
 
-	public void setCreatorName(String creatorName) {
-		this.creatorName = creatorName;
-	}
-	
-	public long getId() {
-		return id;
-	}
+    /**
+     * 系统名称
+     */
+    private String systemName;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    private String creatorName = "";
 
-	public String getCreateTime() {
-		return createTime;
-	}
+    private String remark;
 
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
+    /**
+     * 角色关联的用户
+     */
+    private List<User> userList;
 
-	public int getDeleteFlag() {
-		return deleteFlag;
-	}
+    /**
+     * 角色标识
+     */
+    private String sign;
 
-	public void setDeleteFlag(int deleteFlag) {
-		this.deleteFlag = deleteFlag;
-	}
+    /**
+     * getSign.
+     *
+     * @return SIGN
+     */
+    public String getSign() {
+        return sign;
+    }
 
-	public String getCreator() {
-		return creator;
-	}
+    /**
+     * setSign.
+     *
+     * @param sign SIGN
+     */
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
 
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
+    /**
+     * getCreatorName.
+     *
+     * @return CREATOR_NAME
+     */
+    public String getCreatorName() {
+        return creatorName;
+    }
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * setRemark.
+     *
+     * @return REMARK
+     */
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * setRemark.
+     *
+     * @param remark REMARK
+     */
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public long getSystemId() {
-		return systemId;
-	}
+    /**
+     * setCreatorName.
+     *
+     * @param creatorName CREATOR_NAME
+     */
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
 
-	public void setSystemId(long systemId) {
-		this.systemId = systemId;
-	}
+    /**
+     * getId.
+     *
+     * @return ID
+     */
+    public long getId() {
+        return id;
+    }
 
-	public String getSystemName() {
-		return systemName;
-	}
+    /**
+     * setId.
+     *
+     * @param id ID
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setSystemName(String systemName) {
-		this.systemName = systemName;
-	}
+    /**
+     * getCreateTime.
+     *
+     * @return CREATE_TIME
+     */
+    public String getCreateTime() {
+        return createTime;
+    }
 
-	public List<User> getUserList() {
-		return userList;
-	}
+    /**
+     * setCreateTime.
+     *
+     * @param createTime CREATE_TIME
+     */
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
-	public void setUserList(List<User> userList) {
-		this.userList = userList;
-	}
+    /**
+     * getDeleteFlag.
+     *
+     * @return DELETE_FLAG
+     */
+    public int getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    /**
+     * setDeleteFlag.
+     *
+     * @param deleteFlag DELETE_FLAG
+     */
+    public void setDeleteFlag(int deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    /**
+     * getCreator.
+     *
+     * @return CREATOR
+     */
+    public String getCreator() {
+        return creator;
+    }
+
+    /**
+     * setCreator.
+     *
+     * @param creator CREATOR
+     */
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    /**
+     * getName.
+     *
+     * @return NAME
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * setName.
+     *
+     * @param name NAME
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * getSystemId.
+     *
+     * @return SYSTEM_ID
+     */
+    public long getSystemId() {
+        return systemId;
+    }
+
+    /**
+     * setSystemId.
+     *
+     * @param systemId SYSTEM_ID
+     */
+    public void setSystemId(long systemId) {
+        this.systemId = systemId;
+    }
+
+    /**
+     * getSystemName.
+     *
+     * @return SYSTEM_NAME
+     */
+    public String getSystemName() {
+        return systemName;
+    }
+
+    /**
+     * setSystemName.
+     *
+     * @param systemName SYSTEM_NAME
+     */
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
+    }
+
+    /**
+     * getUserList.
+     *
+     * @return USER_LIST
+     */
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    /**
+     * setUserList.
+     *
+     * @param userList USER_LIST
+     */
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
 
 }

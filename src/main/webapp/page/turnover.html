@@ -1,0 +1,313 @@
+<style type="text/css">
+    .mySelect{
+        width: 200px;
+        float: left;
+    }
+    .turn_search{
+        height: 96px;
+        margin-top: 30px;
+        padding: 10px 0 24px 0;
+        border: 1px solid #f0f4f8;
+    }
+</style>
+<div ng-controller="turnoverController as turnover" style="height: 100%;">
+
+    <div class="row" style="height: 100%;">
+        <br>
+        <div style="width: 462px;height: 33px;">
+            <div class="input-group" style="float: left;width: 238px;">
+                <ui-select class="mySelect" theme="bootstrap" ng-model="selected.value" on-select="turnover.onSelectStaff($item, $model)">
+                    <ui-select-match placeholder="请选择一位员工">
+                        <span ng-bind="$select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices group-by="'departName'" repeat="item in (allStaff | filter: $select.search) track by item.id">
+                        <span ng-bind="item.name"></span>
+                    </ui-select-choices>
+                </ui-select>
+                <span class="input-group-btn">
+                  <button type="button" ng-click="clearUISelect()" class="btn btn-default">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </span>
+            </div>
+            <button class="pureBtn" style="float: right;margin-left: 10px;" ng-click="toExportTurnover()" type="button">
+                导出
+            </button>
+            <button class="pureBtn" style="float: right" ng-click="showAdvancedSearch()" type="button">
+                高级检索
+            </button>
+
+            <!--<button class="nomalBtn" style="width: 120px;margin-left: 20px;" ng-click="toAddTurnover()" type="button">
+                <span class="glyphicon glyphicon-plus"></span> 新增异动事项
+            </button>-->
+        </div>
+        <div class="turn_search" ng-show="advancedSearch">
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">异动类型：</label>
+                    <select class="form-control" name="isFormal" style="width: 150px;"
+                            ng-model="req.type"
+                            ng-options="a for a in typeArr" required="required">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">生效日期：</label>
+                    <input class="form-control" style="width: 200px;" id="turn_range" name="turn_range">
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">原部门：</label>
+                    <select class="form-control" name="isFormal" style="width: 150px;"
+                            ng-model="req.oldDepart" required="required">
+                        <option value=""></option>
+                        <option ng-repeat="x in departList" value="{{x.departName}}">{{x.departName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">现部门：</label>
+                    <select class="form-control" name="isFormal" style="width: 150px;"
+                            ng-model="req.newDepart" required="required">
+                        <option value=""></option>
+                        <option ng-repeat="x in departList" value="{{x.departName}}">{{x.departName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-inline" style="margin-top: 42px;">
+                <div class="col-lg-3" style="padding-left: 27px;">
+                    <label class="form-label">原岗位：</label>
+                    <input type="text" name="name" style="width: 150px" placeholder="请输入原岗位" class="form-control" ng-model="req.oldPosition"  required>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3" style="padding-left: 27px;">
+                    <label class="form-label">现岗位：</label>
+                    <input type="text" name="name" style="width: 150px" placeholder="请输入现岗位" class="form-control" ng-model="req.newPosition" required>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">原职务：</label>
+                    <input type="text" name="name" style="width: 150px" placeholder="请输入原职务" class="form-control" ng-model="req.oldDuty" required>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="col-lg-3">
+                    <label class="form-label">现职务：</label>
+                    <input type="text" name="name" style="width: 150px" placeholder="请输入现职务" class="form-control"ng-model="req.newDuty" required>
+
+                    <button class="pureBtn" style="float: right;width: 60px;margin-right: 5%;background: #4dbd73;color: white;" ng-click="search()" type="button">
+                        搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="span8" style="margin-top: 15px;height:calc(100% - 250px);">
+            <table style="display: block;margin-top: 15px;height: 100%;" ng-table="turnover.tableParams" id="groupListTable" align="center" class="table table-bordered table-striped table-condensed">
+                <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;">
+                    <td width="4%">序号</td>
+                    <td width="8%">员工姓名</td>
+                    <td width="8%">异动类型</td>
+                    <td width="10%">异动事项</td>
+                    <td width="8%">生效日期</td>
+                    <td width="8%">原部门</td>
+                    <td width="8%">现部门</td>
+                    <td width="8%">原岗位</td>
+                    <td width="8%">现岗位</td>
+                    <td width="8%">原职务</td>
+                    <td width="8%">现职务</td>
+                    <td width="8%">创建时间</td>
+                    <!--<td width="8%">操作</td>-->
+                </tr>
+                </thead>
+                <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="4%">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                    <td width="8%">{{row.staffName}}</td>
+                    <td width="8%">{{row.type}}</td>
+                    <td width="10%">{{row.action}}</td>
+                    <td width="8%">{{row.effectTime | limitTo : 19}}</td>
+                    <td width="8%">{{row.oldDepart}}</td>
+                    <td width="8%">{{row.newDepart}}</td>
+                    <td width="8%">{{row.oldPosition}}</td>
+                    <td width="8%">{{row.newPosition}}</td>
+                    <td width="8%">{{row.oldDuty}}</td>
+                    <td width="8%">{{row.newDuty}}</td>
+                    <td width="8%">{{row.createTime | limitTo : 10}}</td>
+                    <!--<td width="8%">
+                        <button type="button" class="editBtn" title="修改" ng-click="toEditTurnover($index)"/>
+                        <button type="button" class="deleteBtn" title="删除" ng-click="toDelTurnover($index)"/>
+                    </td>-->
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="modal fade" id="addTurnoverModal" tabindex="-1" role="dialog" aria-labelledby="ApproveModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="ApproveModalLabel">异动信息</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 420px;overflow-y: auto">
+                        <form class="form-horizontal" name="turnoverForm">
+                            <div class="form-group" >
+                                <label for="type" class="col-sm-3 control-label">员工姓名：<span style="color: red;">*</span></label>
+                                <div class="col-sm-9">
+                                    <span style="font-family: 微软雅黑;font-size: 16px;line-height: 27px;">{{nowStaffName}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error' : turnoverForm.type.$invalid && !turnoverForm.type.$pristine }">
+                                <label for="type" class="col-sm-3 control-label">异动类型：<span style="color: red;">*</span></label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="type" name="type" style="width: 240px;" ng-change="typeChange(formData.type)" ng-model="formData.type" ng-options="a for a in typeArr" required="required">
+                                    </select>
+                                    <p ng-show="turnoverForm.type.$invalid && !turnoverForm.type.$pristine" class="help-block">请输入异动类型</p>
+                                </div>
+                            </div>
+
+                            <div ng-if="showAction" class="form-group" ng-class="{ 'has-error' : turnoverForm.action.$invalid && !turnoverForm.action.$pristine }">
+                                <label class="col-sm-3 control-label">异动事项：<span style="color: red;">*</span></label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="action" style="width: 240px;" ng-model="formData.action" ng-options="a for a in regularArr"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="effectTimeDropdown">生效日期：<span style="color: red;">*</span></label>
+                                <div class="col-sm-9">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="effectTimeDropdown" role="button" data-toggle="dropdown" data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="effectTime" name="effectTime" class="form-control" data-ng-model="formData.effectTime" disabled="disabled" style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker   data-ng-model="formData.effectTime"
+                                                              data-datetimepicker-config="{ dropdownSelector: '#effectTimeDropdown',  minView:'day' }"
+                                                              data-on-set-time="onTimeSet(newDate, oldDate)" data-></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6" ng-class="{ 'has-error' : turnoverForm.action.$invalid && !turnoverForm.action.$pristine }">
+                                    <label style="vertical-align:middle;display:inline-block;" class="col-sm-4 control-label">原部门：</label>
+                                    <div class="col-sm-12" style="vertical-align:middle;">
+                                        <input type="text" name="oldDepart" class="form-control" ng-model="formData.oldDepart" disabled>
+                                    </div>
+                            </div>
+                            <div class="col-lg-6" ng-class="{ 'has-error' : turnoverForm.action.$invalid && !turnoverForm.action.$pristine }">
+                                <label style="vertical-align:middle;display:inline-block;" class="col-sm-4 control-label">现部门：</label>
+                                <div class="col-sm-12" style="vertical-align:middle;">
+                                    <select style="width: 65%;" class="form-control" name="providerType" ng-model="formData.newDepart">
+                                        <option ng-repeat="x in departList" value="{{x.departName}}">{{x.departName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6" ng-class="{ 'has-error' : turnoverForm.action.$invalid && !turnoverForm.action.$pristine }">
+                                <label style="vertical-align:middle;display:inline-block;" class="col-sm-4 control-label">原岗位：</label>
+                                <div class="col-sm-12" style="vertical-align:middle;">
+                                    <input type="text" name="oldPosition" class="form-control" ng-model="formData.oldPosition" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" ng-class="{ 'has-error' : turnoverForm.action.$invalid && !turnoverForm.action.$pristine }">
+                                <label style="vertical-align:middle;display:inline-block;" class="col-sm-4 control-label">现岗位：</label>
+                                <div class="col-sm-12" style="vertical-align:middle;">
+                                    <input type="text" name="newPosition" placeholder="请输入现岗位" class="form-control" ng-model="formData.newPosition" required>
+                                    <p ng-show="turnoverForm.action.$invalid && !turnoverForm.action.$pristine" class="help-block">请输入现岗位</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6" ng-class="{ 'has-error' : turnoverForm.action.$invalid && !turnoverForm.action.$pristine }">
+                                <label style="vertical-align:middle;display:inline-block;" class="col-sm-4 control-label">原职务：</label>
+                                <div class="col-sm-12" style="vertical-align:middle;">
+                                    <input type="text" name="oldDuty" class="form-control" ng-model="formData.oldDuty" disabled>
+                                    <p ng-show="turnoverForm.action.$invalid && !turnoverForm.action.$pristine" class="help-block">请输入原职务</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" ng-class="{ 'has-error' : turnoverForm.action.$invalid && !turnoverForm.action.$pristine }">
+                                <label style="vertical-align:middle;display:inline-block;" class="col-sm-4 control-label">现职务：</label>
+                                <div class="col-sm-12" style="vertical-align:middle;">
+                                    <input type="text" name="newDuty" placeholder="请输入现职务" class="form-control" ng-model="formData.newDuty" required>
+                                    <p ng-show="turnoverForm.action.$invalid && !turnoverForm.action.$pristine" class="help-block">请输入现职务</p>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group"  ng-class="{ 'has-error' : turnoverForm.oldValue.$invalid && !turnoverForm.oldValue.$pristine }">
+                                <label  class="col-sm-3 control-label" for="oldValue">原值：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="oldValue" name="oldValue" placeholder="请输入原值" class="form-control" ng-model="formData.oldValue" required>
+                                    <p ng-show="turnoverForm.oldValue.$invalid && !turnoverForm.oldValue.$pristine" class="help-block">请输入原值</p>
+                                </div>
+                            </div>
+                            <div class="form-group"  ng-class="{ 'has-error' : turnoverForm.newValue.$invalid && !turnoverForm.newValue.$pristine }">
+                                <label  class="col-sm-3 control-label" for="newValue">新值：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="newValue" name="newValue" placeholder="请输入新值" class="form-control" ng-model="formData.newValue" required>
+                                    <p ng-show="turnoverForm.newValue.$invalid && !turnoverForm.newValue.$pristine" class="help-block">请输入新值</p>
+                                </div>
+                            </div>-->
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure"
+                                ng-disabled="turnoverForm.type.$invalid||turnoverForm.action.$invalid"
+                                ng-click="addTurnover()">提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--导出异动信息定制列弹框-->
+        <div class="modal fade" id="turnoverExportSelect" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title"> 导出选择</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 500px;overflow-y: auto">
+                        <div style="float:left;width: 100%;margin-right: 2%;max-height: 450px;">
+                            <p style="font-size: 14px;font-weight: 700;">选择导出列</p>
+                            <div class="papers">
+                                <ul>
+                                    <li><input type="checkbox" ng-model="exportAllModel" ng-click="exportCheckAll()"/><span style="margin-left: 40px;font-weight: 700;">全选/不选</span></li>
+                                </ul>
+                                <ul ng-repeat="x in myCols" style="float: left;width: 50%;">
+                                    <li><input type="checkbox" ng-checked="x.checked" ng-click="exportCheck(x.columnName)"/><span style="margin-left: 40px;">{{x.columnName}}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="sure" ng-click="exportTurnover()" type="button">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

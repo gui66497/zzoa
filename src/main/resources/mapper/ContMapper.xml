@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.ContMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.Cont" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="cont_type" property="contType" jdbcType="CHAR" />
+    <result column="cont_name" property="contName" jdbcType="VARCHAR" />
+    <result column="validity" property="validity" jdbcType="VARCHAR" />
+    <result column="begin_date" property="beginDate" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+    <result column="cont_desc" property="contDesc" jdbcType="VARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, cont_type, cont_name, validity, begin_date, end_date, cont_desc, 
+    file_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_cont
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_cont
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="zzjz.bean.Cont" >
+    insert into tb_cont
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="contType != null" >
+        cont_type,
+      </if>
+      <if test="contName != null" >
+        cont_name,
+      </if>
+      <if test="validity != null" >
+        validity,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="contDesc != null" >
+        cont_desc,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="contType != null" >
+        #{contType,jdbcType=CHAR},
+      </if>
+      <if test="contName != null" >
+        #{contName,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null" >
+        #{validity,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="contDesc != null" >
+        #{contDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.Cont" >
+    update tb_cont
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="contType != null" >
+        cont_type = #{contType,jdbcType=CHAR},
+      </if>
+      <if test="contName != null" >
+        cont_name = #{contName,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null" >
+        validity = #{validity,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="contDesc != null" >
+        cont_desc = #{contDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getContPageList" parameterType="zzjz.bean.ContRequest" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_CONT
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        AND ID = '${id}'
+      </if>
+      <if test="userId != null" >
+        AND USER_ID = '${userId}'
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = '${userName}'
+      </if>
+      <if test="contType != null" >
+        AND CONT_TYPE = '${contType}'
+      </if>
+      <if test="contName != null" >
+        AND CONT_NAME = '${contName}'
+      </if>
+      <if test="validity != null" >
+        AND VALIDITY = '${validity}'
+      </if>
+      <if test="beginDate != null" >
+        AND BEGIN_DATE = '${beginDate}'
+      </if>
+      <if test="endDate != null" >
+        AND END_DATE = '${endDate}'
+      </if>
+      <if test="contDesc != null" >
+        AND CONT_DESC = '${contDesc}'
+      </if>
+      <if test="fileName != null" >
+        AND FILE_NAME = '${fileName}'
+      </if>
+      <if test="createTime != null" >
+        AND CREATE_TIME = '${createTime}'
+      </if>
+    </trim>
+    order by create_time DESC
+  </select>
+
+  <select id="getContList" parameterType="zzjz.bean.Cont" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_CONT
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        AND ID = '${id}'
+      </if>
+      <if test="userId != null" >
+        AND USER_ID = '${userId}'
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = '${userName}'
+      </if>
+      <if test="contType != null" >
+        AND CONT_TYPE = '${contType}'
+      </if>
+      <if test="contName != null" >
+        AND CONT_NAME = '${contName}'
+      </if>
+      <if test="validity != null" >
+        AND VALIDITY = '${validity}'
+      </if>
+      <if test="beginDate != null" >
+        AND BEGIN_DATE = '${beginDate}'
+      </if>
+      <if test="endDate != null" >
+        AND END_DATE = '${endDate}'
+      </if>
+      <if test="contDesc != null" >
+        AND CONT_DESC = '${contDesc}'
+      </if>
+      <if test="fileName != null" >
+        AND FILE_NAME = '${fileName}'
+      </if>
+      <if test="createTime != null" >
+        AND CREATE_TIME = '${createTime}'
+      </if>
+    </trim>
+    order by create_time DESC
+  </select>
+
+  <select id="getEffectiveContList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_CONT
+    where user_id = #{userId,jdbcType=VARCHAR} and
+    (end_date &gt;= #{checkDate,jdbcType=VARCHAR} or validity = '无固定期限')
+    order by create_time DESC
+  </select>
+
+  <select id="getInvalidContList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_CONT
+    where user_id = #{userId,jdbcType=VARCHAR} and end_date &lt; #{checkDate,jdbcType=VARCHAR}
+    order by create_time DESC
+  </select>
+</mapper>

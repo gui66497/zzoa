@@ -4,8 +4,11 @@ import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-public class MyJobFactory extends  org.springframework.scheduling.quartz.SpringBeanJobFactory
-{
+/**
+ * @author 彭鹏
+ * @version 2017/10/16
+ */
+public class MyJobFactory extends org.springframework.scheduling.quartz.SpringBeanJobFactory {
     @Autowired
     private AutowireCapableBeanFactory beanFactory;
 

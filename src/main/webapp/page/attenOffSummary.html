@@ -1,0 +1,239 @@
+<style type="text/css">
+    #attenOffSummaryListTable {
+        cellspacing: 0;
+        cellpadding: 0;
+        width: 100%;
+        align: center;
+    }
+
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+    #offYear{
+        width: 200px;
+        height: 34px;
+        border-radius: 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        padding-left: 10px;
+        float: left;
+        margin-right: 10px;
+    }
+    #uploadBtn{
+        margin-right: 10px;
+        width: 100px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        float: left;
+    }
+    .changeAfter,.changeAfter:hover{
+        color: black;
+        cursor: default;
+        text-decoration: none;
+    }
+    .changeBefore,.changeBefore:hover{
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+</style>
+<div ng-controller="attenOffSummaryController" style="height: 100%;">
+    <div style="margin-top: 15px;height: 100%;">
+        <input type="number" id="offYear" value="" onkeyup="value=this.value.replace(/[^\d]/g,'')" maxlength="4" style="margin-bottom: 15px"/>
+        <select name="departSelect" class="form-control" ng-model="req.depart" required="required" style="float:left;width: 200px;margin: 0 10px;">
+            <option value="null">所有部门</option>
+            <option ng-repeat="x in departs" value="{{x.departId}}">{{x.departName}}</option>
+        </select>
+        <button id="uploadBtn" class="query" ng-click="autoQuery()" type="button">
+            <span class="glyphicon glyphicon-search"></span> 查询
+        </button>
+        <button class="nomalBtn" ng-click="export()" type="button">
+            <span class="glyphicon glyphicon-cloud-download"></span> 导出
+        </button>
+        <table id="attenOffSummaryListTable" align="center" class="table table-bordered table-striped table-condensed" style="display: block;margin-top: 15px;height: calc(100% - 200px);">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr>
+                    <td width="4%" rowspan="2" style="vertical-align:middle;">工号</td>
+                    <td width="7%" rowspan="2" style="vertical-align:middle;">部门</td>
+                    <td width="6%" rowspan="2" style="vertical-align:middle;">员工姓名</td>
+                    <td width="6%" colspan="3">三月</td>
+                    <td width="6%" colspan="3">四月</td>
+                    <td width="6%" colspan="3">五月</td>
+                    <td width="6%" colspan="3">六月</td>
+                    <td width="6%" colspan="3">七月</td>
+                    <td width="6%" colspan="3">八月</td>
+                    <td width="6%" colspan="3">九月</td>
+                    <td width="6%" colspan="3">十月</td>
+                    <td width="6%" colspan="3">十一月</td>
+                    <td width="6%" colspan="3">十二月</td>
+                    <td width="6%" colspan="3">一月</td>
+                    <td width="6%" colspan="3">二月</td>
+                    <td width="4%" rowspan="2" style="vertical-align:middle;"  ng-show="months">操作</td>
+                </tr>
+                <tr>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                    <td width="2%">班</td>
+                    <td width="2%">休</td>
+                    <td width="2%">余</td>
+                </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 81px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="single in singles" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                    <td width="0%" ng-hide="true">{{summary.staffId}}</td>
+                    <td width="4%">{{$index+1}}</td>
+                    <!--<td width="4%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" title="{{single.staffId}}">{{single.staffId}}</td>-->
+                    <td width="7%">{{single.departId}}</td>
+                    <td width="6%">{{single.name}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'03')" class="{{single.over03==0?'changeAfter' : 'changeBefore'}}">{{single.over03}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'03')" class="{{single.month03==0?'changeAfter' : 'changeBefore'}}">{{single.month03}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left03}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'04')" class="{{single.over04==0?'changeAfter' : 'changeBefore'}}">{{single.over04}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'04')" class="{{single.month04==0?'changeAfter' : 'changeBefore'}}">{{single.month04}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left04}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'05')" class="{{single.over05==0?'changeAfter' : 'changeBefore'}}">{{single.over05}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'05')" class="{{single.month05==0?'changeAfter' : 'changeBefore'}}">{{single.month05}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left05}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'06')" class="{{single.over06==0?'changeAfter' : 'changeBefore'}}">{{single.over06}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'06')" class="{{single.month06==0?'changeAfter' : 'changeBefore'}}">{{single.month06}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left06}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'07')" class="{{single.over07==0?'changeAfter' : 'changeBefore'}}">{{single.over07}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'07')" class="{{single.month07==0?'changeAfter' : 'changeBefore'}}">{{single.month07}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left07}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'08')" class="{{single.over08==0?'changeAfter' : 'changeBefore'}}">{{single.over08}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'08')" class="{{single.month08==0?'changeAfter' : 'changeBefore'}}">{{single.month08}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left08}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'09')" class="{{single.over09==0?'changeAfter' : 'changeBefore'}}">{{single.over09}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'09')" class="{{single.month09==0?'changeAfter' : 'changeBefore'}}">{{single.month09}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left09}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'10')" class="{{single.over10==0?'changeAfter' : 'changeBefore'}}">{{single.over10}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'10')" class="{{single.month10==0?'changeAfter' : 'changeBefore'}}">{{single.month10}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left10}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'11')" class="{{single.over11==0?'changeAfter' : 'changeBefore'}}">{{single.over11}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'11')" class="{{single.month11==0?'changeAfter' : 'changeBefore'}}">{{single.month11}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left11}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'12')" class="{{single.over12==0?'changeAfter' : 'changeBefore'}}">{{single.over12}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'12')" class="{{single.month12==0?'changeAfter' : 'changeBefore'}}">{{single.month12}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left12}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'01')" class="{{single.over01==0?'changeAfter' : 'changeBefore'}}">{{single.over01}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'01')" class="{{single.month01==0?'changeAfter' : 'changeBefore'}}">{{single.month01}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left01}}</td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOverDetails($index,'02')" class="{{single.over02==0?'changeAfter' : 'changeBefore'}}">{{single.over02}}</a></td>
+                    <td width="2%"><a href="javascript:void(0)" ng-click="showOffDetails($index,'02')" class="{{single.month02==0?'changeAfter' : 'changeBefore'}}">{{single.month02}}</a></td>
+                    <td width="2%" class="changeAfter">{{single.left02}}</td>
+                    <td width="4%" ng-show="months">
+                        <button title="清空去年结余" class="deleteBtn" ng-click="clearUpYear($index)" ng-show="threes" type="button"></button>
+                        <button title="清空上半年结余" class="deleteBtn" ng-click="clearDownYear($index)" ng-show="eights" type="button"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--加班详情模态框-->
+    <div class="modal fade" id="overOffDetailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        详情
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="content in Content" style="margin-top: 10px;">
+                        {{$index+1}}. {{userName}} 于 {{content.beginDate}} {{content.type}} {{content.days}} 天
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

@@ -1,0 +1,1031 @@
+<style>
+    *{
+        list-style: none;
+        text-decoration: none;
+    }
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #c0c0c0;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    #wait,#jin{
+        width: 68%;
+        height: 430px;
+        background: #ffffff;
+        float: left;
+        padding: 10px;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+        transition: all 0.2s ease-in-out;
+    }
+    #notice{
+        width: 30%;
+        height: calc(100% - 220px);
+        background: #ffffff;
+        float: right;
+        padding: 10px;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+        transition: all 0.2s ease-in-out;
+    }
+    .prompt{
+        display: inline-block;
+        content: "";
+        min-width: 20px;
+        padding: 2px;
+        background: red;
+        text-align: center;
+        line-height: 12px;
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 12px;
+    }
+    b,.ico{
+        font-size: 16px;
+    }
+    .topContent{
+        width: 500px;
+        height: 280px;
+        border: 1px solid rgb(204,204,204);
+        border-radius: 5px;
+        padding: 10px 30px;
+        margin: 0 auto;
+    }
+    .footerContent{
+        width: 500px;
+        border: 1px solid rgb(204,204,204);
+        border-radius: 5px;
+        padding: 10px 30px;
+        margin: 10px auto;
+    }
+    .topContent,.footerContent>div{
+        font-size: 16px;
+    }
+
+    #confirmModalMessage2 b{
+        display: inline-block;
+        content: "";
+        width: 100px;
+        height: 30px;
+        text-align: right;
+    }
+    .footerContent span{
+        display: inline-block;
+        content: "";
+        font-size: 14px;
+        margin:0 5px;
+    }
+    .searchBtn {
+        width: 70px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+    .todo{
+        display: inline;
+        font-size: 18px;
+    }
+    .todo>span{
+        color: #0e90d2;
+    }
+    .message>span:hover{
+        cursor: pointer;
+    }
+    .pageTabs {
+        height:calc(100% - 60px);
+    }
+    .pageTab{
+        line-height: 30px;
+        font-size: 14px;
+        background: rgb(244,244,244);
+        margin-bottom: 5px;
+    }
+    .pageTab:hover{
+        cursor: pointer;
+        background: rgb(234,234,234);
+    }
+    .cover{
+        width:100%;
+        height:100%;
+        background-color: rgb(255,255,255);
+        opacity: 0.5;
+        position: absolute;
+        z-index:99999;
+        left:0px;
+        top:0px;
+    }
+    .termination{
+        width:90px;
+        height: 34px;
+        margin-right: 10px;
+        background-color: #4dbd73;
+        border: 0;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+    }
+    .termination:hover{
+        border-color:#46ab68;
+        background-color: #46ab68
+    }
+    .matter{
+        cursor: pointer;
+        padding: 5px 10px;
+        /*background: rgb(238,238,238);*/
+        border-bottom: 1px solid rgb(198,198,198);
+    }
+    .waitColor{
+        color: #0e90d2;
+        border: 1px solid rgb(198,198,198);
+        border-bottom: none;
+        border-radius: 5px 5px 0 0;
+        background: white;
+    }
+    .addSupplier{
+        width: 88%;
+        margin-right: 2%;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .supplierName{
+        float: left;
+        width: 32%;
+        line-height: 34px;
+        text-align: right;
+        font-weight: 700;
+        position: relative;
+        font-size: 14px;
+    }
+    .supplierType{
+        border: none;
+        background: none;
+        outline: none;
+        padding:6px 16px;
+        font-size: 14px;
+    }
+    .myColor{
+        color: rgb(51,133,255);
+    }
+    .btnBg1{
+        background: none;
+        border: none;
+        outline: none;
+        color: #0e90d2;
+        font-size: 11px;
+        float: right;
+    }
+</style>
+<div ng-controller="homeController as controller" style="height: 100%;">
+    <div class="cover" ng-if="hideFrom">
+        <img src="images/loading.gif" style="position: relative;top: 50%;left: 50%;margin-top: -21px;margin-left: -32px;">
+    </div>
+    <div style="height: 100%;">
+        <div>
+            <h4>欢迎,<b>{{manager}}</b>!</h4>
+            <div>
+                <div class="todo message" ng-show="showTodo || !pageShow || !becomeShow || !contractShow || !diplomaShow || !abnormalShow">
+                    您目前有
+                </div>
+                <div class="todo" ng-show="showTodo">
+                    <span style="color:black;">{{waitNum}}</span>条待办。
+                </div>
+                <div class="todo message" ng-show="!pageShow">
+                    <span ng-click="birth()">{{noticeNum1}}</span><span style="color: black;" ng-if="pageWord">条生日提醒；</span>
+                </div>
+                <div class="todo message" ng-show="!becomeShow">
+                    <span ng-click="become()">{{noticeNum2}}</span><span style="color: black;" ng-if="becomeWord">条转正提醒；</span>
+                </div>
+                <div class="todo message" ng-show="!contractShow">
+                    <span ng-click="contract()">{{noticeNum3}}</span><span style="color: black;" ng-if="contractWord">条合同到期提醒；</span>
+                </div>
+                <div class="todo message" ng-show="!diplomaShow">
+                    <span ng-click="diploma()">{{noticeNum4}}</span><span style="color: black;" ng-if="diplomaWord">条资格证书到期提醒；</span>
+                </div>
+                <div class="todo message" ng-show="!abnormalShow">
+                    <span ng-click="abnormal()">{{noticeNum5}}</span><span style="color: black;" ng-if="abnormalWord">条考勤异常提醒；</span>
+                </div>
+                <div class="todo message" ng-show="!noticeShow">
+                    <span ng-click="notice()">{{noticeNum6}}</span><span style="color: black;" ng-if="noticeWord">条告知提醒；</span>
+                </div>
+                <div class="todo message" ng-show="!tripShow">
+                    <span ng-click="showTrip()">{{noticeNum7}}</span><span style="color: black;" ng-if="tripWord">条未核销出差信息；</span>
+                </div>
+            </div>
+        </div>
+        <hr style="height:1px;border:none;border-top:1px solid rgb(204,204,204);" />
+        <div ng-style="wait" id="wait" ng-switch="ShowMode" style="height: calc(100% - 220px);">
+            <div><span class="glyphicon glyphicon-th-list ico" style="margin-right: 10px;"></span>
+                <b class="matter" ng-click="ChangeShow('waitSolve')" ng-class="{waitColor:waitSolveTrue}" ng-show="showTodo">
+                    待办事项<span class="prompt" ng-if="showPrompt">{{waitNum}}</span>
+                </b>
+                <b class="matter" ng-click="ChangeShow('solve')" ng-class="{waitColor:solveTrue}" ng-show="showTodo">已办事项</b><!--
+                --><b class="matter" ng-click="ChangeShow('pace')" ng-class="{waitColor:paceTrue}">事项进度<span class="prompt" ng-if="pacePrompt">{{waitPace}}</span></b>
+            </div>
+            <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+            <table style="display: block;height: calc(100% - 60px);" ng-table="controller.tableParams" ng-show="showTodo"  align="center" class="table table-bordered table-striped table-condensed" ng-switch-when="waitSolve">
+                <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;text-align: center;">
+                    <td width="15%">申请人</td>
+                    <td width="20%">部门</td>
+                    <td width="20%">申请事项</td>
+                    <td width="25%">开始时间</td>
+                    <td width="20%">操作</td>
+                </tr>
+                </thead>
+                <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;text-align: center;">
+                    <td width="0%" ng-hide="true">{{row.id}}</td>
+                    <td width="0%" ng-hide="true">{{row.actId}}</td>
+                    <td width="15%">{{row.userName}}</td>
+                    <td width="20%">{{row.departName}}</td>
+                    <td width="20%" ng-switch="row.applyTyp">
+                        <span ng-switch-when="punch">忘打卡</span>
+                        <span ng-switch-when="over">加班</span>
+                        <span ng-switch-when="trip">出差</span>
+                        <span ng-switch-when="out">外出</span>
+                        <span ng-switch-when="vacation">请假</span>
+                        <span ng-switch-when="down">下载</span>
+                        <span ng-switch-when="payment">付款信息</span>
+                        <span ng-switch-default>未知</span>
+                    </td>
+                    <td width="25%">{{row.applyDate}}</td>
+                    <td width="20%">
+                        <a href="javascript:void(0)" style="text-decoration: none;" ng-click="process($index)">处理</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table style="display: block;height: calc(100% - 60px);" ng-table="controller.tableParams" ng-show="showTodo" align="center" class="table table-bordered table-striped table-condensed" ng-switch-when="solve">
+                <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;text-align: center;">
+                    <td width="15%">申请人</td>
+                    <td width="20%">部门</td>
+                    <td width="20%">申请事项</td>
+                    <td width="25%">开始时间</td>
+                    <td width="20%">操作</td>
+                </tr>
+                </thead>
+                <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="matters in tableDatas" class="contentTr" style="display: table;width:100%;table-layout:fixed;text-align: center;">
+                    <td width="0%" ng-hide="true">{{matters.id}}</td>
+                    <td width="0%" ng-hide="true">{{matters.actId}}</td>
+                    <td width="15%">{{matters.userName}}</td>
+                    <td width="20%">{{matters.departName}}</td>
+                    <td width="20%" ng-switch="matters.applyTyp">
+                        <span ng-switch-when="punch">忘打卡</span>
+                        <span ng-switch-when="over">加班</span>
+                        <span ng-switch-when="trip">出差</span>
+                        <span ng-switch-when="out">外出</span>
+                        <span ng-switch-when="vacation">请假</span>
+                        <span ng-switch-when="down">下载</span>
+                        <span ng-switch-when="payment">付款信息</span>
+                        <span ng-switch-default>未知</span>
+                    </td>
+                    <td width="25%">{{matters.applyDate}}</td>
+                    <td width="20%">
+                        <a href="javascript:void(0)" style="text-decoration: none;" ng-click="viewOverHistory($index)">查看</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table style="display: block;height: calc(100% - 60px);" ng-table="controller.tableParams"  align="center" class="table table-bordered table-striped table-condensed" ng-switch-when="pace">
+                <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+                <tr style="display: table;width:100%;table-layout:fixed;text-align: center;">
+                    <td width="15%">申请事项</td>
+                    <td width="20%">开始时间</td>
+                    <td width="20%">申请状态</td>
+                    <td width="20%">操作</td>
+                </tr>
+                </thead>
+                <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+                <tr ng-repeat="matters in tableDatas" class="contentTr" style="display: table;width:100%;table-layout:fixed;text-align: center;">
+                    <td width="0%" ng-hide="true">{{matters.id}}</td>
+                    <td width="0%" ng-hide="true">{{matters.actId}}</td>
+                    <td width="15%" ng-switch="matters.applyTyp">
+                        <span ng-switch-when="00">调休</span>
+                        <span ng-switch-when="01">年假</span>
+                        <span ng-switch-when="02">事假</span>
+                        <span ng-switch-when="03">产假</span>
+                        <span ng-switch-when="04">婚假</span>
+                        <span ng-switch-when="05">丧假</span>
+                        <span ng-switch-when="06">病假</span>
+                        <span ng-switch-when="07">工程调休</span>
+                        <span ng-switch-when="08">产前假</span>
+                        <span ng-switch-when="20">出差</span>
+                        <span ng-switch-when="21">外出</span>
+                        <span ng-switch-when="22">加班</span>
+                        <span ng-switch-when="23">忘打卡</span>
+                        <span ng-switch-when="30">下载</span>
+                        <span ng-switch-when="31">付款信息</span>
+                        <span ng-switch-default>未知</span>
+                    </td>
+                    <td width="20%">{{matters.applyDate}}</td>
+                    <td width="20%"  ng-switch="matters.status">
+                        <span ng-switch-when="00">待发起</span>
+                        <span ng-switch-when="01">处理中</span>
+                        <span ng-switch-when="02">打回中</span>
+                        <span ng-switch-when="03">已打回</span>
+                        <span ng-switch-when="99">已通过</span>
+                        <span ng-switch-when="98">已核销</span>
+                        <span ng-switch-default>未知</span>
+                    </td>
+                    <td width="20%">
+                        <a href="javascript:void(0)" style="text-decoration: none;" ng-click="viewOverHistory($index)">查看</a>
+                        <a href="javascript:void(0)" style="text-decoration: none;" ng-show="matters.print" ng-click="printBtn($index)">打印</a>
+                        <a href="javascript:void(0)" style="text-decoration: none;" ng-show="matters.ignore" ng-click="ignoreBtn($index)">忽略</a>
+                        <a href="javascript:void(0)" style="text-decoration: none;" ng-show="matters.status == '01'" ng-click="remindMail($index)">提醒</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="notice" ng-show="showNotice">
+            <div>
+                <span class="glyphicon glyphicon-bell ico"></span>
+                <b>通知</b>
+            </div>
+            <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+            <div class="pageTabs" style="overflow-y: auto;">
+                <div ng-click="pageLi()" class="pageTab">生日提醒</div>
+                <div ng-show="li" style="overflow-y: scroll;max-height: 60%;">
+                    <ul ng-repeat="newContent in noticeContent" style="padding-left: 0;">
+                        <li style="margin-top: 5px;width: 100%;color: #333;line-height: 20px;">{{$index+1}}.{{newContent.col}}</li>
+                    </ul>
+                </div>
+                <div ng-click="becomeLi()" class="pageTab">转正提醒</div>
+                <div ng-show="li2" style="overflow-y: scroll;max-height: 60%;">
+                    <ul ng-repeat="newContent2 in noticeContent2" style="padding-left: 0;">
+                        <li style="margin-top: 5px;width: 100%;color: #333;line-height: 20px;">{{$index+1}}.{{newContent2.col}}</li>
+                    </ul>
+                </div>
+                <div ng-click="contractLi()" class="pageTab">合同到期提醒</div>
+                <div ng-show="li3" style="overflow-y: scroll;max-height: 60%;">
+                    <ul ng-repeat="newContent3 in noticeContent3" style="padding-left: 0;">
+                        <li style="margin-top: 5px;width: 100%;color: #333;line-height: 20px;">{{$index+1}}.{{newContent3.col}}</li>
+                    </ul>
+                </div>
+                <div ng-click="diplomaLi()" class="pageTab">资格证书到期提醒</div>
+                <div ng-show="li4" style="overflow-y: scroll;max-height: 60%;">
+                    <ul ng-repeat="newContent4 in noticeContent4" style="padding-left: 0;">
+                        <li style="margin-top: 5px;width: 100%;color: #333;line-height: 20px;">{{$index+1}}.{{newContent4.col}}</li>
+                    </ul>
+                </div>
+<!--                <div ng-click="abnormalLi()" class="pageTab">考勤异常提醒</div>
+                <div ng-show="li5">
+                    <ul ng-repeat="newContent5 in noticeContent5">
+                        <li style="margin-top: 5px;margin-left:-40px;width: 100%;color: #333;line-height: 20px;">{{$index+1}}.{{newContent5.col}}</li>
+                    </ul>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <!--转正消息模态框-->
+    <div class="modal fade" id="becomeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        消息提醒
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="newContent2 in noticeContent2" style="margin-top: 10px;">
+                        {{$index+1}}.{{newContent2.col}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--生日消息模态框-->
+    <div class="modal fade" id="birthModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        消息提醒
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="newContent in noticeContent" style="margin-top: 10px;">
+                        {{$index+1}}.{{newContent.col}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--合同到期消息模态框-->
+    <div class="modal fade" id="contractModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        消息提醒
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="newContent3 in noticeContent3" style="margin-top: 10px;">
+                        {{$index+1}}.{{newContent3.col}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--证书到期消息模态框-->
+    <div class="modal fade" id="diplomaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        消息提醒
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="newContent4 in noticeContent4" style="margin-top: 10px;">
+                        {{$index+1}}.{{newContent4.col}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--考勤异常消息模态框-->
+    <div class="modal fade" id="pageTabModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        消息提醒
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="newContent5 in noticeContent5" style="margin-top: 10px;">
+                        {{$index+1}}.{{newContent5.col}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--告知消息模态框-->
+    <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        消息提醒
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="newContent6 in noticeContent6" style="margin-top: 10px;">
+                        {{$index+1}}.{{newContent6.noticeDesc}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--未核销出差消息模态框-->
+    <div class="modal fade" id="showTripModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        消息提醒
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="font-size: 16px;max-height:600px;overflow-y: scroll;">
+                    <div ng-repeat="newContent7 in noticeContent7" style="margin-top: 10px;">
+                        {{$index+1}}.{{newContent7.userName}} 于 {{newContent7.tripDate}}至{{newContent7.backDate}} 出差，未核销，请留意！
+                        <button class="btnBg1" ng-click="setTripInfo($index)" type="button">修改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--忘打卡待办事项模态框-->
+    <div class="modal fade" id="punchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float:left;">
+                    审批
+                </h4>
+                <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+            </div>
+            <div class="modal-body" id="confirmModalMessage1" style="max-height:600px;overflow-y: scroll;">
+                <div class="topContent">
+                    <h4 style="display : inline">忘打卡信息</h4><a href="javascript:void(0)" style="float:right;font-size: 14px;" ng-click="viewHistory(formData.actId)">查看流程</a>
+                    <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                    <div><b>申请人：</b>{{formData.userName}}</div>
+                    <div><b>申请时间：</b>{{formData.punchDate}}</div>
+                    <div><b>申请类型：</b>{{formData.punchTyp==0 ? '签到':'签退'}}</div>
+                    <div><b>证明人：</b>{{formData.witness}}</div>
+                    <div><b>申请原因：</b>{{formData.reason}}</div>
+                </div>
+                <div class="footerContent">
+                    <h4>审批</h4>
+                    <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                    <div><b>操作：</b>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="punchRadioVal" name="radio_punch" class="radio_punch" value="agree" ng-click="showReason(true)" checked="checked">同意
+                        </label>
+                        <label class="radio-inline" >
+                            <input type="radio" ng-model="punchRadioVal" name="radio_punch" class="radio_punch" value="disagree" ng-click="showReason(false)">打回
+                        </label></div>
+                    <div  ng-show="!detain_punch" style="height: 100px;"><b style="width: 100px;height: 100px;">打回原因：</b><textarea id="area_punch" style="float:right;width: 335px;height: 100px;"></textarea></div>
+                </div>
+            </div>
+            <div class="modal-footer" id="confirmModalFooter1">
+                <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                <button type="button" class="termination" data-dismiss="modal" id="btnExecute1" ng-click="handleWait()">提交</button>
+                <button type="button" class="termination" data-dismiss="modal" id="btnExecute10" ng-click="termination()" ng-show="!okEnd">同意并结束</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!--付款申请事项模态框-->
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 600px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        审批
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" id="confirmModalMessage7" style="height: 550px;overflow-y: auto">
+                    <div style="width: 500px;height: 380px;border: 1px solid rgb(204,204,204);border-radius: 5px;padding: 10px 30px;margin: 0 auto;">
+                        <h4 style="display : inline">付款信息</h4><a href="javascript:void(0)" style="float:right;font-size: 14px;" ng-click="viewHistory(formData.actId)">查看流程</a>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <form class="form-horizontal" name="paymentFrom">
+                            <div class="addSupplier">
+                                <span class="supplierName">归属：</span>
+                                <input type="text" name="ascription" style="width: 68%;" disabled="disabled" class="supplierType" ng-model="formData.ascription" required>
+                            </div>
+                            <div class="addSupplier">
+                                <span class="supplierName">收款单位名称：</span>
+                                <input type="text" name="name" style="width: 68%;" disabled="disabled" class="supplierType" ng-model="formData.name" required>
+                            </div>
+                            <div class="addSupplier">
+                                <span class="supplierName">账号：</span>
+                                <input type="text" name="account" style="width: 68%;" disabled="disabled" class="supplierType" ng-model="formData.account" required>
+                            </div>
+                            <div class="addSupplier">
+                                <span class="supplierName">开户行：</span>
+                                <input type="text" name="bank" style="width: 68%;" disabled="disabled" class="supplierType" ng-model="formData.bank" required>
+                            </div>
+                            <div class="addSupplier">
+                                <span class="supplierName">付款事由：</span>
+                                <input type="text" name="reason" style="width: 68%;" disabled="disabled" class="supplierType" ng-model="formData.reason" required>
+                            </div>
+                            <div class="addSupplier">
+                                <span class="supplierName">付款金额(小写)：</span>
+                                <input type="text" name="priceLower" style="width: 68%;" disabled="disabled" class="supplierType" ng-model="formData.priceLower" required>
+                            </div>
+                            <div class="addSupplier">
+                                <span class="supplierName">付款金额(大写)：</span>
+                                <input type="text" name="priceUpper" style="width: 68%;" disabled="disabled" class="supplierType" ng-model="formData.priceUpper" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="footerContent">
+                        <h4>审批</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div style="margin-left: 32px;"><b>操作：</b>
+                            <label class="radio-inline">
+                                <input type="radio" name="radio_payment" class="radio_payment" value="agree" ng-click="showReason(true)" checked="checked">同意
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" name="radio_payment" class="radio_payment" value="disagree" ng-click="showReason(false)">拒绝
+                            </label></div>
+                        <div  ng-show="!detain_payment" style="height: 100px;width: 420px;margin-top: 20px;"><b style="width: 100px;height: 100px;">拒绝原因：</b><textarea id="area_payment" style="float:right;width: 335px;height: 100px;"></textarea></div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="confirmModalFooter7">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="termination" data-dismiss="modal" id="btnExecute7" ng-click="handleWait()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--加班待办事项模态框-->
+    <div class="modal fade" id="overModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        审批
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" id="confirmModalMessage2" style="max-height:600px;overflow-y: scroll;">
+                    <div class="topContent">
+                        <h4 style="display : inline">加班信息</h4><a href="javascript:void(0)" style="float:right;font-size: 14px;" ng-click="viewHistory(formData.actId)">查看流程</a>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>申请日期：</b>{{formData.overDate}}</div>
+                        <div><b>加班时间：</b>{{formData.overDay}}</div>
+                        <div><b>加班原因：</b>{{formData.reason}}</div>
+                    </div>
+                    <div class="footerContent">
+                        <h4>审批</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>操作：</b>
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="overRadioVal" name="radio_over" class="radio_over" value="agree" ng-click="showReason(true)" checked="checked">同意
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" ng-model="overRadioVal" name="radio_over" class="radio_over" value="disagree" ng-click="showReason(false)">打回
+                            </label></div>
+                        <div  ng-show="!detain_over" style="height: 100px;"><b style="width: 100px;height: 100px;">打回原因：</b><textarea id="area_over" style="float:right;width: 335px;height: 100px;"></textarea></div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="confirmModalFooter2">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="termination" data-dismiss="modal" id="btnExecute2" ng-click="handleWait()">提交</button>
+                    <button type="button" class="termination" data-dismiss="modal" id="btnExecute20" ng-click="termination()" ng-show="!okEnd">同意并结束</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--外出待办事项模态框-->
+    <div class="modal fade" id="outModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        审批
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" id="confirmModalMessage3" style="max-height:600px;overflow-y: scroll;">
+                    <div class="topContent">
+                        <h4 style="display : inline">外出信息</h4><a href="javascript:void(0)" style="float:right;font-size: 14px;" ng-click="viewHistory(formData.actId)">查看流程</a>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>申请日期：</b>{{formData.outDate}}</div>
+                        <div><b>外出时间段：</b>{{formData.outDay}}</div>
+                        <div><b>外出原因：</b>{{formData.reason}}</div>
+                    </div>
+                    <div class="footerContent">
+                        <h4>审批</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>操作：</b>
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="outRadioVal" name="radio_out" class="radio_out" value="agree" ng-click="showReason(true)" checked="checked">同意
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" ng-model="outRadioVal" name="radio_out" class="radio_out" value="disagree" ng-click="showReason(false)">打回
+                            </label></div>
+                        <div  ng-show="!detain_out" style="height: 100px;"><b style="width: 100px;height: 100px;">打回原因：</b><textarea id="area_out" style="float:right;width: 335px;height: 100px;"></textarea></div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="confirmModalFooter3">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="termination" data-dismiss="modal" id="btnExecute3" ng-click="handleWait()">提交</button>
+                    <button type="button" class="termination" data-dismiss="modal" id="btnExecute30" ng-click="termination()" ng-show="!okEnd">同意并结束</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--出差待办事项模态框-->
+    <div class="modal fade" id="tripModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        审批
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:600px;overflow-y: scroll;">
+                    <div class="topContent">
+                        <h4 style="display : inline">出差信息</h4><a href="javascript:void(0)" style="float:right;font-size: 14px;" ng-click="viewHistory(formData.actId)">查看流程</a>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>出差地：</b>{{formData.address}}</div>
+                        <div><b>拟办事项：</b>{{formData.intends}}</div>
+                        <div><b>开始时间：</b>{{formData.tripDate}}</div>
+                        <div><b>结束时间：</b>{{formData.backDate}}</div>
+                        <div><b>出差天数：</b>{{formData.tripDay}}</div>
+                    </div>
+                    <div class="footerContent">
+                        <h4>审批</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>操作：</b>
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="tripRadioVal" name="radio_trip" class="radio_trip" value="agree" ng-click="showReason(true)" checked="checked">同意
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" ng-model="tripRadioVal" name="radio_trip" class="radio_trip" value="disagree" ng-click="showReason(false)">打回
+                            </label></div>
+                        <div  ng-show="!detain_trip" style="height: 100px;"><b style="width: 100px;height: 100px;">打回原因：</b><textarea id="area_trip" style="float:right;width: 335px;height: 100px;"></textarea></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="termination" data-dismiss="modal" ng-click="handleWait()">提交</button>
+                    <button type="button" class="termination" data-dismiss="modal" ng-click="termination()" ng-show="!okEnd">同意并结束</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--请假待办事项模态框-->
+    <div class="modal fade" id="vacationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        审批
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:700px;overflow-y: scroll;">
+                    <div class="topContent">
+                        <h4 style="display : inline">请假信息</h4><a href="javascript:void(0)" style="float:right;font-size: 14px;" ng-click="viewHistory(formData.actId)">查看流程</a>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>请假类型：</b>{{formData.leaveTyp}}</div>
+                        <div><b>开始时间：</b>{{formData.leaveDate}}</div>
+                        <div><b>开始时段：</b>{{formData.leavePart==0 ? '上午':'下午'}}</div>
+                        <div><b>结束时间：</b>{{formData.backDate}}</div>
+                        <div><b>结束时段：</b>{{formData.backPart==0 ? '上午':'下午'}}</div>
+                        <div><b>请假天数：</b>{{formData.leaveDay}}</div>
+                        <div><b>请假原因：</b>{{formData.reason}}</div>
+                    </div>
+                    <div class="footerContent">
+                        <h4>审批</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>操作：</b>
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="vacationRadioVal" name="radio_vacation" class="radio_vacation" value="agree" ng-click="showReason(true)" checked="checked">同意
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" ng-model="vacationRadioVal" name="radio_vacation" class="radio_vacation" value="disagree" ng-click="showReason(false)">打回
+                            </label></div>
+                        <div  ng-show="!detain_vacation" style="height: 100px;"><b style="width: 100px;height: 100px;">打回原因：</b><textarea id="area_vacation" style="float:right;width: 335px;height: 100px;"></textarea></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="termination" data-dismiss="modal" ng-click="handleWait()">提交</button>
+                    <button type="button" class="termination" data-dismiss="modal" ng-click="termination()" ng-show="!okEnd">同意并结束</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--下载信息模态框-->
+    <div class="modal fade" id="downModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        审批
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" style="max-height:600px;overflow-y: scroll;">
+                    <div class="topContent">
+                        <h4 style="display : inline">下载信息</h4><a href="javascript:void(0)" style="float:right;font-size: 14px;" ng-click="viewHistory(formData.actId)">查看流程</a>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>申请人：</b>{{formData.userName}}</div>
+                        <div><b>申请日期：</b>{{formData.createTime | limitTo:10}}</div>
+                        <div><b>文件名：</b>{{formData.resourceName}}</div>
+                        <!--<div><b>下载原因：</b>{{formData.reason}}</div>-->
+                    </div>
+                    <div class="footerContent">
+                        <h4>审批</h4>
+                        <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                        <div><b>操作：</b>
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="outRadioVal" name="radio_out" class="radio_down" value="agree" ng-click="showReason(true)" checked="checked">同意
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" ng-model="outRadioVal" name="radio_out" class="radio_down" value="disagree" ng-click="showReason(false)">打回
+                            </label></div>
+                        <div  ng-show="!detain_out" style="height: 100px;"><b style="width: 100px;height: 100px;">打回原因：</b><textarea style="float:right;width: 335px;height: 100px;"></textarea></div>
+                    </div>
+                </div>
+                <div class="modal-footer" >
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="termination" data-dismiss="modal" ng-click="handleWait()">提交</button>
+                    <button type="button" class="termination" data-dismiss="modal" ng-click="termination()" ng-show="!okEnd">同意并结束</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="chooseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">处理人选择</h4>
+                </div>
+                <div class="modal-body apply" style="max-height: 450px;overflow-y: auto">
+                    <h4 style="padding-left: 1rem;">
+                        <div class="opt" ng-repeat="x in formData.processors" style="float:left;width:25%;">
+                            <input class="magic-radio" ng-change="radioChange()" type="radio" id="h{{x.staffId}}" name="radio" value="{{x.staffId}}" data-ng-model="formData.processor">
+                            <label for="h{{x.staffId}}" id="pageHome{{x.staffId}}" style="font-weight: 500;">{{x.name}}</label>
+                        </div>
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="submit()" ng-disabled="disSub">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="chooseModalTwo" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">处理人选择</h4>
+                </div>
+                <div class="modal-body apply" style="max-height: 450px;overflow-y: auto">
+                    <h4 style="padding-left: 1rem;">
+                        <div class="opt" ng-repeat="x in formData.processors" style="float:left;width:25%;">
+                            <input class="magic-radio" ng-change="radioChange2()" type="radio" id="pro{{x.userId}}" name="radio" value="{{x.userId}}" data-ng-model="formData.processor2">
+                            <label for="pro{{x.userId}}" id="payment{{x.userId}}" style="font-weight: 500;">{{x.userName}}</label>
+                        </div>
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-click="submit()"  ng-disabled="disSub2">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 出差信息 -->
+    <div class="modal fade" id="showTripFormModal" tabindex="-1" role="dialog" aria-labelledby="showTripFormModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="showTripFormModalLabel"> 出差信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name="tripForm">
+                        <table id="AddAndUpdateTable" width="100%" name="AddAndUpdateTable">
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差地：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <input type="text" id="address" name="address" class="form-control"
+                                           ng-model="tripFormData.address" ng-maxlength="20" disabled/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">拟办事项：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <input type="text" id="intends" name="intends" class="form-control"
+                                           ng-model="tripFormData.intends" ng-maxlength="100" disabled/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">开始日期：<span style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown"
+                                           data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="tripDate" name="tripDate" class="form-control"
+                                                       data-ng-model="tripFormData.tripDate" disabled="disabled"
+                                                       style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker data-ng-model="tripFormData.tripDate"
+                                                            data-datetimepicker-config="{ dropdownSelector: '#dropdown1',  minView:'day' }"
+                                                            data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                            ng-change="changDate()"></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">开始时段：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <select id="tripPart" name="tripPart" class="form-control" ng-model="tripFormData.tripPart" required="required" ng-change="changDate()">
+                                        <option value="0">上午</option>
+                                        <option value="1">下午</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;padding-right: 40px;font-weight: 700;">结束日期：<span style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown"
+                                           data-target="#">
+                                            <div class="input-group">
+                                                <input type="text" id="backDate" name="backDate" class="form-control"
+                                                       data-ng-model="tripFormData.backDate" disabled="disabled"
+                                                       style="cursor: pointer" required>
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <datetimepicker data-ng-model="tripFormData.backDate"
+                                                            data-datetimepicker-config="{ dropdownSelector: '#dropdown2',  minView:'day' }"
+                                                            data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                            ng-change="changDate()"></datetimepicker>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">结束时段：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <select id="backPart" name="backPart" class="form-control" ng-model="tripFormData.backPart" required="required" ng-change="changDate()">
+                                        <option value="0">上午</option>
+                                        <option value="1">下午</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="tdAlignRight" style="text-align: right;padding-right: 40px;font-weight: 700;">出差天数：<span
+                                        style="color: red;margin-left: 5px">*</span></td>
+                                <td width="70%" class="tdAlignLeft">
+                                    <input type="text" name="tripDay" class="form-control"
+                                           ng-model="tripFormData.tripDay" ng-maxlength="20" disabled/>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure"
+                            ng-disabled="tripForm.address.$invalid||tripForm.intends.$invalid||tripForm.tripDate.$invalid||tripForm.backDate.$invalid||tripForm.tripPart.$invalid||tripForm.backPart.$invalid"
+                            ng-click="submitTripInfo()">保存提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+

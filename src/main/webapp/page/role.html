@@ -249,7 +249,7 @@
             </ul>
         </div>
         <div class="rightDiv">
-            <button class="addBtn" ng-show="addFlag" ng-click="showCreateRoleModal()" >
+            <button class="addBtn" ng-show="addFlag" ng-click="showCreateRoleModal()" type="button">
                 <span class="icon-plus icon-white"></span> 新增角色
             </button><br><br>
             <table id="roleListTable" align="center">
@@ -274,11 +274,11 @@
                     <td>{{role.creatorName}}</td>
                     <td>{{role.createTime | limitTo:10}}</td>
                     <td>{{role.remark}}</td>
-                    <td><button class="showBtn" ng-show="showFlag" ng-click="getAuthorityListByRoleId(role.id)" /></td>
+                    <td><button type="button" class="showBtn" ng-show="showFlag" ng-click="getAuthorityListByRoleId(role.id)" /></td>
                     <td>
                         <!--<input type="button" value="查看" ng-click="showRoleInfo($index)" />&nbsp;-->
-                        <button class="editBtn" ng-show="updateFlag" title="编辑" ng-click="showEditModal($index)" />&nbsp;
-                        <button class="deleteBtn" ng-show="deleteFlag" title="删除"  ng-click="showDelConfirmModal($index)" />
+                        <button type="button" class="editBtn" ng-show="updateFlag" title="编辑" ng-click="showEditModal($index)" />&nbsp;
+                        <button type="button" class="deleteBtn" ng-show="deleteFlag" title="删除"  ng-click="showDelConfirmModal($index)" />
 
                     </td>
                 </tr>
@@ -487,7 +487,7 @@
                                 </div>
                             </div>
                             <div style="float: left;margin: 115px 0 0 5px;width: 20px; height:150px;">
-                                <button class="getNode" ng-click="getNodes()"></button>
+                                <button class="getNode" ng-click="getNodes()" type="button"></button>
                             </div>
                             <div style="float: left;margin-left: 5px;">
                                 <div style="width: 6px;height: 14px;background-color: #3ECD7B;float: left;margin-right: 4px;"></div><div style="height: 14px;line-height: 14px;">已分配权限列表:</div>
@@ -499,7 +499,7 @@
                                     </label>-->
 
                                     <label ng-repeat="selectedPermissionShow in selectedPermissionShows">
-                                        <span ng-if="selectedPermissionShow.count==0">{{selectedPermissionShow.name}}<button class="deleteSpan" ng-click="deleteSelected(selectedPermissionShow)"></button></span>
+                                        <span ng-if="selectedPermissionShow.count==0">{{selectedPermissionShow.name}}<button class="deleteSpan" ng-click="deleteSelected(selectedPermissionShow)" type="button"></button></span>
                                         <span ng-if="selectedPermissionShow.count!=0">{{selectedPermissionShow.name}}-({{selectedPermissionShow.count}})</span>
 
                                     </label>

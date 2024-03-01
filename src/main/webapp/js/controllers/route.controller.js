@@ -6,9 +6,11 @@ var routeModule = angular.module("routeModule", ['ngRoute', 'loginServiceModule'
 //路由器的具体分发
 function indexRouteConfig($routeProvider) {
     $routeProvider.when('/', {
-        templateUrl: 'page/humanResource.html'
-    }).when('/system', {
-        templateUrl: 'page/system.html'
+        templateUrl: 'page/attendance.html'
+    }).when('/human', {
+        templateUrl: 'page/human.html'
+    }).when('/commerce', {
+        templateUrl: 'page/commerce.html'
     }).when('/role', {
         templateUrl: 'page/role.html'
     }).when('/user', {
@@ -16,13 +18,16 @@ function indexRouteConfig($routeProvider) {
     }).when('/excel', {
         controller: 'excelController',
         templateUrl: 'page/excelTest.html'
-    }).when('/ccc', {
-        controller: 'cccController',
-        templateUrl: 'page/ccc.html'
+    }).when('/userGroup', {
+        controller: 'userGroupController',
+        templateUrl: 'page/userGroup.html'
+    }).when('/tableTest', {
+        controller: 'tableController',
+        templateUrl: 'page/tableTest.html'
     }).otherwise({
         redirectTo: "/"
     });
-};
+}
 
 routeModule.run(['$rootScope', '$window', '$location', '$log', '$http', 'LoginService',
     function ($rootScope, $window, $location, $log, $http, LoginService) {

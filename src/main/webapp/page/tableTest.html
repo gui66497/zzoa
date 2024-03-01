@@ -1,14 +1,9 @@
 <div ng-controller="tableController as table">
 
-    <div style="width: 80%">
-        <table ng-table="table.tableParams" class="table" show-filter="true">
-            <tr ng-repeat="user in $data">
-                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-                    {{user.name}}</td>
-                <td title="'Age'" filter="{ age: 'number'}" sortable="'age'">
-                    {{user.age}}</td>
-            </tr>
-        </table>
-    </div>
+    <form ng-submit="submitA()">
+        <input type="text" ng-model="form.name">
+        <input type="number" ng-model="form.age">
+        <button type="submit">submit</button>
+    </form>
 
 </div>

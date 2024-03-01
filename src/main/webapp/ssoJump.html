@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html ng-app="indexModule">
+<head>
+    <link rel="icon" href="images/logo60x60.jpg" type="image/x-icon"/>
+    <title>君智OA系统登陆</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="js/libs/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="js/libs/angular.js"></script>
+    <script type="text/javascript" src="js/libs/angular-route.js"></script>
+    <script type="text/javascript" src="js/libs/angular-cookies.js"></script>
+    <script type="text/javascript" src="js/libs/angular-sanitize.js"></script>
+    <script type="text/javascript" src="js/libs/angular-animate.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-ui.js"></script>
+    <script src="exts/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="exts/ui-bootstrap/ui-bootstrap-tpls-2.5.0.1.js"></script>
+    <script type="text/javascript" src="exts/ng-table/ng-table.js"></script>
+    <script type="text/javascript" src="exts/angular-tree-control/angular-tree-control.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/moment.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/datetimepicker.js"></script>
+    <script type="text/javascript" src="exts/angular-bootstrap-datetimepicker/js/datetimepicker.templates.js"></script>
+    <script type="text/javascript" src="exts/ui-tree/angular-ui-tree.js"></script>
+
+    <!-- CSS -->
+    <link href="css/index.css" rel="stylesheet" media="screen" />
+    <link href="exts/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="css/page.css" rel="stylesheet" type="text/css" />
+    <link href="exts/ng-table/ng-table.css" rel="stylesheet" type="text/css" />
+    <link href="exts/angular-tree-control/css/tree-control.css" rel="stylesheet" type="text/css" />
+    <link href="css/overall.css" rel="stylesheet" type="text/css" />
+    <link href="exts/angular-bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css" />
+    <link href="exts/ui-tree/angular-ui-tree.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="js/controllers/login.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/route.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/system.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/form.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/viewHistory.controller.js"></script>
+    <script type="text/javascript" src="js/controllers/ssoJump.controller.js"></script>
+
+    <!-- Services -->
+    <script type="text/javascript" src="js/services/loginService.js"></script>
+    <script type="text/javascript" src="js/services/staffService.js"></script>
+
+    <!-- Directives -->
+    <script type="text/javascript" src="js/directives/hello.directive.js"></script>
+
+    <!-- Utils -->
+    <script type="text/javascript" src="js/utils/modal.utils.js"></script>
+    <script type="text/javascript" src="js/utils/common.utils.js"></script>
+    <script type="text/javascript" src="js/utils/date.utils.js"></script>
+    <script type="text/javascript">
+    </script>
+    <style>
+       *{
+           margin: 0;
+           padding: 0;
+           -webkit-user-select:none;
+           -moz-user-select:none;
+           -ms-user-select:none;
+           user-select:none;
+       }
+        #loginTitle{
+            position: absolute;
+            z-index: 9999;
+            color: #f1ebe5;
+            font-size: 50px;
+            text-shadow: 0 3px 5px #c4b59d, 0px -1px 1px #fff;
+            margin-top: -100px;
+        }
+    </style>
+</head>
+<body>
+<div ng-controller="ssoJumpController">
+
+    <div class="modal fade" id="loginModal" class="modal fade" tabindex="-1" role="dialog" ng-keyup="mykeyup($event)" data-backdrop="static" data-keyboard="false" style="left: 50%;margin-left:-150px;overflow: hidden">
+        <div class="modal-dialog" role="document" style="width: 100%;height: 290px;">
+            <div class="modal-content">
+                <h1 id="loginTitle">君智OA系统</h1>
+                <div style="padding-top: 10px;text-align: center;">
+                    <img src="./images/logo60x60.jpg" style="width: 50px;height: 50px;margin-top: 15px;"/>
+                </div>
+                <form name="loginForm">
+                    <div class="modal-body">
+                        <table id="loginTable" width="100%">
+                            <tr style="height:70px;">
+                                <td ><input type="text" maxlength="20" id="loginUserName" required ng-model="user.userName" placeholder="用户名" style="width:220px;border: none;border-bottom: 1px #dddddd solid;height:40px; background: url(images/user.png) no-repeat 10px 10px; padding-left: 35px;margin-left: 20px;" ng-focus="loginUser()" ng-style="loginUserStyle"/></td>
+                            </tr>
+                            <tr style="height:60px;">
+                                <td ><input type="password" maxlength="20" required ng-model="user.password"  placeholder="密码" style="width:220px;border: none;border-bottom: 1px #dddddd solid;height:40px; background: url(images/password.png) no-repeat 10px 10px; padding-left: 35px;margin-left: 20px;" ng-focus="loginUser2()" ng-style="loginUserStyle2"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="alert alert-danger alert-dismissable" id="loginErrorMsg" style="display:none;height:12px;width: 73%;position:absolute;top:220px;left: 36px;line-height:2px;font-size:12px;">用户名或密码不正确！</div>
+                    <div class="modal-footer" style="text-align: center;border-top: none">
+                        <button type="button"  class="btn btn-success" style="border-radius:4px; width:220px;height:40px;" ng-click="login()"  ng-disabled="loginForm.$invalid">
+                            <span style="font-family: 微软雅黑;">登&nbsp;&nbsp;&nbsp;&nbsp;录</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ok模态框（Modal） -->
+    <div class="modal fade" id="okModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top:100px;font-size: 20px">
+        <div class="modal-dialog" style="width: 360px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;" id="okModalLabel">
+                        模态框（Modal）标题
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" id="okModalMessage"  style="font-size: 16px;">
+                    在这里添加一些文本
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" style="width:60px;height:30px;"data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 确认操作模态框（Modal） -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top: 100px;">
+        <div class="modal-dialog" style="width: 360px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float:left;">
+                        提示信息
+                    </h4>
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-hidden="true"/>
+                </div>
+                <div class="modal-body" id="confirmModalMessage" style="height:75px;font-size: 16px;">
+                    在这里添加1一些文本
+                </div>
+                <div class="modal-footer" id="confirmModalFooter">
+                    <button type="button" class="cancel" data-dismiss="modal">关闭</button>
+                    <button type="button" class="sure" id="btnExecute">确 认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+<script>
+
+</script>

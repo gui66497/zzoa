@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zzjz.mapper.AptitudeMapper" >
+  <resultMap id="BaseResultMap" type="zzjz.bean.Aptitude" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="aptitude_type" property="aptitudeType" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="VARCHAR" />
+    <result column="certificate_name" property="certificateName" jdbcType="VARCHAR" />
+    <result column="certificate_id" property="certificateId" jdbcType="VARCHAR" />
+    <result column="certificate_level" property="certificateLevel" jdbcType="VARCHAR" />
+    <result column="validity" property="validity" jdbcType="VARCHAR" />
+    <result column="begin_date" property="beginDate" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="file_type" property="fileType" jdbcType="VARCHAR" />
+    <result column="file_status" property="fileStatus" jdbcType="VARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, aptitude_type, certificate_type, certificate_name, certificate_id, 
+    certificate_level, validity, begin_date, end_date, create_date, file_type, file_status, 
+    file_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_aptitude
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_aptitude
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="zzjz.bean.Aptitude" >
+    insert into tb_aptitude
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="aptitudeType != null" >
+        aptitude_type,
+      </if>
+      <if test="certificateType != null" >
+        certificate_type,
+      </if>
+      <if test="certificateName != null" >
+        certificate_name,
+      </if>
+      <if test="certificateId != null" >
+        certificate_id,
+      </if>
+      <if test="certificateLevel != null" >
+        certificate_level,
+      </if>
+      <if test="validity != null" >
+        validity,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="fileType != null" >
+        file_type,
+      </if>
+      <if test="fileStatus != null" >
+        file_status,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="aptitudeType != null" >
+        #{aptitudeType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateName != null" >
+        #{certificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateId != null" >
+        #{certificateId,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateLevel != null" >
+        #{certificateLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null" >
+        #{validity,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileStatus != null" >
+        #{fileStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zzjz.bean.Aptitude" >
+    update tb_aptitude
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="aptitudeType != null" >
+        aptitude_type = #{aptitudeType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateName != null" >
+        certificate_name = #{certificateName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateId != null" >
+        certificate_id = #{certificateId,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateLevel != null" >
+        certificate_level = #{certificateLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null" >
+        validity = #{validity,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileStatus != null" >
+        file_status = #{fileStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getAptitudePageList" parameterType="zzjz.bean.AptitudeRequest" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_APTITUDE
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null and id != '' " >
+        AND ID = '${id}'
+      </if>
+      <if test="userId != null and userId != '' " >
+        AND USER_ID = '${userId}'
+      </if>
+      <if test="userName != null and userName != '' " >
+        AND USER_NAME = '${userName}'
+      </if>
+      <if test="aptitudeType != null and aptitudeType != '' " >
+        AND APTITUDE_TYPE = '${aptitudeType}'
+      </if>
+      <if test="certificateType != null and certificateType != '' " >
+        AND CERTIFICATE_TYPE = '${certificateType}'
+      </if>
+      <if test="certificateName != null and certificateName != '' " >
+        AND CERTIFICATE_NAME = '${certificateName}'
+      </if>
+      <if test="certificateId != null and certificateId != '' " >
+        AND CERTIFICATE_ID = '${certificateId}'
+      </if>
+      <if test="certificateLevel != null and certificateLevel != '' " >
+        AND CERTIFICATE_LEVEL = '${certificateLevel}'
+      </if>
+      <if test="validity != null and validity != '' " >
+        AND VALIDITY = '${validity}'
+      </if>
+      <if test="beginDate != null and beginDate != '' " >
+        AND BEGIN_DATE = '${beginDate}'
+      </if>
+      <if test="endDate != null and endDate != '' " >
+        AND END_DATE = '${endDate}'
+      </if>
+      <if test="createDate != null and createDate != '' " >
+        AND CREATE_DATE = '${createDate}'
+      </if>
+      <if test="fileType != null and fileType != '' " >
+        AND FILE_TYPE = '${fileType}'
+      </if>
+      <if test="fileStatus != null and fileStatus != '' " >
+        AND FILE_STATUS = '${fileStatus}'
+      </if>
+      <if test="fileName != null and fileName != '' " >
+        AND FILE_NAME = '${fileName}'
+      </if>
+    </trim>
+    order by CREATE_DATE DESC
+  </select>
+
+  <select id="getAptitudeList" parameterType="zzjz.bean.Aptitude" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_APTITUDE
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        AND ID = '${id}'
+      </if>
+      <if test="userId != null" >
+        AND USER_ID = '${userId}'
+      </if>
+      <if test="userName != null" >
+        AND USER_NAME = '${userName}'
+      </if>
+      <if test="aptitudeType != null" >
+        AND APTITUDE_TYPE = '${aptitudeType}'
+      </if>
+      <if test="certificateType != null" >
+        AND CERTIFICATE_TYPE = '${certificateType}'
+      </if>
+      <if test="certificateName != null" >
+        AND CERTIFICATE_NAME = '${certificateName}'
+      </if>
+      <if test="certificateId != null" >
+        AND CERTIFICATE_ID = '${certificateId}'
+      </if>
+      <if test="certificateLevel != null" >
+        AND CERTIFICATE_LEVEL = '${certificateLevel}'
+      </if>
+      <if test="validity != null" >
+        AND VALIDITY = '${validity}'
+      </if>
+      <if test="beginDate != null" >
+        AND BEGIN_DATE = '${beginDate}'
+      </if>
+      <if test="endDate != null" >
+        AND END_DATE = '${endDate}'
+      </if>
+      <if test="createDate != null" >
+        AND CREATE_DATE = '${createDate}'
+      </if>
+      <if test="fileType != null" >
+        AND FILE_TYPE = '${fileType}'
+      </if>
+      <if test="fileStatus != null" >
+        AND FILE_STATUS = '${fileStatus}'
+      </if>
+      <if test="fileName != null" >
+        AND FILE_NAME = '${fileName}'
+      </if>
+    </trim>
+    order by CREATE_DATE DESC
+  </select>
+
+  <select id="getEffectiveAptitudeList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_APTITUDE
+    where user_id = #{userId,jdbcType=VARCHAR} and
+    (end_date &gt;= #{checkDate,jdbcType=VARCHAR} or validity = '无固定期限')
+    order by CREATE_DATE DESC
+  </select>
+
+  <select id="getInvalidAptitudeList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM TB_APTITUDE
+    where user_id = #{userId,jdbcType=VARCHAR} and end_date &lt; #{checkDate,jdbcType=VARCHAR}
+    order by CREATE_DATE DESC
+  </select>
+    <select id="getAptitudeMap" resultType="java.util.Map">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM TB_APTITUDE
+      <trim prefix="where" prefixOverrides="and|or">
+        <if test="id != null" >
+          AND ID = '${id}'
+        </if>
+        <if test="userId != null" >
+          AND USER_ID = '${userId}'
+        </if>
+        <if test="userName != null" >
+          AND USER_NAME = '${userName}'
+        </if>
+        <if test="aptitudeType != null" >
+          AND APTITUDE_TYPE = '${aptitudeType}'
+        </if>
+        <if test="certificateType != null" >
+          AND CERTIFICATE_TYPE = '${certificateType}'
+        </if>
+        <if test="certificateName != null" >
+          AND CERTIFICATE_NAME = '${certificateName}'
+        </if>
+        <if test="certificateId != null" >
+          AND CERTIFICATE_ID = '${certificateId}'
+        </if>
+        <if test="certificateLevel != null" >
+          AND CERTIFICATE_LEVEL = '${certificateLevel}'
+        </if>
+        <if test="validity != null" >
+          AND VALIDITY = '${validity}'
+        </if>
+        <if test="beginDate != null" >
+          AND BEGIN_DATE = '${beginDate}'
+        </if>
+        <if test="endDate != null" >
+          AND END_DATE = '${endDate}'
+        </if>
+        <if test="createDate != null" >
+          AND CREATE_DATE = '${createDate}'
+        </if>
+        <if test="fileType != null" >
+          AND FILE_TYPE = '${fileType}'
+        </if>
+        <if test="fileStatus != null" >
+          AND FILE_STATUS = '${fileStatus}'
+        </if>
+        <if test="fileName != null" >
+          AND FILE_NAME = '${fileName}'
+        </if>
+      </trim>
+      order by CREATE_DATE DESC
+    </select>
+</mapper>

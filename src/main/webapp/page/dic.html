@@ -1,0 +1,174 @@
+<style type="text/css">
+    td {
+        border: 0px solid #c0c0c0;
+        border-collapse: collapse;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: none !important;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        border-collapse: collapse;
+        height: 40px;
+    }
+
+    thead td {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    #roleInfoTable tr {
+        border: 0px solid #FFF;
+    }
+
+    #roleInfoTable td {
+        border: 0px solid #FFF;
+    }
+
+    #userEditTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    #userAddTable tr, td {
+        border: 0px solid #FFF;
+    }
+
+    .mu li {
+        font-family: 微软雅黑;
+        font-size: 16px;
+        list-style: none;
+        line-height: 39px;
+        cursor: hand;
+        text-align: center
+    }
+
+    .mu li:hover {
+        background-color: #DEE2E7;
+        border-radius: 3px
+    }
+
+    .addBtn {
+        margin-right: 10px;
+        padding: 0 15px;
+        height: 34px;
+        background-color: #4dbd73;
+        font-family: 微软雅黑;
+        font-size: 14px;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+    .start:after{
+        display: inline-block;
+        content: "*";
+        color: red;
+    }
+</style>
+<div ng-controller="dicController as controller" style="height: 100%;">
+    <div style="margin-top: 10px;height: 100%;">
+        <button class="addBtn" ng-click="addAndUpdateDic()" type="button">
+            <span class="glyphicon glyphicon-plus"></span> 新增字典项
+        </button>
+        <div style="float: right;margin-bottom: 10px;">
+            <select ng-model="req.dicName" class="form-control" style="width: 200px;margin-right: 10px;float: left;">
+                <option value="">字典项名称</option>
+                <option ng-repeat="x in dicContent" value="{{x.dicName}}">{{x.dicName}}</option>
+            </select>
+            <button class="addBtn" ng-click="autoQuery()" type="button" style="float:left;height: 34px">
+                <span class="glyphicon glyphicon-search"></span> 查询
+            </button>
+        </div>
+        <div ng-show="noNum" style="width: 100%;height: 400px;">
+            <div style="width:100%;height: 280px;"><img src="./images/none220x160.png" style="position: relative;left: 50%;margin-left: -110px;top: 100px;"></div>
+            <div style="font-size: 16px;text-align: center;color: #999;">当前页面无数据~</div>
+        </div>
+        <table ng-show="noContent" ng-table="controller.tableParams" id="dicListTable" align="center"
+               class="table table-bordered table-striped table-condensed" style="display: block;margin-top: 15px;height:calc(100% - 250px); ">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="10%">序号</td>
+                <td width="10%">字典项编号</td>
+                <td width="20%">字典项名称</td>
+                <td width="20%">字典值</td>
+                <td width="20%">字典描述</td>
+                <td width="10%">状态</td>
+                <td width="10%">操作</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height: calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in $data" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="10%">{{$index+1+(req.paging.pageNo-1)*req.paging.pageSize}}</td>
+                <td width="10%">{{row.dicId}}</td>
+                <td width="20%">{{row.dicName}}</td>
+                <td width="20%">{{row.dicKey}}</td>
+                <td width="20%">{{row.dicValue}}</td>
+                <td width="10%" ng-switch="row.status">
+                    <span ng-switch-when="1">启用</span>
+                    <span ng-switch-when="0">未启用</span>
+                </td>
+                <td width="10%">
+                    <button title="删除" class="deleteBtn" ng-click="showDeleteDic($index)" type="button"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--字典项信息模态框-->
+    <div class="modal fade" id="addDicModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">字典项信息</h4>
+                </div>
+                <div class="modal-body" style="height: 200px;">
+                    <form class="form-horizontal" name="dicAddForm">
+                        <table width="90%">
+                            <tr ng-show="false">
+                                <td width="30%" style="text-align: right;font-weight: 700;padding-right: 47px;" >字典项编号：<span style="color: red;">*</span></td>
+                                <td width="70%">
+                                    <select ng-model="formData" ng-options="x.dicId for x in dicContent" id="dicId" class="form-control" required="required"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;font-weight: 700;padding-right: 47px;" >字典项名称：<span style="color: red;">*</span></td>
+                                <td width="70%">
+                                    <select ng-model="formData" ng-options="x.dicName for x in dicContent" id="dicName" class="form-control" required="required"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;font-weight: 700;padding-right: 47px;" >字典值：<span style="color: red;">*</span></td>
+                                <td width="70%">
+                                    <input type="text" id="dicKey" name="dicKey" placeholder="请输入字典值" class="form-control" ng-model="formData.dicKey" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: right;font-weight: 700;padding-right: 47px;" >字典描述：<span style="color: red;">*</span></td>
+                                <td width="70%">
+                                    <input type="text" id="dicValue" name="dicValue" placeholder="请输入字典描述" class="form-control" ng-model="formData.dicValue" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <div class="noneDiv"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                        <button type="button" class="sure" ng-disabled="dicAddForm.dicId.$invalid ||dicAddForm.dicName.$invalid ||dicAddForm.dicKey.$invalid ||dicAddForm.dicValue.$invalid"
+                                ng-click="saveAndSubmitDic()">保存提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>

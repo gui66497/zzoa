@@ -1,0 +1,387 @@
+<style>
+    .filtrations{
+        width: 156px;
+        height:32px;
+        margin-right: 10px;
+        float: right;
+        border-radius: 5px 5px 5px 5px;
+        border: 1px solid rgb(204,204,204);
+        outline:none;
+        padding-left: 10px;
+    }
+    .searchTalent{
+        float: right;
+        height:30px;
+        width:80px;
+        border-radius: 5px 5px 5px 5px;
+        background: rgb(77,189,115);
+        outline: none;
+        border: 1px solid rgb(77,189,115);
+        color: white;
+    }
+    .addSearch>div{
+        margin:10px;
+        font-size: 14px;
+    }
+    .addSearch input,.addSearch select{
+        width: 200px;
+        margin-left: 20px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid rgb(204,204,204);
+    }
+    .addSearch button{
+        width: 80px;
+        height: 30px;
+        margin-left: 58px;
+    }
+
+    .form-horizontal tr{
+        border: none;
+    }
+    .downLoad{
+        width: 20px;
+        height:20px;
+        outline: none;
+        border:none;
+        background: url("images/down.png");
+     }
+    .downLoad:hover{
+        background: url("images/down_hover.png");
+    }
+    .file {
+        position: relative;
+        height: 34px;
+        line-height: 34px;
+    }
+    .userdefined-file {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+        width: 100%;
+        height: 34px;
+        line-height: 34px;
+        font-size: 0;
+        /*应对子元素为 inline-block 引起的外边距*/
+    }
+
+    .userdefined-file input[type="text"] {
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 14px;
+        padding-left: 14px;
+        width: 80%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        height: 34px;
+        line-height: 34px;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .userdefined-file button {
+        display: inline-block;
+        vertical-align: middle;
+        width: 20%;
+        text-align: center;
+        height: 34px;
+        line-height: 34px;
+        font-size: 14px;
+        background-color: rgb(77,189,115);
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        border-radius:0 5px 5px 0;
+    }
+
+    .file input[type="file"] {
+        position: absolute;
+        top: 0;
+        z-index: 3;
+        opacity: 0;
+        width: 100%;
+        height: 34px;
+        line-height: 34px;
+        cursor: pointer;
+    }
+    .select2-container--default .select2-selection--multiple{
+        border:1px solid rgb(204,204,204);
+    }
+    .select2-search{
+        z-index: 1;
+        width:0;
+        float: left;
+    }
+    .select2-container .select2-search--inline .select2-search__field{
+        margin-top: 0px;
+    }
+    .select2-search input{
+        padding: 0;
+    }
+    #typeSearcher button{
+        height: 33px;
+    }
+    .checkBoxContainer{
+        overflow-y: auto !important;
+    }
+    #fileList{
+        width: 100%;
+        max-height: 80px;
+        overflow-y:scroll;
+    }
+    .cover{
+        width:100%;
+        height:100%;
+        background-color: rgb(255,255,255);
+        opacity: 0.5;
+        position: absolute;
+        z-index:99999;
+        left:0px;
+        top:0px;
+    }
+</style>
+<div ng-controller="talentController as controller" style="height: 100%;">
+    <div class="cover" ng-if="hideFrom">
+        <img src="images/loading.gif" style="position: relative;top: 50%;left: 50%;margin-top: -21px;margin-left: -32px;">
+    </div>
+    <div style="width: 100%;margin-top: 10px;height: 100%;">
+        <div style="margin-bottom: 10px;">
+            <button class="nomalBtn" ng-click="addTalent()" type="button">
+                <span class="glyphicon glyphicon-cloud-upload"></span> 添加信息
+            </button>
+            <button class="nomalBtn" ng-click="batchTalent()" type="button">
+                <span class="glyphicon glyphicon-cloud-upload"></span> 批量上传
+            </button>
+
+            <button  class="searchTalent" ng-click="queryTalent()" type="button">搜索</button>
+            <input class="filtrations" type="text" placeholder="关键字(空格分隔)" ng-model="req.keyword" ng-keyup="myKeyup($event)"/>
+            <input class="filtrations" type="text" placeholder="姓名" ng-model="req.userName" style="margin-left: 10px;" ng-keyup="myKeyup($event)"/>
+
+            <span style="float:right;">
+                <div id="typeSearcher" isteven-multi-select input-model="typeSearchers" output-model="typesForSearch"
+                     button-label="dicKey" item-label="dicKey" tick-property="ticked"
+                     translation="localLang" max-labels="4" helper-elements="" max-height="300px">
+                </div>
+            </span>
+        </div>
+        <table id="talentTable" style="display: block;margin-top: 15px;height: calc(100% - 220px);" ng-table="controller.tableParams" align="center" class="table table-bordered table-striped table-condensed">
+            <thead style="display: table;width: calc( 100% - 17px );table-layout:fixed;">
+            <tr style="display: table;width:100%;table-layout:fixed;">
+                <td width="4%">序号</td>
+                <td width="7%">姓名</td>
+                <td width="4%">性别</td>
+                <td width="9%">人才类别</td>
+                <td width="13%">关键字</td>
+                <td width="8%">地区</td>
+                <td width="7%">简历来源</td>
+                <td width="9%">移动电话</td>
+                <td width="10%">邮箱</td>
+                <td width="8%">导入时间</td>
+                <td width="11%">备注</td>
+                <td width="10%">操作</td>
+            </tr>
+            </thead>
+            <tbody style="display: block;height:calc(100% - 40px);overflow-y:scroll;width: 100%;">
+            <tr ng-repeat="row in tableData" class="contentTr" style="display: table;width:100%;table-layout:fixed;">
+                <td width="0%" ng-hide="true">{{row.id}}</td>
+                <td width="4%">{{$index+1}}</td>
+                <td width="7%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.userName}}</td>
+                <td width="4%" ng-switch="row.sex">
+                    <span ng-switch-when="1">男</span>
+                    <span ng-switch-when="2">女</span>
+                </td>
+                <td width="9%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.type}}</td>
+                <td width="13%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.keyword}}</td>
+                <td width="8%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.area}}</td>
+                <td width="7%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.source}}</td>
+                <td width="9%">{{row.phone}}</td>
+                <td width="10%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.email}}</td>
+                <td width="8%">{{row.createTime | limitTo:10}}</td>
+                <td width="11%" style="text-overflow: ellipsis;-moz-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{row.note}}</td>
+                <td width="10%">
+                    <button class="editBtn" title="修改信息" ng-click="showEditTalent($index)" type="button"/>
+                    <button class="deleteBtn" title="删除信息" ng-click="showDeleteTalent($index)" type="button"/>
+                    <button class="downLoad" title="下载简历" ng-click="downloadResume($index)" type="button"/>
+                    <button class="consult" title="预览" ng-click="preview($index)" type="button"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--人才信息-->
+    <div class="modal fade" id="addAndUpdateTalent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="exampleModalLabel3">简历信息</h4>
+                </div>
+                <div class="modal-body" style="max-height: 550px;overflow-y: auto">
+                    <form class="form-horizontal" name="talentForm" style="padding-right: 3%;">
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.userName.$invalid && !talentForm.userName.$pristine }">
+                            <label for="userName" class="col-sm-3 control-label">姓名：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" id="userName" name="userName" placeholder="请输入姓名" maxlength="15" class="form-control" ng-model="formData.userName" required>
+                                <p ng-show="talentForm.userName.$invalid && !talentForm.userName.$pristine" class="help-block">请输入姓名</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.sex.$invalid && !talentForm.sex.$pristine }">
+                            <label class="col-sm-3 control-label">性别：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="genderRadio1" value="1" ng-model="formData.sex"> 男
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio0" value="2" ng-model="formData.sex"> 女
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.type.$invalid && !talentForm.type.$pristine }">
+                            <label class="col-sm-3 control-label">人才类别：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <div id="typeSelect" isteven-multi-select input-model="typeSections" output-model="selectedTypes"
+                                     button-label="dicKey" item-label="dicKey" tick-property="ticked"
+                                     translation="localLang" max-labels="4" helper-elements="" max-height="300px">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.keyword.$invalid && !talentForm.keyword.$pristine }">
+                            <label for="keyword" class="col-sm-3 control-label">关键字：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" id="keyword" name="keyword" placeholder="请输入关键字" class="form-control" ng-model="formData.keyword" required>
+                                <p ng-show="talentForm.keyword.$invalid && !talentForm.keyword.$pristine" class="help-block">请输入关键字</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.area.$invalid && !talentForm.area.$pristine }">
+                            <label for="area" class="col-sm-3 control-label">地区：</label>
+                            <div class="col-sm-9">
+                                <input id="area" select-address name="area" p="p" c="c" d="d" a="a" ng-model="formData.area" type="text" placeholder="请选择地区" ng-disabled="dis" type="text" class="form-control" required/>
+                                <p ng-show="talentForm.area.$invalid && !talentForm.area.$pristine" class="help-block">请输入地区</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.source.$invalid && !talentForm.source.$pristine }">
+                            <label for="source" class="col-sm-3 control-label">简历来源：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="source" name="source" placeholder="请输入简历来源" class="form-control" ng-model="formData.source">
+                                <p ng-show="talentForm.source.$invalid && !talentForm.source.$pristine" class="help-block">请输入简历来源</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.phone.$invalid && !talentForm.phone.$pristine }">
+                            <label for="phone" class="col-sm-3 control-label">移动电话：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="phone" name="phone" placeholder="请输入移动电话" class="form-control" maxlength="11" ng-pattern="/1[3|5|7|8|][0-9]{9}/" ng-model="formData.phone">
+                                <p ng-show="talentForm.phone.$error.pattern && !talentForm.phone.$pristine" class="help-block">请输入移动电话</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.email.$invalid && !talentForm.email.$pristine }">
+                            <label class="col-sm-3 control-label">邮箱：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="email" name="email" placeholder="请输入邮箱" class="form-control" ng-model="formData.email">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.note.$invalid && !talentForm.note.$pristine }">
+                            <label class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-9">
+                                <textarea id="note" name="note" class="form-control" rows="3" placeholder="请输入备注" ng-model="formData.note"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : talentForm.resumeName.$invalid && !talentForm.resumeName.$pristine }">
+                            <label class="col-sm-3 control-label">简历文件：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="file">
+                                    <div class="userdefined-file">
+                                        <input type="text" name="userdefinedFile" id="userdefinedFile" placeholder="请选择简历文件" value="未选择任何文件" ng-disabled="dis">
+                                        <button type="button" ng-disabled="dis">选择文件</button>
+                                    </div>
+                                    <input type="file" name="file" id="file" ng-model="myFile" onchange="angular.element(this).scope().fileNameChanged(this)">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-disabled="talentForm.userName.$invalid ||talentForm.sex.$invalid ||talentForm.type.$invalid ||talentForm.area.$invalid
+                            ||talentForm.keyword.$invalid ||talentForm.source.$invalid||talentForm.phone.$invalid"
+                            ng-click="submit(phone.value)">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--批量上传-->
+    <div class="modal fade" id="batchTalent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="closeTable" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="upModalLabel3">简历信息</h4>
+                </div>
+                <div class="modal-body" style="max-height: 530px;overflow-y: auto;padding-bottom: 50px;">
+                    <form class="form-horizontal" name="batchForm" style="padding-right: 3%;">
+                        <div class="form-group" ng-class="{ 'has-error' : batchForm.type.$invalid && !batchForm.type.$pristine }">
+                            <label class="col-sm-3 control-label">人才类别：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <div id="typeSelectTwo" isteven-multi-select input-model="typeSections" output-model="selectedTypes"
+                                     button-label="dicKey" item-label="dicKey" tick-property="ticked"
+                                     translation="localLang" max-labels="4" helper-elements="" max-height="200px">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : batchForm.source.$invalid && !batchForm.source.$pristine }">
+                            <label for="source" class="col-sm-3 control-label">简历来源：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="formData.source">
+                                    <option>前程无忧</option>
+                                    <option>猎聘网</option>
+                                    <option>智联招聘</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : batchForm.keyword.$invalid && !batchForm.keyword.$pristine }">
+                            <label for="keyword" class="col-sm-3 control-label">关键字：</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="keywordTwo" name="keyword" placeholder="请输入关键字" class="form-control" ng-model="formData.keyword">
+                                <p ng-show="batchForm.keyword.$invalid && !batchForm.keyword.$pristine" class="help-block">请输入关键字</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : batchForm.note.$invalid && !batchForm.note.$pristine }">
+                            <label for="note" class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-9">
+                                <textarea id="noteTwo" name="noteTwo" class="form-control" rows="3" placeholder="请输入备注" ng-model="formData.note"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : batchForm.resumeName.$invalid && !batchForm.resumeName.$pristine }">
+                            <label class="col-sm-3 control-label">简历文件：<span style="color: red;">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="file">
+                                    <div class="userdefined-file">
+                                        <input type="text" name="userdefinedFileTwo" id="userdefinedFileTwo" placeholder="请选择简历文件" value="未选择任何文件" ng-disabled="dis">
+                                        <button type="button" ng-disabled="dis">选择文件</button>
+                                    </div>
+                                    <input type="file" name="batchFile" id="batchFile" multiple   ng-model="myFile">
+                                </div>
+                                <div id="fileList"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="sure" ng-disabled="batchForm.source.$invalid"
+                            ng-click="batchSubmit()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function(){
+        $(".modal").draggable({cursor: "move", handle: ".modal-header"});
+    });
+</script>
